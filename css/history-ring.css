@@ -1,0 +1,213 @@
+@charset "UTF-8";
+
+/* Desktop chapter: a descending 3D helix. JS owns each card's orbit and pitch. */
+.history-3d-experience {
+  --history-nav-height: 88px;
+  --ring-radius: 680px;
+  --card-width: 540px;
+  --card-height: 304px;
+  --ring-perspective: 1800px;
+}
+
+.history-3d-experience .chronicle-stage {
+  top: 0;
+  height: 100vh;
+  min-height: 0;
+}
+.history-3d-experience .scene-atmosphere {
+  background: radial-gradient(ellipse at 64% 8%, rgba(185,143,66,.16), transparent 37%), radial-gradient(ellipse at 76% 82%, rgba(37,119,93,.2),transparent 38%), radial-gradient(ellipse at 62% 49%, #173b33 0, #102d29 31%, #0a211f 58%, #071818 90%);
+}
+.history-3d-experience .scene-atmosphere::before { opacity: .035; }
+.history-3d-experience .scene-atmosphere::after { inset: 0; opacity: .08; }
+.history-3d-experience .scene-vignette {
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(7, 24, 24, .82), rgba(7, 24, 24, .64) 24%, transparent 36%, transparent 90%, rgba(7, 24, 24, .88) 98%),
+    linear-gradient(0deg, #091a1a 0, rgba(9, 26, 26, .83) 7%, transparent 19%, transparent 82%, rgba(9, 26, 26, .72) 94%, #091a1a 100%);
+}
+.history-3d-experience .chronicle-canvas { inset: 0 0 0 24%; opacity: 0; pointer-events: none; }
+
+/* No filter, clipping or opacity belongs on the preserve-3d chain. */
+.history-3d-experience .history-ring-exit { position: absolute; inset: 0; z-index: 2; transform-origin: 62% 52%; }
+.history-3d-experience .history-ring-scene {
+  position: absolute;
+  inset: 0;
+  perspective: var(--ring-perspective);
+  perspective-origin: 62% 52%;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+.history-3d-experience .history-ring-parallax {
+  position: absolute;
+  left: 62%;
+  top: 52%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+}
+.history-3d-experience .history-ring {
+  position: absolute;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.history-3d-experience .history-card {
+  position: absolute;
+  left: calc(var(--card-width) / -2);
+  top: calc(var(--card-height) / -2);
+  width: var(--card-width);
+  height: var(--card-height);
+  margin: 0;
+  transform-origin: center;
+  backface-visibility: visible;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+.history-3d-experience .history-card-face {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(207, 175, 115, .38);
+  border-radius: 7px;
+  background: #102b27;
+  box-shadow: 0 22px 56px rgba(0, 8, 7, .32), inset 0 0 0 5px rgba(7, 23, 20, .23);
+  text-align: left;
+  cursor: default;
+  transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+}
+.history-3d-experience .history-card-face::after {
+  position: absolute;
+  inset: 7px;
+  border-radius: 3px;
+  border: 1px solid rgba(220, 194, 141, .12);
+  content: "";
+  pointer-events: none;
+}
+.history-3d-experience .history-card.is-active { pointer-events: auto; }
+.history-3d-experience .history-card.is-back-facing .history-card-body, .history-3d-experience .history-card.is-back-facing .history-card-index, .history-3d-experience .history-card.is-back-facing .history-card-artnote { visibility: hidden; }
+.history-3d-experience .history-card.is-active .history-card-face { cursor: pointer; border-color: rgba(215, 182, 115, .7); }
+.history-3d-experience .history-card.is-active .history-card-face:hover {
+  transform: scale(1.02);
+  border-color: #d7bd81;
+  box-shadow: 0 25px 70px rgba(0, 8, 7, .39), 0 0 32px rgba(198, 163, 91, .055);
+}
+.history-3d-experience .history-card.is-active .history-card-face:focus-visible { outline-offset: 8px; }
+.history-3d-experience .history-card-image { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; background: #354439; }
+.history-3d-experience .history-card-image::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5, 16, 13, .36), transparent 24%, transparent 65%, rgba(10, 33, 27, .15)), rgba(81, 67, 31, .045);
+  content: "";
+  pointer-events: none;
+}
+.history-3d-experience .history-card-image::before {content:"";position:absolute;z-index:2;inset:-35%;pointer-events:none;background:linear-gradient(105deg,transparent 38%,rgba(255,224,151,.025) 45%,rgba(255,235,183,.18) 50%,rgba(255,224,151,.025) 55%,transparent 62%);transform:translateX(-100%);opacity:0;}
+.history-3d-experience .history-card.is-active .history-card-image::before {animation:history-card-glimmer 9s ease-in-out infinite;}
+@keyframes history-card-glimmer {0%,63%{transform:translateX(-100%);opacity:0}67%{opacity:.6}87%{transform:translateX(100%);opacity:0}100%{transform:translateX(100%);opacity:0}}
+.history-3d-experience .is-effects-paused .history-card-image::before {animation-play-state:paused;}
+.history-3d-experience .history-card-image img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: saturate(.87) brightness(.92); }
+.history-3d-experience .history-card-index, .history-3d-experience .history-card-artnote { position: absolute; z-index: 1; color: #ece0bd; font-size: 9px; line-height: 1.5; letter-spacing: .15em; }
+.history-3d-experience .history-card-index { top: 22px; left: 27px; }
+.history-3d-experience .history-card-artnote { top: 23px; right: 27px; bottom: auto; color: #d4d0b7; font-size: 8px; letter-spacing: .1em; }
+.history-3d-experience .history-card-body { position: absolute; right: 0; bottom: 0; left: 0; display: flex; flex-direction: column; min-height: 0; padding: 56px 30px 27px; background: linear-gradient(180deg, transparent, rgba(7, 25, 21, .66) 20%, rgba(7, 25, 21, .94) 66%, rgba(7, 25, 21, .98)); }
+.history-3d-experience .history-card-dateline { display: flex; align-items: baseline; gap: 15px; }
+.history-3d-experience .history-card-dateline time { color: #e5c68a; font-family: Georgia, "Times New Roman", serif; font-size: 42px; line-height: 1; letter-spacing: -.025em; font-variant-numeric: tabular-nums; }
+.history-3d-experience .history-card-dateline > span { color: #9faa92; font-size: 9px; line-height: 1.6; letter-spacing: .1em; }
+.history-3d-experience .history-card-body h2 { margin: 11px 0 8px; color: #f0e6ce; font-size: 25px; font-weight: 400; line-height: 1.45; letter-spacing: .13em; }
+.history-3d-experience .history-card-body p { max-width: 460px; margin: 0; color: #c3ccba; font-size: 11px; line-height: 1.95; letter-spacing: .04em; }
+.history-3d-experience .history-card-open { display: block; margin-top: auto; padding-top: 12px; color: #c6aa73; font-size: 9px; line-height: 1.6; letter-spacing: .13em; }
+
+.history-3d-experience .chronicle-masthead { top: max(8%, calc(var(--history-nav-height) + 16px)); left: 6%; width: 30%; }
+.history-3d-experience .chronicle-masthead h1 { margin: 22px 0 17px; font-size: clamp(46px, 3.3vw, 62px); line-height: 1.3; letter-spacing: .09em; }
+.history-3d-experience .chronicle-intro { max-width: 330px; font-size: 11px; }
+.history-3d-experience .current-event { top: 52%; bottom: auto; left: 6%; width: 25%; max-width: 340px; transition: opacity .16s ease, transform .16s ease; }
+.history-3d-experience .current-event.copy-leaving { opacity: 0; transform: translateY(-10px); }
+.history-3d-experience .current-event.copy-entering { opacity: 0; transform: translateY(10px); }
+.history-3d-experience .event-era { margin-bottom: 13px; font-size: 10px; }
+.history-3d-experience .event-year > span { font-size: clamp(62px, 5.4vw, 88px); }
+.history-3d-experience .current-event h2 { margin: 16px 0 12px; font-size: 24px; }
+.history-3d-experience .event-description { max-width: 300px; font-size: 12px; line-height: 2.15; }
+.history-3d-experience .event-read { margin-top: 15px; }
+.history-3d-experience .chronicle-ruler { top: 25%; right: 3%; width: 65px; }
+.history-3d-experience .ruler-caption { margin-bottom: 22px; color: #9d9f89; font-size: 9px; }
+.history-3d-experience .ruler-stops { gap: 8px; }
+.history-3d-experience .ruler-stops button { min-height: 23px; font-size: 11px; transform-origin: right center; transition: color .3s ease, transform .3s ease; }
+.history-3d-experience .ruler-stops button.is-neighbor { color: #a2936e; }
+.history-3d-experience .ruler-stops button.is-active, .history-3d-experience .ruler-stops button[aria-current="step"] { color: #e0bd7a; transform: scale(1.15); }
+.history-3d-experience .ruler-stops button.is-active::after, .history-3d-experience .ruler-stops button[aria-current="step"]::after { width: 24px; }
+.history-3d-experience .ruler-stops button.is-active::before, .history-3d-experience .ruler-stops button[aria-current="step"]::before { position: absolute; left: -10px; width: 3px; height: 3px; background: #d8b77b; transform: rotate(45deg); content: ""; }
+.history-3d-experience .scene-label { top: max(10%, calc(var(--history-nav-height) + 10px)); right: 14%; bottom: auto; font-size: 10px; }
+.history-3d-experience .chronicle-controls { height: 78px; }
+.history-3d-experience .ring-mode-note { justify-self: end; margin: 0; color: #8e9c87; font-size: 10px; letter-spacing: .13em; }
+.history-3d-experience .city-caption { top: 25%; transition: none; }
+.history-3d-experience .chronicle-stage.is-city .chronicle-masthead, .history-3d-experience .chronicle-stage.is-city .current-event { opacity: 0; transform: translateY(-12px); }
+.history-3d-experience .chronicle-canvas.city-unavailable { background: linear-gradient(90deg, #091a1a 0, transparent 45%), url("../images/backgrounds/history-bg.png") center / cover no-repeat; }
+.history-3d-experience .chronicle-canvas.city-unavailable canvas { visibility: hidden; }
+.history-3d-experience .chronicle-progress i { width: 100%; transform: scaleX(0); }
+.history-3d-experience .copy-ghost { pointer-events:none; z-index:3; }
+
+
+/* Compact desktop: 1366 x 768 remains a full three-part composition. */
+@media (max-width: 1500px), (max-height: 850px) {
+  .history-3d-experience .chronicle-canvas {left:20%;}
+  .history-3d-experience .history-ring-exit { transform-origin: 60% 52%; }
+  .history-3d-experience .history-ring-scene { perspective-origin: 60% 52%; }
+  .history-3d-experience .history-ring-parallax { left: 60%; }
+  .history-3d-experience .chronicle-masthead { top: max(7%, calc(var(--history-nav-height) + 16px)); }
+  .history-3d-experience .chronicle-masthead h1 { margin: 15px 0 12px; font-size: clamp(43px, 3.4vw, 54px); line-height: 1.27; }
+  .history-3d-experience .chapter-kicker, body.exhibition-page[data-page="history"] .event-dialog .chapter-kicker { gap: 9px; font-size: 9px; }
+  .history-3d-experience .chapter-kicker span:last-child, body.exhibition-page[data-page="history"] .event-dialog .chapter-kicker span:last-child { font-size: 8px; letter-spacing: .12em; }
+  .history-3d-experience .chronicle-intro { font-size: 10px; }
+  .history-3d-experience .current-event { top: 52%; bottom: auto; width: 25%; max-width: 290px; }
+  .history-3d-experience .event-era { margin-bottom: 9px; font-size: 9px; }
+  .history-3d-experience .event-year > span { font-size: 65px; }
+  .history-3d-experience .current-event h2 { margin: 11px 0 9px; font-size: 21px; }
+  .history-3d-experience .event-description { max-width: 280px; font-size: 11px; line-height: 1.95; }
+  .history-3d-experience .event-read { min-height: 29px; margin-top: 10px; font-size: 10px; }
+  .history-3d-experience .history-card-index { top: 19px; left: 23px; font-size: 8px; }
+  .history-3d-experience .history-card-artnote { top: 20px; right: 23px; bottom: auto; font-size: 7px; }
+  .history-3d-experience .history-card-body { padding: 43px 25px 22px; }
+  .history-3d-experience .history-card-dateline { gap: 12px; }
+  .history-3d-experience .history-card-dateline time { font-size: 34px; }
+  .history-3d-experience .history-card-dateline > span { font-size: 8px; }
+  .history-3d-experience .history-card-body h2 { margin: 10px 0 7px; font-size: 20px; }
+  .history-3d-experience .history-card-body p { font-size: 10px; line-height: 1.85; }
+  .history-3d-experience .history-card-open { padding-top: 10px; font-size: 8px; }
+  .history-3d-experience .chronicle-ruler { top: 20%; right: 2.7%; width: 56px; }
+  .history-3d-experience .ruler-caption { margin-bottom: 16px; }
+  .history-3d-experience .ruler-stops { gap: 4px; }
+  .history-3d-experience .ruler-stops button { min-height: 21px; font-size: 10px; }
+  .history-3d-experience .ruler-city { margin-top: 13px; }
+  .history-3d-experience .chronicle-controls { height: 66px; }
+  .history-3d-experience .scroll-cue { padding-left: 12px; }
+  .history-3d-experience .scene-label { top: max(10%, calc(var(--history-nav-height) + 10px)); bottom: auto; }
+  .history-3d-experience .scene-label > span { font-size: 9px; }
+  .history-3d-experience .scene-label small { font-size: 7px; }
+  .history-3d-experience .city-caption { top: 22%; }
+}
+
+/* Accessibility fallback is a readable gallery; WebGL is not a dependency. */
+body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .chronicle { height: auto !important; }
+body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .chronicle-stage { position: relative; top: auto; height: auto; min-height: 0; overflow: visible; padding: 70px 6% 0; }
+body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .chronicle-masthead { position: relative; top: auto; left: auto; width: auto; margin-bottom: 45px; opacity: 1; transform: none; }
+body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .chronicle-masthead h1 { font-size: 52px; }
+body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .chronicle-masthead h1 br { display: none; }
+body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .history-ring-exit, body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .history-ring-scene, body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .history-ring-parallax, body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .history-ring { position: relative; inset: auto; width: auto; height: auto; transform: none !important; opacity: 1 !important; perspective: none; transform-style: flat; }
+body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .history-ring { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 34px; padding-bottom: 75px; }
+body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .history-card { position: relative; inset: auto; width: 100%; height: 410px; transform: none !important; opacity: 1 !important; filter: none !important; pointer-events: auto; }
+body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .history-card-face { cursor: pointer; }
+body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .history-card-image::before {display:none;animation:none;}
+body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .history-card.is-back-facing .history-card-body, body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .history-card.is-back-facing .history-card-index, body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .history-card.is-back-facing .history-card-artnote { visibility: visible; }
+body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .scene-vignette { display: none; }
+body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .current-event, body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .chronicle-ruler, body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .chronicle-controls, body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .scene-label, body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .render-status { display: none; }
+body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .chronicle-canvas { inset: auto 0 0; height: 540px; opacity: .6 !important; background: linear-gradient(90deg, #091a1a, transparent 75%), url("../images/backgrounds/history-bg.png") center / cover no-repeat; }
+body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .chronicle-canvas canvas { display: none; }
+body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .city-caption { position: relative; top: auto; left: auto; width: 380px; max-width: 42%; min-height: 470px; padding: 45px 0; visibility: visible; opacity: 1; transform: none; pointer-events: auto; }
+@media (max-width: 1500px) {
+  body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .history-ring { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

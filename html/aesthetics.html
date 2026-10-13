@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="唐风美学 - 织锦华章 · 盛唐歌舞 · 华夏色谱">
+  <title>唐风美学 | 盛唐雅粹</title>
+  <link rel="preload" as="image" fetchpriority="high" href="../images/backgrounds/鎏金屏风下的幻境群像.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css?v=20260919b">
+  <link rel="stylesheet" href="../css/aesthetics-v2.css?v=20261013-hero-stable">
+  <link rel="stylesheet" href="../css/weave-fashion.css">
+  <link rel="stylesheet" href="../css/motif-prelude.css">
+  <link rel="stylesheet" href="../css/dance-theatre.css">
+  <link rel="stylesheet" href="../css/palace-lantern.css?v=shadow1">
+  <link rel="stylesheet" href="../css/sky-lantern-finale.css?v=11">
+  <style>
+    .brocade-section { padding: 5rem 0; background: var(--color-silk-light); overflow: hidden; position: relative; }
+    .dance-section { padding: 5rem 0; background: var(--color-warm-white); }
+    .contact-section { padding: 5rem 0; background: var(--color-warm-white); }
+    .palette-books-section { padding: 3rem 0 5rem; background: var(--color-silk-light, #f5eddc); position: relative; }
+    .palette-books-frame { width: 92%; max-width: none; margin: 0 auto; padding: 0; }
+    .palette-books-frame iframe { width: 100%; height: 100vh; min-height: 720px; border: 0; border-radius: 14px; box-shadow: 0 14px 44px rgba(60, 40, 20, 0.18); background: #dcebe9; display: block; }
+
+    /* ============================================================
+       唐风美学开场 · 貂蝉.mp4 鼠标寻迹（scrub 视频）
+       ============================================================ */
+    .page-hero { background-color: #1a1208; }
+    .hero-scrub-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .hero-scrub-hint {
+      position: absolute;
+      right: 28px;
+      bottom: 28px;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 18px;
+      border: 1px solid rgba(214, 171, 95, 0.4);
+      border-radius: 30px;
+      background: rgba(20, 13, 6, 0.5);
+      color: #ecdcb6;
+      font: 13px/1.6 var(--font-display);
+      letter-spacing: 0.16em;
+      white-space: nowrap;
+      pointer-events: none;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      transition: opacity 0.6s ease;
+    }
+    .hero-scrub-hint i {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #d7ab5e;
+      animation: heroScrubPulse 1.9s ease-out infinite;
+    }
+    .hero-scrub-hint.is-hidden { opacity: 0; transform: translateY(8px); }
+    @keyframes heroScrubPulse {
+      0% { box-shadow: 0 0 0 0 rgba(215, 171, 94, 0.55); }
+      70% { box-shadow: 0 0 0 9px rgba(215, 171, 94, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(215, 171, 94, 0); }
+    }
+
+    /* ============================================================
+       织锦华章 · 织机织锦 Weaving Loom Design
+       ============================================================ */
+
+    /* --- 织机横梁 --- */
+    .loom-beam {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto 2rem;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .loom-beam::before {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; top: 50%;
+      height: 8px;
+      background: linear-gradient(180deg, #A08050, #8B6A3C, #6B4A28);
+      border-radius: 4px;
+      transform: translateY(-50%);
+      box-shadow: 0 2px 8px rgba(60,40,20,0.3), inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+    .loom-beam::after {
+      content: '';
+      position: absolute;
+      left: 5%; right: 5%; top: 50%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,150,62,0.4), transparent);
+      transform: translateY(6px);
+    }
+    .loom-beam-label {
+      position: relative;
+      z-index: 2;
+      background: var(--color-silk-light);
+      padding: 0 1.5rem;
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      color: var(--color-gold-dark);
+      letter-spacing: 0.15em;
+    }
+
+    /* --- 经线（纵向线）--- */
+    .warp-threads {
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .warp-thread {
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, transparent 0%, rgba(200,150,62,0.12) 10%, rgba(200,150,62,0.08) 50%, rgba(200,150,62,0.12) 90%, transparent 100%);
+    }
+
+    /* --- 梭子（横穿动画）--- */
+    .loom-shuttle {
+      position: absolute;
+      top: 0; left: -60px;
+      width: 50px;
+      height: 6px;
+      background: linear-gradient(90deg, #B08030, #D4A050, #B08030);
+      border-radius: 3px;
+      box-shadow: 0 2px 8px rgba(200,150,62,0.4);
+      z-index: 5;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .loom-shuttle::before, .loom-shuttle::after {
+      content: '';
+      position: absolute;
+      top: 1px;
+      width: 8px; height: 4px;
+      background: #8B6020;
+      border-radius: 2px;
+    }
+    .loom-shuttle::before { left: -4px; }
+    .loom-shuttle::after { right: -4px; }
+    .loom-shuttle.weaving {
+      opacity: 1;
+      animation: shuttleWeave 2s ease-in-out forwards;
+    }
+    @keyframes shuttleWeave {
+      0% { left: -60px; opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { left: calc(100% + 10px); opacity: 0; }
+    }
+
+    /* --- 织锦卡片网格 --- */
+    .brocade-loom {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* --- 织锦卡片 --- */
+    .brocade-card {
+      position: relative;
+      background: #fff;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(200,150,62,0.15);
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .brocade-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* 交替交错延迟 */
+    .brocade-card:nth-child(3n+1) { transition-delay: 0s; }
+    .brocade-card:nth-child(3n+2) { transition-delay: 0.12s; }
+    .brocade-card:nth-child(3n)   { transition-delay: 0.24s; }
+
+    /* 悬浮聚焦效果 - 其他卡片变暗 */
+    .brocade-loom.has-focus .brocade-card:not(:hover) {
+      opacity: 0.45;
+      filter: saturate(0.4);
+      transform: scale(0.97);
+    }
+    .brocade-card:hover {
+      z-index: 10;
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 16px 48px rgba(60,40,20,0.22), 0 0 40px rgba(200,150,62,0.15);
+      border-color: var(--color-gold);
+    }
+
+    /* 图片区域 */
+    .brocade-card .bc-img {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+    }
+    .brocade-card .bc-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .brocade-card:hover .bc-img img { transform: scale(1.1); }
+
+    /* 织锦纹样标签 */
+    .brocade-card .bc-tag {
+      position: absolute;
+      top: 10px; left: 10px;
+      padding: 4px 14px;
+      background: rgba(60,40,20,0.75);
+      backdrop-filter: blur(6px);
+      color: var(--color-gold-light);
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      border-radius: 20px;
+      border: 1px solid rgba(200,150,62,0.25);
+    }
+
+    /* 经纬线装饰 (图片上的十字纹理) */
+    .brocade-card .bc-weave-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 8px, rgba(200,150,62,0.08) 8px, rgba(200,150,62,0.08) 9px),
+        repeating-linear-gradient(90deg, transparent, transparent 8px, rgba(200,150,62,0.06) 8px, rgba(200,150,62,0.06) 9px);
+    }
+    .brocade-card:hover .bc-weave-overlay { opacity: 1; }
+
+    /* 文字区域 */
+    .brocade-card .bc-body {
+      padding: 1.2rem 1.2rem 1rem;
+      position: relative;
+    }
+    /* 织线装饰 */
+    .brocade-card .bc-body::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 1rem; right: 1rem;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+    }
+    .brocade-card .bc-body h4 {
+      font-family: var(--font-display);
+      color: var(--color-cinnabar);
+      letter-spacing: 0.06em;
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+    }
+    .brocade-card .bc-verse {
+      font-family: 'KaiTi', 'STKaiti', 'Noto Serif SC', serif;
+      color: var(--color-gold-dark);
+      font-size: 0.88rem;
+      line-height: 1.8;
+      font-style: italic;
+      margin-bottom: 0.5rem;
+      padding-left: 0.8rem;
+      border-left: 2px solid rgba(200,150,62,0.3);
+    }
+    .brocade-card .bc-body p {
+      color: var(--color-ink-light);
+      font-size: 0.84rem;
+      line-height: 1.75;
+      margin: 0;
+    }
+
+    /* 展开详情 - 悬浮时显示额外内容 */
+    .brocade-card .bc-detail {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .brocade-card:hover .bc-detail {
+      max-height: 120px;
+    }
+    .brocade-card .bc-detail-inner {
+      padding: 0.8rem 1.2rem 1rem;
+      font-size: 0.8rem;
+      color: var(--color-ink-light);
+      line-height: 1.7;
+      border-top: 1px dashed rgba(200,150,62,0.2);
+    }
+
+    /* 底部织机横梁 */
+    .loom-beam-bottom {
+      max-width: 900px;
+      margin: 2rem auto 0;
+      height: 6px;
+      background: linear-gradient(180deg, #A08050, #8B6A3C);
+      border-radius: 3px;
+      box-shadow: 0 2px 6px rgba(60,40,20,0.2);
+      opacity: 0.6;
+    }
+
+    /* Dance section - keep existing styles */
+    .dance-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
+    .dance-card {
+      background: #fff; border-radius: var(--radius-xl); overflow: hidden;
+      box-shadow: var(--shadow-sm); border: 1px solid rgba(200,150,62,0.12);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .dance-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .dance-card .dance-img { height: 200px; background: linear-gradient(135deg, rgba(200,150,62,0.15), rgba(176,64,64,0.1)); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .dance-card .dance-img::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at center, rgba(200,150,62,0.08) 0%, transparent 70%);
+      transition: all 0.5s ease;
+    }
+    .dance-card:hover .dance-img::after { transform: scale(1.5); opacity: 0.5; }
+    .dance-card .dance-img .dance-placeholder {
+      font-family: var(--font-display); font-size: 3rem; color: var(--color-gold);
+      opacity: 0.4; transition: all 0.4s ease;
+    }
+    .dance-card:hover .dance-img .dance-placeholder { opacity: 0.7; transform: scale(1.15); }
+    .dance-card .dance-body { padding: 1.5rem; }
+    .dance-card .dance-body h5 { color: var(--color-cinnabar); font-family: var(--font-display); }
+    .dance-card .dance-body p { color: var(--color-ink-light); font-size: 0.88rem; line-height: 1.8; }
+    .dance-tag { display: inline-block; padding: 3px 14px; background: rgba(200,150,62,0.1); color: var(--color-gold-dark); border-radius: 14px; font-size: 0.75rem; letter-spacing: 0.05em; margin-top: 0.5rem; }
+
+    @media (max-width: 768px) {
+      .brocade-loom { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+      .loom-beam { margin-bottom: 1.5rem; }
+      .warp-threads { display: none; }
+    }
+    @media (max-width: 480px) {
+      .brocade-loom { grid-template-columns: 1fr; }
+    }
+  </style>
+  <link rel="stylesheet" href="../css/backgrounds.css">
+  <link rel="stylesheet" href="../css/exhibition.css?v=20261013-hero-stable">
+  <link rel="stylesheet" href="../css/chapter-effects.css">
+  <script src="../js/exhibition.js?v=20261013-hero-stable" defer></script>
+  <script src="../js/chapter-effects.js" defer></script>
+  <script src="../js/aesthetics-v2.js?v=20261013-hero-stable" defer></script>
+  <script src="../js/weave-fashion.js" defer></script>
+  <script src="../js/motif-prelude.js" defer></script>
+</head>
+<body class="exhibition-page" data-page="aesthetics">
+<div class="golden-birds"><span class="golden-bird"></span><span class="golden-bird"></span><span class="golden-bird"></span><span class="golden-bird"></span><span class="golden-bird"></span><span class="golden-bird"></span></div>
+
+
+<nav class="navbar navbar-expand-lg fixed-top tang-shell-nav tang-ui-dark">
+  <div class="container">
+    <a class="navbar-brand" href="../index.html">盛唐雅粹</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="../index.html">首页</a></li>
+        <li class="nav-item"><a class="nav-link" href="history.html">历史溯源</a></li>
+        <li class="nav-item"><a class="nav-link" href="treasures.html">瑰宝重器</a></li>
+        <li class="nav-item"><a class="nav-link" href="art.html">翰墨丹青</a></li>
+        <li class="nav-item"><a class="nav-link active" href="aesthetics.html">唐风美学</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="page-hero" id="pageHero" data-hero-owner="aesthetics" style="background-image: url('../images/backgrounds/鎏金屏风下的幻境群像.png');">
+  <div class="a2-hero"><div class="a2-hero-copy"><h1>唐风美学</h1><p>锦成其形 · 舞成其势 · 色成其韵</p></div><a class="a2-hero-enter" href="#brocadeSection">循锦入唐</a></div>
+</div>
+
+<!-- MOTIF-PRELUDE-R8 · A-to-B semantic takeover, ASSET_CLEARANCE_PENDING -->
+<section class="motif-prelude" id="motifPrelude" aria-labelledby="motifPreludeTitle">
+  <div class="motif-prelude__stage">
+    <header class="motif-prelude__heading">
+      <h2 id="motifPreludeTitle">一纹成锦</h2>
+      <p>向下滚动，观纹成锦</p>
+    </header>
+    <div class="motif-prelude__visual">
+      <img class="motif-prelude__fallback" src="../images/motif-prelude/01.webp" alt="纹样 A 完整图" width="960" height="960" loading="lazy">
+      <canvas aria-label="随滚动旋转一周，从纹样 A 逐层变为纹样 B" role="img"></canvas>
+      <p class="motif-prelude__status" role="status" aria-live="polite"></p>
+    </div>
+    <div class="motif-prelude__controls">
+      <div class="motif-prelude__choices"><span class="motif-prelude__pair">纹样 A → 纹样 B</span></div>
+      <button type="button" class="motif-prelude__mode" data-motif-mode>静态查看</button>
+    </div>
+  </div>
+</section>
+
+<!-- BROCADE - 织锦华章 · 铜镜服饰舞台 -->
+<section class="brocade-section weave-fashion" id="brocadeSection" aria-labelledby="weaveFashionTitle">
+  <div class="weave-fashion__mist" aria-hidden="true"></div>
+  <div class="weave-fashion__shell">
+    <header class="weave-fashion__heading">
+      <p class="weave-fashion__eyebrow">BROCADE OF THE GRAND TANG · 01—06</p>
+      <h2 id="weaveFashionTitle">织锦华章</h2>
+      <p>衣载盛世，锦见万方。以六式华服，照见唐锦在宫廷、丝路与日常风雅间的流转。</p>
+    </header>
+
+    <div class="weave-fashion__stage" id="weaveFashionStage">
+      <div class="bronze-mirror" id="weaveFashionMirror" aria-live="polite">
+        <div class="bronze-mirror__halo" aria-hidden="true"></div>
+        <div class="bronze-mirror__rim" aria-hidden="true"><span></span></div>
+        <div class="bronze-mirror__surface">
+          <div class="bronze-mirror__ripple" id="weaveFashionRipple" aria-hidden="true"></div>
+          <div class="bronze-mirror__beam" aria-hidden="true"></div>
+          <img class="bronze-mirror__figure" id="weaveFashionFigure" alt="宫宴贵女全身服饰展示">
+          <div class="bronze-mirror__stand" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <article class="weave-fashion__info" id="weaveFashionInfo">
+        <div class="weave-fashion__index"><span id="weaveFashionIndex">03</span><i></i><small>六式华服</small></div>
+        <p class="weave-fashion__role" id="weaveFashionRole">宫宴华仪</p>
+        <h3 id="weaveFashionName">宫宴贵女</h3>
+        <p class="weave-fashion__verse" id="weaveFashionVerse">云想衣裳花想容，春风拂槛露华浓。</p>
+        <p class="weave-fashion__copy" id="weaveFashionCopy"></p>
+        <dl class="weave-fashion__details">
+          <div><dt>形制</dt><dd id="weaveFashionSilhouette"></dd></div>
+          <div><dt>纹色</dt><dd id="weaveFashionPalette"></dd></div>
+          <div><dt>风尚</dt><dd id="weaveFashionCulture"></dd></div>
+        </dl>
+        <figure class="weave-fashion__pattern">
+          <img id="weaveFashionPattern" alt="宫宴贵女对应织锦纹样">
+          <figcaption><span>织锦纹样</span><strong id="weaveFashionPatternName"></strong><em>局部纹理档案</em></figcaption>
+        </figure>
+      </article>
+    </div>
+
+    <nav class="weave-fashion__nav" id="weaveFashionNav" aria-label="盛唐服饰人物选择"></nav>
+  </div>
+</section>
+
+<!-- DANCE - 六幕盛唐 · 乐舞光廊 -->
+<section class="dance-theatre" id="danceTheatre" aria-labelledby="danceTheatreTitle">
+  <div class="dance-scroll-space" id="danceScrollSpace">
+    <div class="dance-stage">
+      <header class="dance-heading">
+        <h2 id="danceTheatreTitle">盛唐歌舞</h2>
+        <p class="dance-heading__en">DANCE OF THE GREAT TANG</p>
+        <p class="dance-heading__line">六幕乐声 · 一城长安</p>
+      </header>
+
+      <div class="dance-world" id="danceWorld" aria-live="off"></div>
+
+      <aside class="dance-meta" id="danceMeta" aria-live="polite">
+        <p class="dance-meta__index"><span>01</span><i></i><em>06</em></p>
+        <h3>霓裳羽衣舞</h3>
+        <p class="dance-meta__en">NI CHANG YU YI</p>
+        <p class="dance-meta__origin">宫廷大曲</p>
+      </aside>
+
+      <div class="dance-progress" id="danceProgress" aria-label="六幕乐舞进度"></div>
+      <div class="dance-scroll-hint" id="danceScrollHint"><span>滚轮 · 穿行六幕</span><i aria-hidden="true">↓</i></div>
+      <div class="dance-vignette" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // ========== 织锦华章 · 织机织锦 Weaving Animation ==========
+  (function() {
+    var brocadeSection = document.getElementById('brocadeSection');
+    var brocadeLoom = document.getElementById('brocadeLoom');
+    var warpThreads = document.getElementById('warpThreads');
+    var loomShuttle = document.getElementById('loomShuttle');
+    if (!brocadeSection || !brocadeLoom) return;
+
+    // 生成经线（纵向装饰线）
+    if (warpThreads) {
+      var threadCount = 30;
+      for (var i = 0; i < threadCount; i++) {
+        var t = document.createElement('div');
+        t.className = 'warp-thread';
+        t.style.left = (i / (threadCount - 1) * 100) + '%';
+        // 奇偶线微调透明度，模拟织物纹理
+        t.style.opacity = (i % 2 === 0) ? '0.8' : '0.5';
+        warpThreads.appendChild(t);
+      }
+    }
+
+    // 卡片滚动入场 + 梭子动画
+    var cards = brocadeLoom.querySelectorAll('.brocade-card');
+    var shuttleFired = false;
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          // 梭子首次穿越
+          if (!shuttleFired && loomShuttle) {
+            shuttleFired = true;
+            loomShuttle.classList.add('weaving');
+          }
+          // 依次显示卡片
+          var allCards = brocadeLoom.querySelectorAll('.brocade-card');
+          allCards.forEach(function(card, idx) {
+            setTimeout(function() {
+              card.classList.add('visible');
+            }, idx * 150);
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    observer.observe(brocadeSection);
+
+    // 悬浮聚焦效果
+    brocadeLoom.addEventListener('mouseenter', function() {
+      brocadeLoom.classList.add('has-focus');
+    });
+    brocadeLoom.addEventListener('mouseleave', function() {
+      brocadeLoom.classList.remove('has-focus');
+    });
+  })();
+
+});
+</script>
+
+<!-- LANTERN - 宫灯里的陕西皮影 -->
+<section class="lantern-section" id="palaceLantern" aria-labelledby="lanternTitle">
+  <div class="lantern-stage">
+    <div class="lantern-bg" aria-hidden="true"></div>
+    <canvas id="lanternCanvas" tabindex="0" role="img" aria-label="六面宫灯中的陕西传统皮影，向下滚动、左右拖动或按方向键转灯"></canvas>
+    <div class="lantern-copy" id="lanternCopy">
+      <p class="sub">陕西皮影 · 光与影的民间戏台</p>
+      <h2 id="lanternTitle">一灯照见<br>长安旧梦</h2>
+      <p class="desc">以皮为形，以光为魂。<br>转一盏宫灯，让镂刻的衣纹与侧面的眉眼，在绢面后缓缓入戏。</p>
+      <div class="lantern-story">
+        <p class="lantern-story__eyebrow" id="lanternStoryLabel">陕西影人 / 十九世纪</p>
+        <h3 id="lanternStoryTitle">旦角 · 一线传神</h3>
+        <p class="lantern-story__description" id="lanternStoryText">侧面眉眼，一线传神；花饰与长辫刻出人物神采。细密的镂花借灯光透出，让皮革有了衣袖的轻盈。</p>
+      </div>
+      <div class="lantern-controls" aria-label="转动宫灯">
+        <button type="button" id="lanternPrev" aria-label="向左转灯">←</button>
+        <span id="lanternCount">01 / 03</span>
+        <button type="button" id="lanternNext" aria-label="向右转灯">→</button>
+      </div>
+      <details class="lantern-sources">
+        <summary>影人出处与工艺</summary>
+        <p><a href="https://commons.wikimedia.org/wiki/File:'Young_Lady',_19th_century,_shadow_puppet_from_Shaanxi_Province,_Lin_Liu-Hsin_Museum.JPG" target="_blank" rel="noopener">女影人</a>、<a href="https://commons.wikimedia.org/wiki/File:'Man_(official)',_19th_century,_shadow_puppet_from_Shaanxi_Province,_Lin_Liu-Hsin_Museum.JPG" target="_blank" rel="noopener">官员影人</a>：19 世纪陕西皮影，林柳新纪念偶戏博物馆，Hiart 摄。<a href="https://commons.wikimedia.org/wiki/File:Emperor_Minghuang_and_Yang_Guifei,_Shaanxi_province,_China_-_Museu_do_Oriente_-_Lisbon,_Portugal_-_DSC06789.JPG" target="_blank" rel="noopener">《唐明皇与杨贵妃》题材影人</a>：里斯本东方博物馆，Daderot 摄。摄影均为 CC0。</p>
+        <p>传统影人实物 × 唐风宫灯的数字演绎。影人为后世作品，非唐代文物。<a href="https://www.ihchina.cn/project_details/13403.html" target="_blank" rel="noopener">了解中国传统皮影工艺 ↗</a></p>
+      </details>
+    </div>
+    <p class="lantern-loading" id="lanternLoading" role="status">正在点亮宫灯…</p>
+    <figure class="lantern-fallback" id="lanternFallback" hidden>
+      <img src="../images/shadow-puppets/shaanxi-young-lady.jpg" alt="19世纪陕西女影人，镂花长衣、长辫与侧面眉眼" loading="lazy">
+      <figcaption>陕西传统皮影 · 十九世纪</figcaption>
+    </figure>
+    <p class="lantern-hint" id="lanternHint">向下滚动 · 转灯看影　/　亦可左右拖动</p>
+  </div>
+</section>
+
+<!-- 华夏色谱 · 七册古典颜色（宫灯之下 · 替换盛唐有韵） -->
+<section class="palette-books-section" id="paletteBooks" aria-label="华夏色谱·七册古典颜色">
+  <header class="palette-books-intro">
+    <p class="palette-books-intro__eyebrow">色谱 · 纸上观色</p>
+    <h2>七册古典颜色</h2>
+    <p class="palette-books-intro__description">翻开七册，在纸页间读一抹古典颜色。</p>
+  </header>
+  <div class="palette-books-frame">
+    <iframe src="颜色.html" title="华夏色谱 · 七册古典颜色" loading="lazy"></iframe>
+  </div>
+  <div class="palette-books-exit">
+    <p>藏七色于卷，寄一愿于长安。</p>
+  </div>
+</section>
+
+<!-- CONTACT FORM -->
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div class="text-center mb-5 fade-up"><h2 class="tang-title">翰墨留声</h2><p class="section-subtitle">留下您的感想，与我们一起梦回大唐</p></div>
+    <form class="tang-form fade-up delay-1">
+      <div class="row g-3">
+        <div class="col-md-6"><label for="name" class="form-label">尊姓大名 *</label><input type="text" class="form-control" id="name" name="name" required placeholder="请输入您的姓名" minlength="2"><div class="invalid-feedback"></div></div>
+        <div class="col-md-6"><label for="email" class="form-label">电子邮箱 *</label><input type="email" class="form-control" id="email" name="email" required placeholder="请输入您的邮箱"><div class="invalid-feedback"></div></div>
+        <div class="col-md-6"><label for="phone" class="form-label">联系方式</label><input type="tel" class="form-control" id="phone" name="phone" placeholder="请输入您的电话（选填）"><div class="invalid-feedback"></div></div>
+        <div class="col-md-6"><label for="topic" class="form-label">属意之题</label><select class="form-control" id="topic" name="topic"><option value="">请选择感兴趣的主题</option><option value="history">历史溯源</option><option value="treasures">瑰宝重器</option><option value="art">翰墨丹青</option><option value="aesthetics">唐风美学</option><option value="other">其他</option></select></div>
+        <div class="col-12"><label for="message" class="form-label">留言寄语 *</label><textarea class="form-control" id="message" name="message" required placeholder="写下您想说的话……" minlength="10"></textarea><div class="invalid-feedback"></div></div>
+        <div class="col-12 text-center mt-3"><button type="submit" class="btn-tang btn-tang-gold">提交寄语</button></div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ENDING · 长安灯愿 -->
+<section class="sky-lantern-finale" id="skyLanternFinale" aria-labelledby="skyLanternTitle">
+  <div class="sky-lantern-city" aria-hidden="true"></div>
+  <div class="sky-lantern-mist" aria-hidden="true"></div>
+  <canvas class="sky-lantern-canvas" id="skyLanternCanvas" aria-hidden="true"></canvas>
+  <div class="sky-lantern-content">
+    <p class="sky-lantern-kicker">盛唐流光 · 终章</p>
+    <h2 id="skyLanternTitle">一灯一愿<span>长安长明</span></h2>
+    <p class="sky-lantern-verse">愿此夜的光，越过千年，仍照见你心中的长安。</p>
+  </div>
+  <div class="sky-lantern-prompt" id="skyLanternPrompt">
+    <span class="sky-lantern-prompt-line" aria-hidden="true"></span>
+    <p>点击夜空任意一处 · 放飞一盏心愿灯</p>
+    <button type="button" id="skyLanternLaunch" aria-label="放飞一盏孔明灯">放飞心愿 <span aria-hidden="true">↗</span></button>
+  </div>
+</section>
+
+<footer class="footer tang-ui-dark">
+  <div class="container"><div class="row g-4">
+    <div class="col-lg-4"><h5>盛唐雅粹</h5><p style="font-size:0.88rem; line-height:1.8;">美学细节，尽显大唐风华。</p></div>
+    <div class="col-lg-4"><h5>探索专题</h5><ul class="list-unstyled" style="font-size:0.88rem; line-height:2.2;"><li><a href="history.html">历史溯源</a></li><li><a href="treasures.html">瑰宝重器</a></li><li><a href="art.html">翰墨丹青</a></li><li><a href="aesthetics.html">唐风美学</a></li></ul></div>
+    <div class="col-lg-4"><h5>参考资料</h5><p style="font-size:0.82rem;">《全唐诗》《乐府杂录》《茶经》<br>中国丝绸博物馆 · 敦煌研究院</p></div>
+  </div><hr class="footer-divider"><div class="footer-bottom"><p>&copy; 2026 盛唐雅粹文化专题 | 梦回长安 · 盛世重现</p></div></div>
+</footer>
+
+<button class="back-to-top" id="backToTop" title="回到顶部">&#8593;</button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/main.js?v=20260919b"></script>
+<!-- 背景音乐 -->
+<audio id="bgMusic" loop preload="auto"></audio>
+<div class="music-widget tang-ui-dark" id="musicWidget">
+  <button class="music-toggle paused" id="musicToggle" title="播放">&#9835;</button>
+  <button class="music-close" id="musicClose" title="关闭">&times;</button>
+</div>
+<style>
+  .music-widget { position: fixed; bottom: 36px; left: 36px; display: flex; align-items: center; gap: 8px; z-index: 1001; }
+  .music-widget.hidden { display: none; }
+  .music-toggle { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--tang-gold); background: var(--tang-bg-surface); color: var(--tang-gold-soft); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; box-shadow: 0 4px 14px var(--tang-shadow); }
+  .music-toggle.playing { border-color: var(--tang-gold); animation: musicPulse 2s ease-in-out infinite; }
+  .music-toggle.paused { opacity: 1; border-color: color-mix(in srgb, var(--tang-gold) 65%, transparent); }
+  @keyframes musicPulse { 0%,100%{ box-shadow:0 4px 14px var(--tang-shadow); } 50%{ box-shadow:0 4px 24px color-mix(in srgb, var(--tang-gold) 40%, transparent),0 0 40px color-mix(in srgb, var(--tang-gold) 15%, transparent); } }
+  .music-toggle:hover, .music-toggle:active { background: var(--tang-gold); color:var(--tang-ink); border-color:var(--tang-gold); }
+  .music-close { width:28px; height:28px; border-radius:50%; border:1px solid var(--tang-gold); background:var(--tang-bg-surface); color:var(--tang-gold-soft); font-size:0.9rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.3s ease; padding:0; line-height:1; }
+  .music-close:hover, .music-close:active { background:var(--tang-gold); border-color:var(--tang-gold); color:var(--tang-ink); }
+  .music-toggle:focus-visible, .music-close:focus-visible { outline-color: var(--tang-focus); }
+  @media(max-width:768px){ .music-widget{bottom:24px;left:24px;} .music-toggle{width:38px;height:38px;font-size:1rem;} .music-close{width:24px;height:24px;font-size:0.8rem;} }
+</style>
+<script src="../js/music.js"></script>
+<script src="../js/dance-theatre.js"></script>
+<script>
+  // 唐风美学开场：貂蝉.mp4 由滚轮控制播放进度（scrub）。
+  // 由 aesthetics-v2.js 在生成 hero 内容后调用 window.__initHeroScrub()。
+  window.__initHeroScrub = (function () {
+    var inited = false;
+    return function () {
+      return; // 顶部使用静态主图，禁用视频scrub
+      if (inited) return;
+      var hero = document.getElementById('pageHero');
+      var canvas = document.getElementById('heroScrubCanvas');
+      var hint = document.getElementById('heroScrubHint');
+      if (!hero || !canvas) return;
+      inited = true;
+
+      var FRAME_COUNT = 90;
+      var frames = [];
+      var framesReady = false;
+      var loaded = 0;
+      var target = 0;   // 0..1 进度
+      var current = 0;  // 当前显示进度
+      var raf = null;
+      var heroVisible = false;
+      var ctx = canvas.getContext('2d');
+
+      function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+      function sizeCanvas() {
+        canvas.width = hero.clientWidth;
+        canvas.height = hero.clientHeight;
+      }
+      function drawCover(img) {
+        var cw = canvas.width, ch = canvas.height;
+        var iw = img.width, ih = img.height;
+        if (!iw || !ih) return;
+        var scale = Math.max(cw / iw, ch / ih);
+        var dw = iw * scale, dh = ih * scale;
+        ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+      }
+      function drawCurrent() {
+        if (!framesReady) return;
+        var idx = Math.round(current * (FRAME_COUNT - 1));
+        var img = frames[idx];
+        if (img) drawCover(img);
+      }
+
+      for (var i = 1; i <= FRAME_COUNT; i++) {
+        (function (idx) {
+          var img = new Image();
+          img.onload = function () {
+            frames[idx - 1] = img;
+            loaded++;
+            if (loaded === FRAME_COUNT) {
+              framesReady = true;
+              sizeCanvas();
+              canvas.style.display = 'block';
+              drawCurrent();
+              if (heroVisible) schedule();
+            }
+          };
+          img.src = '../assets/diaochan/frame_' + String(idx).padStart(3, '0') + '.jpg';
+        })(i);
+      }
+
+      function schedule() {
+        if (!raf) raf = requestAnimationFrame(step);
+      }
+      function step() {
+        raf = null;
+        if (!heroVisible || !framesReady) return;
+        var diff = target - current;
+        if (Math.abs(diff) < 0.002) { current = target; drawCurrent(); return; }
+        current += diff * 0.35;
+        drawCurrent();
+        raf = requestAnimationFrame(step);
+      }
+
+      function onWheel(e) {
+        if (!heroVisible || !framesReady) return;
+        var dir = e.deltaY > 0 ? 1 : -1;
+        var atEnd = target >= 0.999;
+        var atStart = target <= 0.001;
+        if ((dir > 0 && atEnd) || (dir < 0 && atStart)) return;
+        e.preventDefault();
+        var px = e.deltaY;
+        if (e.deltaMode === 1) px *= 16;
+        else if (e.deltaMode === 2) px *= window.innerHeight;
+        target = clamp(target + px / (window.innerHeight * 2.5), 0, 1);
+        if (hint) hint.classList.add('is-hidden');
+        schedule();
+      }
+
+      document.addEventListener('wheel', onWheel, { passive: false });
+      new IntersectionObserver(function (entries) {
+        heroVisible = entries[0].isIntersecting;
+        if (heroVisible && framesReady) schedule();
+      }, { threshold: 0.1 }).observe(hero);
+      window.addEventListener('resize', function () { sizeCanvas(); drawCurrent(); });
+    };
+  })();
+</script>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module" src="../js/palace-lantern.js?v=shadow1"></script>
+<script defer src="../js/sky-lantern-finale.js?v=11"></script>
+</body>
+</html>

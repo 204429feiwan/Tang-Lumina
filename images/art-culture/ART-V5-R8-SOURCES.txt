@@ -1,0 +1,111 @@
+ART-V5-R8 素材来源、许可与处理清单
+核验日期：2026-10-13（Asia/Shanghai）
+唯一交付目录：D:\项目\数编大赛\《盛唐流光·长安华章》-FINAL-SLIM-20261011T123050417Z-f2f9c2c8
+
+一、新增正式图像
+
+1. images/art-culture/zhu-yu-longgong.webp
+作品：《龙宫水府图》页；作者：朱玉；年代：元代。
+归类：依据唐传奇《柳毅传》创作的后世绘画，不是唐代绘画。
+原始馆藏：故宫博物院，北京；文物号新00147429-12/12。
+材质与尺寸：绢本设色，纵45.6厘米、横43.3厘米。
+历史关联：故宫说明画中为柳毅下马揖见，龙王率众出迎的一瞬。
+馆藏记录：https://www.dpm.org.cn/collection/paint/228984.html
+图像来源：https://commons.wikimedia.org/wiki/File:朱玉龙宫水府图页.jpg
+下载：https://upload.wikimedia.org/wikipedia/commons/4/4e/%E6%9C%B1%E7%8E%89%E9%BE%99%E5%AE%AB%E6%B0%B4%E5%BA%9C%E5%9B%BE%E9%A1%B5.jpg
+许可：Commons PD-Art (PD-old-100)，Public Domain Mark 1.0。按该图像页列明的公有领域状态使用。
+许可链接：https://creativecommons.org/publicdomain/mark/1.0/
+处理：5992×2917源JPEG为对开册页；取右幅绘画坐标(3100,48)至(5800,2882)，缩放为2000×2099，以WebP quality=92压缩。
+展示：全景、人物相揖、水府波纹为同一画幅的三个视窗。无补绘、去章、修复、调色或人物动画；没有把裁切冒充不同历史情节。
+文件：1,883,658 bytes；SHA-256 9325a0fc5bb0b80d9742add0bfbf10bd486304d32b90ce23c318409dbd25a5ff
+
+2. images/art-culture/yuan-jiang-palace.webp
+作品：《九成宫图屏》（The Palace of Nine Perfections）；作者：袁江；年代：清代，1691年。
+归类：清代后世宫苑绘画，用于《枕中记》梦中荣华的现代文学联想；不是本篇故事插图，不是唐代宫殿考据复原。
+原始馆藏：大都会艺术博物馆，纽约；编号1982.125a–l。
+材质与尺寸：十二屏绢本设色，画心207×563.2厘米；年代和尺寸以Met官方记录为准。
+馆藏记录：https://www.metmuseum.org/art/collection/search/49227
+图像来源：https://commons.wikimedia.org/wiki/File:Yuan_Jiang-the_palace_of_nine_perfections.jpg
+下载：https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/Yuan_Jiang-the_palace_of_nine_perfections.jpg/3840px-Yuan_Jiang-the_palace_of_nine_perfections.jpg
+许可：所用Commons图像明确标为PD-Art / PD-old-100-expired；同馆官方开放图像为Public Domain / CC0。
+官方开放政策：https://www.metmuseum.org/hubs/open-access
+处理：3840×1399源JPEG保持尺寸，以WebP quality=91压缩；通过CSS视窗裁切与1.05倍缩放呈现。保留原图十二屏拼接痕迹，没有补画、去接缝或调色。
+文件：1,302,918 bytes；SHA-256 a5032553641118e08cf1d79a3322e827cbdf2747a4eeb3631d48c86795e10b0b
+
+3. images/art-culture/dream-inn-modern.webp
+作品：旅舍静物（本项目现代AI艺术构图）；创作：本项目提示词，OpenAI内置imagegen；日期：2026-10-13。
+归类：现代AI艺术演绎。无古代作者、年代或馆藏；不能作为唐代文物、绘画或历史复原。
+素材来源：本轮从文字生成，未上传第三方参考图；原输出在项目外generated_images/01a133d1-2122-76d1-ac52-8aa99af9adb4/exec-9c5f41ef-21b6-45fe-b753-4e9802b01323.png。
+使用依据：OpenAI Terms of Use的Content条款规定，在用户与OpenAI之间且法律允许范围内用户拥有输出；此项不冒称CC0/公共领域，也不推断独占著作权。
+来源条款：https://openai.com/policies/terms-of-use/
+处理：生成的1672×941 PNG转RGB，以WebP quality=91压缩；未对内容作修补或重绘。现实与梦醒共用同一图像；梦醒仅有CSS半透明光影气氛叠层。
+呈现：旅舍、谷物、瓷枕和纸墨是文学意象；粮食静物不是烹饪史料。图像内无真实可核验古籍文本。
+文件：230,118 bytes；SHA-256 2c6b47c8aaaf44ddc97ef1b5d2cd7a4075b9691a26f72ede7d48cc5b2122f406
+
+生成方式：内置image_gen工具；未使用CLI/API回退。完整提示词：
+Create ONE exceptionally refined wide landscape cinematic fine-art still-life background for a Chinese literary exhibition interpreting Shen Jiji's Tang story The World Inside a Pillow. Original modern artistic interpretation, not a historic artifact or claim of archaeological reconstruction. No people, no figures, no lettering, no watermarks. Format wide 16:9. Scene: quiet modest premodern Chinese roadside inn, tactile dark wooden table foreground at right, a shallow dark earthenware bowl containing yellow millet grains, a modest pale celadon ceramic pillow behind it, softly folded ivory paper and an inkstone with a brush, rich worn wood and clay textures. Muted golden side-light falls through an understated wooden lattice window upper left; delicate light and dust, calm and deeply atmospheric, shadows soft ink brown, warmth of yellowed silk, expensive museum editorial photography blended with handpainted subtle oil realism. Left half atmospheric negative space with window and shadows, still life occupies center and right. Cinematic lateral depth, physically convincing clay ceramics, natural organic millet grains, irregular weathered paper, exquisite painterly detail. Avoid ornate imperial palace in reality scene, flashy 3D render, cartoon, geometric vector illustration, stereotyped red lanterns or dragons. Stable contemplative composition for waking and reality to share. This asset will appear with external explicit 'modern AI artistic interpretation' attribution.
+
+二、保留的既有艺术图像（本轮原文件不变）
+
+4. sun-shupu-1.webp / sun-shupu-2.webp
+作品：孙过庭《书谱》同卷选片；作者：孙过庭；作品年代：唐，687年墨迹。
+原始馆藏：国立故宫博物院，台北。
+图像来源与作品记录：https://digitalarchive.npm.gov.tw/Collection/Detail/14900?dep=P
+既有图像许可：CC BY 4.0，署名国立故宫博物院，台北；https://creativecommons.org/licenses/by/4.0/
+处理：既有馆藏数字选片原文件保持；本轮仅CSS视窗缩放与平移。sun-shupu-2.webp保留，本轮连续细读不再固定编号切换该片。
+
+5. ouyang-jiucheng.webp
+作品：《九成宫醴泉铭》宋拓本；书者：欧阳询，文：魏征；碑铭：唐代，632年；本图版本：宋代拓本。
+原始馆藏：国立故宫博物院，台北。
+图像来源：https://digitalarchive.npm.gov.tw/Collection/Detail/20595?dep=P
+既有图像许可：CC BY 4.0；署名国立故宫博物院，台北。
+处理：原数字图像不改；原三艺引擎继续以局部数字着墨显影，明确标作当代交互示意。
+
+6. yan-jizhi.webp
+作品：《祭侄文稿》本幅局部；作者：颜真卿；年代：唐代，758年墨迹。
+原始馆藏：国立故宫博物院，台北。
+图像来源：https://digitalarchive.npm.gov.tw/Collection/Detail/3?dep=P
+既有图像许可：CC BY 4.0；署名国立故宫博物院，台北。
+处理：原选片不改；本轮仅CSS视窗缩放与平移，不伪造运笔动画。
+
+7. liu-xuanmi.webp
+作品：小楷书《玄秘塔碑铭》墨拓本；书迹归属：柳公权；原碑年代：841年；所示拓本的具体拓制年未注明。
+原始馆藏：国立故宫博物院，台北。
+图像来源：https://digitalarchive.npm.gov.tw/Collection/Detail/29090?dep=P
+既有图像许可：CC BY 4.0；署名国立故宫博物院，台北。
+处理：既有原图不改；CSS缩放与平移。后世拓本不得称为唐代纸本原作。
+
+8. dunhuang-manuscript.webp
+作品：敦煌《法华经》残卷Or.8210/S.970；作者/抄写者：未定；具体抄写年未定。
+原始馆藏：British Library / International Dunhuang Programme（IDP）。
+图像来源：https://commons.wikimedia.org/wiki/File:Lotus_Sutra_Or.8210_S.970.jpg
+许可：CC BY 4.0；署名British Library / IDP。
+处理：既有数字图像保持；工坊按原逻辑展示原卷对照及局部。自由书写结果独立标为当代作品，不冒作原卷墨迹。
+
+9. diamond-868.webp
+作品：868年《金刚经》卷首版画；作者/刻工：未定；年代：唐代，868年（纪年见卷末题记）。
+原始馆藏：British Library / IDP。
+图像来源：https://commons.wikimedia.org/wiki/File:Diamond_sutra.jpg
+许可：Public Domain / PD-Art；https://creativecommons.org/publicdomain/mark/1.0/
+处理：既有数字图像保持。原工坊根据数字图像作现代木版示意、覆纸压印和揭纸；不称其为存世原版，也不称印刷术在868年发明。
+
+三、文学原典与解释
+
+李朝威《柳毅传》：https://zh.wikisource.org/zh-hant/柳毅傳
+沈既济《枕中记》：https://zh.wikisource.org/zh-hans/枕中记
+古代文本公共领域；页面只引用短句“时主人方蒸黍”“主人蒸黍未熟”。“黄粱一梦”为通称，未把原文“黍”替换成“黄粱”。人物称吕翁，不直接等同吕洞宾。
+韩愈《师说》：https://zh.wikisource.org/wiki/師說
+柳宗元《答韦中立论师道书》：https://zh.wikisource.org/wiki/答韋中立論師道書
+古文旁读沿用原短引文和自写释读；故事说明为本项目精炼释读，未复制馆方长文。
+
+四、技术参考与开源许可
+
+https://github.com/codrops/LayersAnimation — MIT，Codrops 2009–2022；参考叠层遮罩揭示的交互想法。
+https://github.com/codrops/ContentLayoutTransition — MIT，Codrops 2009–2021；参考局部构图层次与短时布局转换。
+https://github.com/nolimits4web/atropos — MIT，Vladimir Kharlampidi 2021；研究后决定不引入倾斜视差依赖。
+https://github.com/timmywil/panzoom — MIT，Timmy Willison 2016–2019；参考Pointer平移、CSS缩放、边界约束和键盘替代设计。
+本轮完全原生实现，没有移植上述仓库的实质代码、依赖、演示网页或图库，没有新增Three.js/WebGL系统或全站滚动控制器。
+既有vendor/three.min.js及其既有许可保持；没有删改其他资源与署名。
+
+新增三张素材合计：3,416,694 bytes（3.416694 MB），低于7,000,000 bytes。
+本清单既在项目外证据目录保留，也随正式素材存入images/art-culture/ART-V5-R8-SOURCES.txt。

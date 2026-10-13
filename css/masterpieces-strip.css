@@ -1,0 +1,389 @@
+/* 镇馆之宝 · 横向数字展柜
+   结构与交互独立于上方数字博物馆，避免影响其他展厅。 */
+
+.tang-treasure-strip {
+  --masterpiece-ease: cubic-bezier(.22, 1, .36, 1);
+  --masterpiece-paper: #e8e1cd;
+  --masterpiece-ink: #38342f;
+  --masterpiece-accent: #923628;
+  position: relative;
+  height: min(100vh, 1080px);
+  min-height: 760px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 78%, rgba(146, 54, 40, .045), transparent 30%),
+    var(--masterpiece-paper);
+  color: var(--masterpiece-ink);
+  isolation: isolate;
+}
+
+.tang-treasure-strip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .16;
+  background-image:
+    linear-gradient(90deg, rgba(111, 83, 57, .035) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, .09) 1px, transparent 1px);
+  background-size: 96px 100%, 100% 72px;
+  mix-blend-mode: multiply;
+}
+
+.tang-treasure-scroll {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-x pan-y;
+}
+
+.tang-treasure-scroll::-webkit-scrollbar { display: none; }
+.tang-treasure-scroll.is-dragging { cursor: grabbing; }
+
+.masterpiece-intro {
+  position: relative;
+  flex: 0 0 clamp(380px, 22.5vw, 470px);
+  height: 100%;
+  overflow: hidden;
+  scroll-snap-align: start;
+  border-right: 1px solid rgba(121, 87, 62, .11);
+  background: rgba(232, 225, 205, .9);
+}
+
+.masterpiece-intro-title {
+  position: absolute;
+  z-index: 2;
+  top: 16%;
+  left: 25%;
+  margin: 0;
+  color: #403a32;
+  font-family: var(--font-display, "Noto Serif SC", "Songti SC", serif);
+  font-size: clamp(34px, 2.1vw, 48px);
+  font-weight: 400;
+  line-height: 1.34;
+  letter-spacing: .16em;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+
+.masterpiece-intro-kicker {
+  position: absolute;
+  z-index: 2;
+  left: 25%;
+  bottom: 10%;
+  margin: 0;
+  color: rgba(81, 68, 51, .52);
+  font-size: 12px;
+  letter-spacing: .26em;
+  writing-mode: vertical-rl;
+}
+
+.masterpiece-intro-note {
+  position: absolute;
+  z-index: 2;
+  right: 13%;
+  bottom: 10%;
+  width: 150px;
+  margin: 0;
+  color: rgba(65, 56, 45, .5);
+  font-family: var(--font-display, serif);
+  font-size: 13px;
+  line-height: 1.9;
+  letter-spacing: .06em;
+}
+
+.masterpiece-intro-ghost {
+  position: absolute;
+  right: -18%;
+  bottom: 4%;
+  width: 84%;
+  height: 48%;
+  object-fit: contain;
+  opacity: .075;
+  filter: grayscale(1) sepia(.3) contrast(.7) brightness(1.08);
+  mix-blend-mode: multiply;
+  transform: rotate(-8deg);
+  pointer-events: none;
+}
+
+.artifact-card {
+  --artifact-scale: 1;
+  --artifact-x: 0%;
+  --artifact-y: 0%;
+  --ghost-width: 66%;
+  --hero-width: 60%;
+  --hero-right: 2%;
+  --hero-bottom: 6%;
+  --hero-scale: 1;
+  --hero-enter-x: -42px;
+  --hero-push-x: clamp(108px, 6.75vw, 132px);
+  position: relative;
+  z-index: 1;
+  flex: 0 0 clamp(580px, 34vw, 700px);
+  height: 100%;
+  overflow: visible;
+  scroll-snap-align: start;
+  border-left: 1px solid rgba(121, 87, 62, .11);
+  background: rgba(239, 233, 216, .34);
+  cursor: pointer;
+  outline: none;
+}
+
+.artifact-card:focus-visible {
+  box-shadow: inset 0 0 0 2px rgba(146, 54, 40, .58);
+}
+
+.artifact-card:hover,
+.artifact-card:focus-visible,
+.artifact-card.is-focused {
+  z-index: 7;
+}
+
+.artifact-dark-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  background: linear-gradient(180deg, #343538 0%, #444548 55%, #55575a 100%);
+  box-shadow: inset 1px 0 rgba(255,255,255,.045), inset -1px 0 rgba(0,0,0,.11);
+  transition: opacity 650ms var(--masterpiece-ease);
+}
+
+.artifact-copy {
+  position: absolute;
+  z-index: 4;
+  top: 10%;
+  left: 14%;
+  width: 62%;
+  opacity: 0;
+  color: #f2eee5;
+  transform: translateY(-12px);
+  transition: opacity 620ms var(--masterpiece-ease), transform 650ms var(--masterpiece-ease);
+  pointer-events: none;
+}
+
+.artifact-copy .era {
+  display: block;
+  margin-bottom: 14px;
+  color: rgba(240, 238, 232, .58);
+  font-size: clamp(12px, .72vw, 14px);
+  letter-spacing: .28em;
+}
+
+.artifact-copy h3 {
+  margin: 0 0 14px;
+  color: #f2eee5;
+  font-family: var(--font-display, "Noto Serif SC", serif);
+  font-size: clamp(24px, 1.5vw, 30px);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: .04em;
+}
+
+.artifact-copy p {
+  margin: 0;
+  color: rgba(240, 238, 232, .68);
+  font-size: clamp(15px, .86vw, 17px);
+  line-height: 1.8;
+  letter-spacing: .025em;
+}
+
+.artifact-vertical-title {
+  position: absolute;
+  z-index: 5;
+  top: 52%;
+  left: clamp(38px, 7%, 70px);
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  color: var(--masterpiece-ink);
+  font-family: var(--font-display, "Noto Serif SC", serif);
+  font-size: clamp(20px, 1.25vw, 27px);
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: .08em;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  transform: translateY(-50%);
+  transition: color 650ms var(--masterpiece-ease);
+  pointer-events: none;
+}
+
+.artifact-vertical-title::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  flex: 0 0 10px;
+  border-radius: 50%;
+  background: var(--masterpiece-accent);
+}
+
+.artifact-ghost,
+.artifact-hero {
+  position: absolute;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+  will-change: opacity, transform;
+  -webkit-mask-image: radial-gradient(ellipse 72% 68% at 52% 54%, #000 52%, rgba(0,0,0,.86) 68%, transparent 100%);
+  mask-image: radial-gradient(ellipse 72% 68% at 52% 54%, #000 52%, rgba(0,0,0,.86) 68%, transparent 100%);
+}
+
+.artifact-ghost {
+  z-index: 1;
+  width: var(--ghost-width);
+  max-height: 70%;
+  right: 3%;
+  bottom: 8%;
+  opacity: .18;
+  filter: grayscale(1) sepia(.25) contrast(.75) brightness(1.08);
+  mix-blend-mode: multiply;
+  transform: translate(var(--artifact-x), var(--artifact-y)) scale(var(--artifact-scale));
+  transition: opacity 520ms var(--masterpiece-ease), transform 650ms var(--masterpiece-ease);
+}
+
+.artifact-hero {
+  z-index: 3;
+  width: var(--hero-width);
+  max-height: 66%;
+  right: var(--hero-right);
+  bottom: var(--hero-bottom);
+  opacity: 0;
+  filter: grayscale(.88) sepia(.12) saturate(.32) contrast(.94) brightness(1.05) drop-shadow(0 26px 34px rgba(0,0,0,.18));
+  transform: translate3d(var(--hero-enter-x), 25px, 0) scale(calc(var(--hero-scale) * .94));
+  transition:
+    opacity 600ms var(--masterpiece-ease),
+    transform 700ms var(--masterpiece-ease),
+    filter 650ms var(--masterpiece-ease);
+}
+
+.artifact-enter-indicator {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  bottom: 3.8%;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(242, 238, 229, .24);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  transition: opacity 500ms var(--masterpiece-ease), transform 650ms var(--masterpiece-ease);
+  pointer-events: none;
+}
+
+.artifact-enter-indicator::before,
+.artifact-enter-indicator::after {
+  content: '';
+  position: absolute;
+  top: 12px;
+  width: 7px;
+  height: 1px;
+  background: rgba(242, 238, 229, .66);
+}
+.artifact-enter-indicator::before { left: 7px; transform: rotate(42deg); }
+.artifact-enter-indicator::after { right: 7px; transform: rotate(-42deg); }
+
+.artifact-card:hover .artifact-dark-bg,
+.artifact-card:focus-visible .artifact-dark-bg,
+.artifact-card.is-focused .artifact-dark-bg { opacity: 1; }
+
+.artifact-card:hover .artifact-copy,
+.artifact-card:focus-visible .artifact-copy,
+.artifact-card.is-focused .artifact-copy {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.artifact-card:hover .artifact-vertical-title,
+.artifact-card:focus-visible .artifact-vertical-title,
+.artifact-card.is-focused .artifact-vertical-title { color: #f2eee5; }
+
+.artifact-card:hover .artifact-ghost,
+.artifact-card:focus-visible .artifact-ghost,
+.artifact-card.is-focused .artifact-ghost {
+  opacity: 0;
+  transform: translate(calc(var(--artifact-x) + 18px), calc(var(--artifact-y) + 10px)) scale(calc(var(--artifact-scale) * .96));
+}
+
+.artifact-card:hover .artifact-hero,
+.artifact-card:focus-visible .artifact-hero,
+.artifact-card.is-focused .artifact-hero {
+  opacity: 1;
+  filter: grayscale(0) sepia(0) saturate(1.06) contrast(1.02) brightness(1) drop-shadow(0 26px 34px rgba(0,0,0,.24));
+  transform: translate3d(var(--hero-push-x), 0, 0) scale(var(--hero-scale));
+  pointer-events: auto;
+}
+
+.artifact-card:hover .artifact-enter-indicator,
+.artifact-card:focus-visible .artifact-enter-indicator,
+.artifact-card.is-focused .artifact-enter-indicator {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.artifact-card.is-black-photo .artifact-ghost {
+  opacity: .12;
+  filter: grayscale(1) sepia(.18) contrast(.6) brightness(1.28);
+  mix-blend-mode: screen;
+}
+
+.artifact-card.is-black-photo .artifact-hero {
+  filter: grayscale(.72) saturate(.42) contrast(.9) brightness(1.12) drop-shadow(0 26px 34px rgba(0,0,0,.16));
+  mix-blend-mode: screen;
+}
+
+.artifact-card.is-black-photo:hover .artifact-hero,
+.artifact-card.is-black-photo:focus-visible .artifact-hero,
+.artifact-card.is-black-photo.is-focused .artifact-hero {
+  filter: grayscale(0) saturate(1) contrast(.94) brightness(1.07) drop-shadow(0 26px 34px rgba(0,0,0,.2));
+}
+
+.artifact-card[data-artifact="dance-horse"] { --ghost-width: 63%; --hero-width: 60%; --hero-right: 2%; --hero-bottom: 4%; }
+.artifact-card[data-artifact="agate-cup"] { --ghost-width: 67%; --hero-width: 62%; --hero-right: 1%; --hero-bottom: 6%; }
+.artifact-card[data-artifact="gold-bowl"] { --ghost-width: 72%; --hero-width: 68%; --hero-right: -2%; --hero-bottom: 11%; }
+.artifact-card[data-artifact="copper-dragon"] { --ghost-width: 60%; --hero-width: 56%; --hero-right: 4%; --hero-bottom: 5%; }
+.artifact-card[data-artifact="camel"] { --ghost-width: 68%; --hero-width: 64%; --hero-right: -1%; --hero-bottom: 3%; }
+.artifact-card[data-artifact="sachet"] { --ghost-width: 60%; --hero-width: 56%; --hero-right: 5%; --hero-bottom: 8%; }
+.artifact-card[data-artifact="mirror"] { --ghost-width: 68%; --hero-width: 64%; --hero-right: -1%; --hero-bottom: 4%; }
+.artifact-card[data-artifact="silver-cup"] { --ghost-width: 58%; --hero-width: 54%; --hero-right: 5%; --hero-bottom: 5%; }
+.artifact-card[data-artifact="celadon-pot"] { --ghost-width: 60%; --hero-width: 56%; --hero-right: 4%; --hero-bottom: 4%; }
+
+.tang-treasure-hint {
+  position: absolute;
+  z-index: 8;
+  right: clamp(116px, 8vw, 166px);
+  bottom: 22px;
+  margin: 0;
+  color: rgba(66, 57, 46, .4);
+  font-size: 11px;
+  letter-spacing: .2em;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .artifact-dark-bg,
+  .artifact-copy,
+  .artifact-vertical-title,
+  .artifact-ghost,
+  .artifact-hero,
+  .artifact-enter-indicator { transition-duration: 1ms !important; }
+}
+
+@media (max-width: 900px) {
+  .tang-treasure-strip { height: 760px; }
+  .masterpiece-intro { flex-basis: 340px; }
+  .artifact-card { flex-basis: 580px; }
+}

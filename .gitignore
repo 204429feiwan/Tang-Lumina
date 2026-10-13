@@ -1,0 +1,14 @@
+# Local system and editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+__pycache__/
+node_modules/
+
+# Credentials and temporary Word files
+.env
+.env.*
+!.env.example
+~$*.docx

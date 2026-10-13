@@ -1,0 +1,165 @@
+/* Desktop exhibition accents. Existing layout and interaction transforms stay intact. */
+@media (min-width: 992px) {
+  /* 唐三彩：独立于门体和视频的局部暖光展台。 */
+  body.exhibition-page[data-page="treasures"] .kiln-scene {
+    isolation: isolate;
+  }
+
+  body.exhibition-page[data-page="treasures"] .kiln-scene::before {
+    content: "";
+    position: absolute;
+    z-index: -2;
+    top: -22px;
+    bottom: -24px;
+    left: 50%;
+    width: min(1080px, calc(100vw - 96px));
+    border: 1px solid rgba(224, 170, 91, 0.18);
+    border-radius: 18px;
+    background-image:
+      radial-gradient(ellipse at 50% 70%, rgba(150, 67, 20, 0.13), rgba(16, 13, 11, 0.82) 72%),
+      linear-gradient(rgba(27, 19, 14, 0.85), rgba(29, 18, 11, 0.95)),
+      var(--page-atmosphere-image, none);
+    background-size: cover;
+    background-position: center;
+    box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.3), 0 20px 48px rgba(59, 31, 14, 0.12);
+    transform: translateX(-50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease;
+  }
+
+  body.exhibition-page[data-page="treasures"] .kiln-scene::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 50%;
+    top: 21%;
+    width: 720px;
+    height: 82%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at 50% 70%, rgba(244, 132, 43, 0.24), rgba(166, 74, 24, 0.08) 42%, transparent 70%);
+    transform: translateX(-50%) scale(0.82);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease, transform 1.2s cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+
+  body.exhibition-page[data-page="treasures"] .kiln-scene.is-chapter-visible::before {
+    opacity: 1;
+  }
+
+  body.exhibition-page[data-page="treasures"] .kiln-scene.is-chapter-visible::after {
+    opacity: 0.75;
+  }
+
+  body.exhibition-page[data-page="treasures"] .kiln-scene.is-chapter-visible.is-kiln-open::after {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.17);
+  }
+
+  body.exhibition-page[data-page="treasures"] .kiln-scene .kiln-base {
+    box-shadow: 0 16px 28px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(218, 169, 99, 0.28);
+  }
+
+  /* 右上角位于拱门裁切范围外，将关闭入口落在弧线以内。 */
+  body.exhibition-page[data-page="treasures"] .kiln-scene .kiln-close-btn {
+    top: 84px;
+    right: 30px;
+  }
+
+  body.exhibition-page[data-page="treasures"] .kiln-scene.is-chapter-visible .kiln-hint {
+    color: rgba(255, 228, 185, 0.9);
+  }
+
+  body.exhibition-page[data-page="treasures"] .kiln-scene:not(.is-chapter-visible) .kiln-glow,
+  body.exhibition-page[data-page="treasures"] .kiln-scene:not(.is-chapter-visible) .kiln-icon,
+  body.exhibition-page[data-page="treasures"] .kiln-scene:not(.is-chapter-visible) .kiln-hint,
+  body.exhibition-page[data-page="treasures"] .kiln-scene:not(.is-chapter-visible) .kiln-embers span,
+  body.exhibition-page[data-page="treasures"] .kiln-scene:not(.is-chapter-visible) .fire-particle,
+  body.exhibition-page[data-page="treasures"] .kiln-scene:not(.is-chapter-visible) .smoke-puff,
+  body.exhibition-page[data-page="treasures"] .kiln-scene:not(.is-chapter-visible) .kiln-arch::after {
+    animation-play-state: paused;
+  }
+
+  /* 传世名画：只添加纸面与环境光，不接管展开高度或图像变换。 */
+  body.exhibition-page[data-page="art"] .unfurl-scroll {
+    perspective: 1100px;
+    border-color: rgba(158, 117, 62, 0.6);
+    background: #f2e8d1;
+    box-shadow: 0 7px 18px rgba(65, 43, 20, 0.13), 0 1px 2px rgba(92, 62, 30, 0.14);
+    transition: box-shadow 0.85s ease, border-color 0.85s ease;
+  }
+
+  body.exhibition-page[data-page="art"] .unfurl-scroll.is-unfurled {
+    border-color: rgba(177, 137, 72, 0.83);
+    box-shadow: 0 22px 42px -15px rgba(45, 30, 17, 0.35), 0 5px 15px rgba(72, 48, 25, 0.17);
+  }
+
+  body.exhibition-page[data-page="art"] .unfurl-scroll .unfurl-img-wrap {
+    background: linear-gradient(90deg, #d8c6a0, #f4ead1 8%, #eadcb9 92%, #cbb78f);
+    transform-origin: center top;
+  }
+
+  body.exhibition-page[data-page="art"] .unfurl-scroll.is-unfurled .unfurl-img-wrap {
+    animation: chapterPaperDepth 1.8s ease-out both;
+  }
+
+  body.exhibition-page[data-page="art"] .unfurl-scroll .unfurl-img-wrap::before,
+  body.exhibition-page[data-page="art"] .unfurl-scroll .unfurl-img-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  body.exhibition-page[data-page="art"] .unfurl-scroll .unfurl-img-wrap::before {
+    background: linear-gradient(90deg, rgba(76, 47, 20, 0.18), transparent 7%, transparent 93%, rgba(76, 47, 20, 0.13));
+    box-shadow: inset 0 9px 16px -9px rgba(47, 27, 10, 0.55), inset 0 -8px 13px -10px rgba(47, 27, 10, 0.38);
+  }
+
+  body.exhibition-page[data-page="art"] .unfurl-scroll .unfurl-img-wrap::after {
+    background: linear-gradient(108deg, transparent 26%, rgba(255, 242, 206, 0.22) 47%, rgba(255, 249, 226, 0.09) 52%, transparent 71%);
+    opacity: 0;
+    transform: translateX(72%);
+  }
+
+  body.exhibition-page[data-page="art"] .unfurl-scroll.is-unfurled .unfurl-img-wrap::after {
+    animation: chapterPaperLight 1.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-play-state: paused;
+  }
+
+  body.exhibition-page[data-page="art"] .unfurl-scroll.is-chapter-visible.is-unfurled .unfurl-img-wrap::after {
+    animation-play-state: running;
+  }
+
+  body.exhibition-page[data-page="art"] .unfurl-scroll .unfurl-info {
+    background: linear-gradient(180deg, rgba(255, 250, 237, 0.87), rgba(243, 232, 207, 0.92));
+    box-shadow: inset 0 1px rgba(255, 253, 244, 0.65);
+  }
+
+  @keyframes chapterPaperLight {
+    0% { opacity: 0; transform: translateX(72%); }
+    22% { opacity: 0.7; }
+    100% { opacity: 0.22; transform: translateX(-30%); }
+  }
+
+  @keyframes chapterPaperDepth {
+    from { transform: rotateX(3deg); }
+    to { transform: rotateX(0); }
+  }
+}
+
+@media (min-width: 992px) and (prefers-reduced-motion: reduce) {
+  body.exhibition-page[data-page="treasures"] .kiln-scene::before,
+  body.exhibition-page[data-page="treasures"] .kiln-scene::after,
+  body.exhibition-page[data-page="art"] .unfurl-scroll {
+    transition: none;
+  }
+
+  body.exhibition-page[data-page="art"] .unfurl-scroll.is-unfurled .unfurl-img-wrap::after {
+    animation: none;
+    transform: none;
+    opacity: 0.12;
+  }
+}

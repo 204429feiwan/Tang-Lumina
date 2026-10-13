@@ -1,0 +1,178 @@
+/* 历史溯源 · 檐下余响（照搬 屋檐2.html：屋顶布帘 + 拨弦/拖拽物理 + 诗词切换） */
+.history-poem {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 640px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 0;
+  margin-top: -200px;
+  touch-action: none;
+}
+
+.history-poem .hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: transparent;
+}
+
+.history-poem .cloth-container {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 0;
+}
+
+.history-poem .roof-img {
+  position: relative;
+  z-index: 30;
+  max-width: 78%;
+  max-height: 40vh;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2));
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+.history-poem .cloth-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: auto;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.history-poem .left-hero {
+  position: absolute;
+  left: 2.2rem;
+  top: 27vh;
+  z-index: 54;
+  pointer-events: none;
+}
+
+.history-poem .left-label {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1rem;
+  line-height: 1.45;
+  color: #B3483C;
+  letter-spacing: 0.04em;
+  margin-bottom: 1.4rem;
+  white-space: nowrap;
+}
+
+.history-poem .poem-switcher {
+  position: absolute;
+  left: 2.2rem;
+  bottom: 1.5rem;
+  z-index: 55;
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+  padding: 0.4rem;
+  background: rgba(245, 240, 232, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-radius: 999px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.history-poem .poem-btn {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.95rem;
+  color: #B3483C;
+  background: none;
+  border: none;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  border-radius: 999px;
+  opacity: 0.65;
+  white-space: nowrap;
+  transition: all 0.3s;
+}
+
+.history-poem .poem-btn:hover { opacity: 1; }
+.history-poem .poem-btn.active { background: #B3483C; color: #f5f0e8; opacity: 1; }
+
+.history-poem .sound-hint {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 56;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.85rem;
+  color: #B3483C;
+  letter-spacing: 0.1em;
+  padding: 0.5rem 1.1rem;
+  background: rgba(245, 240, 232, 0.8);
+  border-radius: 999px;
+  pointer-events: none;
+  transition: opacity 0.6s;
+}
+
+.history-poem .sound-hint.hide { opacity: 0; }
+
+@media (max-width: 1023px) {
+  .history-poem { height: var(--poem-layout-height, 100vh); touch-action: pan-y; }
+  .history-poem .cloth-container { padding-top: 3vh; }
+  .history-poem .roof-img { max-width: 85%; }
+}
+
+@media (max-width: 900px) {
+  .history-poem .left-hero { left: 1.2rem; top: 22vh; }
+}
+
+@media (max-width: 639px) {
+  .history-poem .cloth-container { padding-top: 3vh; }
+  .history-poem .roof-img { max-width: 90%; }
+  .history-poem .left-hero { left: 0.8rem; top: calc(3vh + min(23vw, 90px) + 12px); }
+  .history-poem .left-label { font-size: 0.8rem; white-space: normal; max-width: calc(100vw - 1.6rem); }
+  .history-poem .poem-switcher { left: 50%; bottom: 0.9rem; transform: translateX(-50%); max-width: calc(100% - 1.5rem); }
+  .history-poem .poem-btn { font-size: 0.82rem; padding: 0.42rem 0.68rem; }
+  .history-poem .sound-hint { bottom: 4.7rem; font-size: 0.76rem; letter-spacing: 0.05em; white-space: nowrap; }
+}
+
+/* One semantic reading path, visually hidden without removing it from accessibility. */
+.history-poem .poem-semantic-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  border: 0;
+}
+
+/* F3-R1C: desktop outer controls only. Mobile layout and cloth canvas frozen. */
+@media (min-width: 1024px) {
+  body[data-page="art"] .history-poem .poem-switcher {
+    left: 160px; gap: 8px; border: 1px solid var(--tang-border);
+    border-radius: 10px; background: var(--tang-paper); box-shadow: 0 4px 16px var(--tang-shadow);
+  }
+  body[data-page="art"] .history-poem .poem-btn {
+    color: var(--tang-text-secondary); border-radius: 6px; opacity: 1;
+  }
+  body[data-page="art"] .history-poem .poem-btn:hover { background: var(--tang-gold); color: var(--tang-ink); }
+  body[data-page="art"] .history-poem .poem-btn.active {
+    background: var(--tang-bg-surface); color: var(--tang-text-primary);
+    box-shadow: inset 0 -3px 0 var(--tang-cinnabar);
+  }
+  body[data-page="art"] .history-poem .poem-btn:focus-visible {
+    outline: 2px solid var(--tang-focus); outline-offset: 3px;
+  }
+  body[data-page="art"] .history-poem .sound-hint { color: var(--tang-text-muted); background: var(--tang-paper); }
+}

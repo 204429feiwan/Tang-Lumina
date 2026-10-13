@@ -1,0 +1,154 @@
+/* ART-V5-R5 — scoped to the paper/ink carrier, no shared scene rules. */
+#artCulture #acv5-panel-carriers .acv5-carrier-intro{display:flex;justify-content:space-between;align-items:baseline;gap:28px;padding:0 28px 14px;color:#66563e;font-size:15px}
+#artCulture #acv5-panel-carriers .acv5-carrier-intro h3{font-size:23px;letter-spacing:.08em;font-weight:500;color:#40372d}
+#artCulture .acv3-gallery:has(#acv5-panel-carriers:not([hidden])) .acv3-exhibit{height:auto;min-height:782px}
+#artCulture .acv3-material-stage[data-carrier=rubbing]{height:600px;background:radial-gradient(ellipse at 50% 42%,#d9c9a9,#bca786 70%,#aa9477);box-shadow:inset 0 0 80px #67533816}
+#artCulture .acv3-material-stage[data-carrier=rubbing]>.acv3-material-word,
+#artCulture .acv3-material-stage[data-carrier=rubbing]>.acv3-material-imprint,
+#artCulture .acv3-material-stage[data-carrier=rubbing]>.acv3-material-window,
+#artCulture .acv3-material-stage[data-carrier=rubbing]>.acv3-material-looks,
+#artCulture .acv3-material-stage[data-carrier=rubbing]+.acv3-work-caption{display:none}
+#artCulture .acv5-rubbing{height:100%;position:relative;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:14px;padding:24px 44px 20px;isolation:isolate}
+#artCulture .acv5-rubbing-head{display:flex;justify-content:space-between;gap:24px;align-items:center;border-bottom:1px solid #79654138;padding-bottom:12px}
+#artCulture .acv5-rubbing-head h4{font-size:20px;font-weight:500;letter-spacing:.06em;color:#413629}
+#artCulture .acv5-rubbing-head p{font-size:13px;color:#6e5b40;padding-top:3px}
+#artCulture .acv5-rubbing-status{font-size:14px;letter-spacing:.16em;color:#765b34;white-space:nowrap}
+#artCulture .acv5-rubbing-desk{position:relative;display:flex;justify-content:center;align-items:center;min-height:0}
+#artCulture .acv5-rubbing-desk::before{content:'';position:absolute;inset:4% 17%;background:radial-gradient(ellipse,#6355411a,transparent 70%);pointer-events:none}
+#artCulture .acv5-rubbing-paper{display:block;max-width:72%;max-height:100%;height:100%;width:auto;aspect-ratio:1004 / 870;background:#eee2c8;box-shadow:0 15px 30px #55452c38,0 2px 5px #493e2d2b;outline:1px solid #ad947c50;cursor:crosshair;touch-action:none;user-select:none}
+#artCulture .acv5-rubbing-side{position:absolute;top:16%;writing-mode:vertical-rl;font-size:15px;letter-spacing:.18em;line-height:2;color:#68543c;pointer-events:none}
+#artCulture .acv5-rubbing-side-left{left:8%}
+#artCulture .acv5-rubbing-side-right{right:8%;color:#786349;font-size:13px}
+#artCulture .acv5-rubbing-bottom{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px 28px;align-items:center;border-top:1px solid #79654138;padding-top:12px}
+#artCulture .acv5-rubbing-bottom p{font-size:14px;line-height:1.65;color:#493a2a}
+#artCulture .acv5-rubbing-bottom .acv5-rubbing-credit{font-size:12px;color:#705c42;grid-column:1 / -1}
+#artCulture .acv5-rubbing-bottom .acv5-rubbing-credit a{color:inherit}
+#artCulture .acv5-rubbing-reset{padding:5px 0;border:0;border-bottom:1px solid #82633c80;background:none;color:#634724;font-size:15px;letter-spacing:.08em}
+#artCulture .acv5-rubbing-note{grid-column:1 / -1;min-height:22px;color:#67553e!important;font-size:13px!important}
+#artCulture .acv5-rubbing-done{transition:opacity 600ms ease;opacity:0;visibility:hidden}
+#artCulture .acv5-rubbing[data-state=complete] .acv5-rubbing-done{opacity:1;visibility:visible}
+#artCulture .acv5-rubbing[data-state=complete] .acv5-rubbing-paper{cursor:default}
+#artCulture .acv5-rubbing-error{position:absolute;inset:35% 22%;padding:20px;background:#eee2c8;color:#493a2a;text-align:center;z-index:2}
+@media(max-width:1500px){#artCulture .acv3-material-stage[data-carrier=rubbing]{height:565px}#artCulture .acv5-rubbing{padding:20px 32px 16px;gap:10px}#artCulture .acv5-rubbing-side-left{left:5%}#artCulture .acv5-rubbing-side-right{right:5%}#artCulture #acv5-panel-carriers .acv5-carrier-intro{padding-left:140px;padding-right:40px}#artCulture .acv5-rubbing-bottom{padding-left:130px}#artCulture .acv5-rubbing-credit{max-width:100%}}
+@media(prefers-reduced-motion:reduce){#artCulture .acv5-rubbing-done{transition:none}}
+
+/* R6: three material experiences; all rules stay inside the carriers topic. */
+#artCulture #acv5-panel-carriers .acv3-material-stage{height:clamp(610px,calc(100vh - 170px),770px);background:#d5c7a8;overflow:hidden}
+#artCulture #acv5-panel-carriers .acv3-material-stage>.acv3-material-word,
+#artCulture #acv5-panel-carriers .acv3-material-stage>.acv3-material-imprint,
+#artCulture #acv5-panel-carriers .acv3-material-stage>.acv3-material-window,
+#artCulture #acv5-panel-carriers .acv3-material-stage>.acv3-material-looks,
+#artCulture #acv5-panel-carriers .acv3-work-caption{display:none}
+#artCulture .acv5-rubbing{padding:18px 38px 16px;gap:9px}
+#artCulture .acv5-rubbing-head{padding-bottom:8px}
+#artCulture .acv5-rubbing-bottom{padding-top:8px;gap:3px 24px}
+#artCulture .acv5-rubbing-note{display:none;min-height:0}
+#artCulture .acv5-rubbing[data-state=complete] .acv5-rubbing-note{display:block}
+#artCulture .acv5-rubbing-paper{max-width:84%;height:100%;max-height:100%;width:auto}
+#artCulture .acv5-rubbing-side-left{left:3%}
+#artCulture .acv5-rubbing-side-right{right:3%}
+#artCulture .acv5-rubbing-original{display:none;margin:0;height:100%;max-width:84%}
+#artCulture .acv5-rubbing-original img{display:block;max-width:100%;height:100%;object-fit:contain;box-shadow:0 12px 35px #392c2430}
+#artCulture .acv5-rubbing[data-original=true] .acv5-rubbing-paper{display:none}
+#artCulture .acv5-rubbing[data-original=true] .acv5-rubbing-original{display:block}
+#artCulture .acv5-rubbing-buttons{display:flex;gap:18px}
+#artCulture .acv6-writing,#artCulture .acv6-print{height:100%;padding:20px 38px 16px;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:14px;position:relative;isolation:isolate}
+#artCulture .acv6-writing{background:radial-gradient(ellipse at 23% 40%,#ece1c9,#cbb696)}
+#artCulture .acv6-print{background:radial-gradient(ellipse at 50% 40%,#c1a782,#a18a6c)}
+#artCulture .acv6-head{display:flex;justify-content:space-between;gap:20px;align-items:center;border-bottom:1px solid #78644440;padding-bottom:10px}
+#artCulture .acv6-head h4{font-size:23px;letter-spacing:.12em;font-weight:500;color:#443526}
+#artCulture .acv6-head p{font-size:13px;line-height:1.65;color:#705b42;margin-top:4px}
+#artCulture [data-writing-status]{font-size:14px;color:#7d5e39;letter-spacing:.15em}
+#artCulture .acv6-writing-desk{display:grid;grid-template-columns:1.25fr 1fr;gap:5%;align-items:center;min-height:0;padding:8px 2%}
+#artCulture .acv6-writing-sheet{position:relative;aspect-ratio:3/2;max-height:100%;background:repeating-linear-gradient(1deg,#bca47b06 0 1px,transparent 1px 6px),radial-gradient(ellipse at 20% 20%,#f7efdc,#e9dbb9);box-shadow:0 15px 32px #57402333,0 1px 4px #54422f2b;transform:rotate(-1deg);outline:1px solid #a9936e44}
+#artCulture [data-writing-canvas]{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair}
+#artCulture .acv6-sheet-mark{position:absolute;top:6%;right:4%;writing-mode:vertical-rl;letter-spacing:.22em;color:#967b535e;font-size:13px;pointer-events:none}
+#artCulture .acv6-sheet-foot{position:absolute;bottom:4%;left:6%;color:#987f576b;font-size:11px;letter-spacing:.15em;pointer-events:none}
+#artCulture .acv6-writing-original{height:100%;margin:0;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:14px;min-height:0}
+#artCulture .acv6-original-fragment{min-height:0;overflow:hidden;box-shadow:0 12px 28px #3e30282e;background:#4a3b2a}
+#artCulture .acv6-original-fragment img{width:100%;height:100%;object-fit:cover;object-position:48% 50%}
+#artCulture .acv6-writing-original small{color:#896941;font-size:12px;letter-spacing:.1em}
+#artCulture .acv6-writing-original h5{font-size:20px;font-weight:500;color:#493726;margin:5px 0}
+#artCulture .acv6-writing-original p{font-size:13px;color:#776146}
+#artCulture .acv6-writing-original button{margin-top:10px}
+#artCulture .acv6-foot{border-top:1px solid #765a3c40;padding-top:10px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px 20px}
+#artCulture .acv6-foot>p:first-child{font-size:14px;line-height:1.6;color:#493626}
+#artCulture .acv6-actions{display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:flex-end}
+#artCulture .acv6-actions button,#artCulture .acv6-writing-original button,#artCulture .acv6-source-dialog button{background:none;border:0;border-bottom:1px solid #84623977;color:#664726;padding:4px 0;font-size:14px;white-space:nowrap}
+#artCulture .acv6-actions button:disabled{opacity:.38;cursor:default}
+#artCulture .acv6-credit{grid-column:1/-1;color:#6e583f;font-size:12px;line-height:1.65}
+#artCulture .acv6-credit a{color:inherit}
+#artCulture .acv6-print-steps{list-style:none;display:flex;gap:24px;font-size:14px;letter-spacing:.08em;color:#5d462975;margin:0;padding:0}
+#artCulture .acv6-print-steps [aria-current]{color:#503522;border-bottom:1px solid #805d37;padding-bottom:4px}
+#artCulture .acv6-print-desk{position:relative;display:flex;justify-content:center;align-items:center;min-height:0;perspective:1600px}
+#artCulture .acv6-print-aside{position:absolute;left:4%;top:25%;writing-mode:vertical-rl;color:#60492e;letter-spacing:.18em;font-size:15px;line-height:2}
+#artCulture .acv6-print-aside-right{left:auto;right:4%;font-size:12px}
+#artCulture .acv6-print-plate{height:100%;max-width:70%;aspect-ratio:1.13;position:relative;background:#533722;box-shadow:0 16px 32px #39231555,0 2px 6px #271a16aa;border:10px solid #5b3d28;transform-style:preserve-3d}
+#artCulture [data-print-block]{width:100%;height:100%;display:block}
+#artCulture .acv6-print-result{position:absolute;inset:0;margin:0;background:#171711;display:none;box-shadow:0 8px 20px #35261930}
+#artCulture .acv6-print-result img{height:100%;width:100%;object-fit:contain;display:block}
+#artCulture .acv6-print-result figcaption{position:absolute;bottom:5px;left:0;right:0;text-align:center;font-size:11px;color:#eee0be;background:#1b160bbd;padding:4px}
+#artCulture .acv6-print-paper{position:absolute;inset:0;background:repeating-linear-gradient(2deg,#a288600a 0 1px,transparent 1px 5px),radial-gradient(ellipse,#f5ecd7,#e4d4af);transform:translateX(76%) rotate(8deg) scale(.91);transform-origin:left center;box-shadow:0 12px 24px #36291d44;transition:transform 650ms ease,filter 300ms ease,opacity 650ms ease;backface-visibility:hidden}
+#artCulture .acv6-print[data-state=covering] .acv6-print-paper,#artCulture .acv6-print[data-state=covered] .acv6-print-paper,#artCulture .acv6-print[data-state=pressed] .acv6-print-paper{transform:translateX(0) rotate(0)}
+#artCulture .acv6-print[data-state=pressing] .acv6-print-paper{transform:scale(.992);filter:brightness(.95);box-shadow:0 2px 5px #36291d44}
+#artCulture .acv6-print[data-state=revealing] .acv6-print-paper,#artCulture .acv6-print[data-state=complete] .acv6-print-paper{transform:rotateY(-116deg) translateX(-2%);opacity:0;pointer-events:none}
+#artCulture .acv6-print[data-state=revealing] .acv6-print-result,#artCulture .acv6-print[data-state=complete] .acv6-print-result{display:block}
+#artCulture .acv6-print-paper-name{position:absolute;left:9%;top:8%;writing-mode:vertical-rl;font-size:16px;letter-spacing:.2em;color:#a78a5b8a;pointer-events:none}
+#artCulture .acv6-print-handle{position:absolute;top:0;right:0;padding:12px 18px;background:#d5be944d;color:#765730;font-size:13px;border:0;border-bottom:1px solid #a68c6255;cursor:grab;touch-action:none;z-index:2}
+#artCulture .acv6-print-pressure{position:absolute;inset:24% 16%;border:0;border-radius:50%;background:radial-gradient(ellipse,#baa07122,transparent 68%);color:#8b714949;font-size:14px;touch-action:none;transition:background-color 180ms,color 180ms;cursor:default}
+#artCulture .acv6-print[data-state=covered] .acv6-print-pressure,#artCulture .acv6-print[data-state=pressing] .acv6-print-pressure{color:#826236;cursor:pointer}
+#artCulture .acv6-print[data-state=pressing] .acv6-print-pressure{background-color:#8c6d4320}
+#artCulture .acv6-print[data-state=pressed] .acv6-print-pressure{color:#715632;cursor:default}
+#artCulture .acv6-print-paper-edge{position:absolute;bottom:0;right:0;width:30px;height:30px;background:linear-gradient(135deg,transparent 50%,#d4be9559 51%);pointer-events:none}
+#artCulture .acv6-source-dialog{max-width:88vw;width:1200px;max-height:88vh;border:1px solid #ad936a;background:#eadebf;padding:22px;color:#503b28;margin:auto;box-shadow:0 20px 80px #20170c77}
+#artCulture .acv6-source-dialog::backdrop{background:#211a10b8}
+#artCulture .acv6-source-dialog header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+#artCulture .acv6-source-dialog img{display:block;width:100%;max-height:65vh;object-fit:contain;background:#171711}
+#artCulture .acv6-source-dialog p{margin:14px 0 0;font-size:13px;line-height:1.7}
+@media(max-width:1500px){#artCulture .acv6-writing,#artCulture .acv6-print{padding:16px 30px 12px;gap:10px}#artCulture .acv6-foot{padding-left:120px;grid-template-columns:1fr}#artCulture .acv6-actions{justify-content:flex-start}#artCulture .acv6-writing-desk{grid-template-columns:1.25fr 1fr;gap:4%}#artCulture .acv6-head h4{font-size:21px}#artCulture .acv5-rubbing-bottom{padding-left:120px}#artCulture .acv6-print-plate{max-width:70%}}
+@media(prefers-reduced-motion:reduce){#artCulture .acv6-print-paper,#artCulture .acv6-print-pressure{transition:none}#artCulture .acv6-writing-sheet{transform:none}}
+/* Prevent intrinsic paper size from pushing the small desktop footer out of its grid. */
+#artCulture .acv6-writing-desk{grid-template-rows:minmax(0,1fr)}
+#artCulture .acv6-writing-sheet{width:100%;height:100%;aspect-ratio:auto;transform:none;min-height:0}
+#artCulture .acv6-original-fragment{min-height:0}
+/* Completion pairs the fully inked excerpt with the intact collection photograph. */
+#artCulture .acv5-rubbing[data-state=complete]:not([data-original=true]) .acv5-rubbing-desk{display:grid;grid-template-columns:1fr 1fr;gap:5%;padding:0 5%}
+#artCulture .acv5-rubbing[data-state=complete]:not([data-original=true]) .acv5-rubbing-paper{justify-self:center;max-width:100%}
+#artCulture .acv5-rubbing[data-state=complete]:not([data-original=true]) .acv5-rubbing-original{display:grid;grid-template-rows:minmax(0,1fr) auto;gap:8px;max-width:100%;width:100%;align-items:center;animation:acv6-source-arrive 500ms ease}
+#artCulture .acv5-rubbing[data-state=complete]:not([data-original=true]) .acv5-rubbing-original img{width:100%;height:100%;object-fit:contain;box-shadow:none}
+#artCulture .acv5-rubbing-original figcaption{text-align:center;font-size:12px;color:#705739}
+#artCulture .acv5-rubbing[data-state=complete]:not([data-original=true]) .acv5-rubbing-side{display:none}
+#artCulture .acv5-rubbing[data-original=true] .acv5-rubbing-original{position:relative}
+#artCulture .acv5-rubbing[data-original=true] .acv5-rubbing-original figcaption{position:absolute;bottom:5px;left:0;right:0;background:#ece0cce0;padding:3px}
+@keyframes acv6-source-arrive{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){#artCulture .acv5-rubbing-original{animation:none!important}}
+#artCulture .acv5-rubbing[data-state=complete]:not([data-original=true]) .acv5-rubbing-desk{grid-template-rows:minmax(0,1fr)}
+
+/* R7: one stage, three small exhibition labels. Only the paper/ink topic. */
+#artCulture #acv5-panel-carriers .acv7-entries{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;align-items:stretch;min-height:108px;padding:0 32px;margin:0;background:linear-gradient(180deg,#eee5d2,#e3d5ba);border-top:1px solid #a68b5e44;border-bottom:1px solid #896d4544}
+#artCulture #acv5-panel-carriers .acv7-entries button{display:flex;align-items:center;gap:24px;text-align:left;min-width:0;position:relative;border:0;padding:14px 28px;background:none;color:#594832;transition:background-color 220ms ease,color 220ms ease;isolation:isolate}
+#artCulture #acv5-panel-carriers .acv7-entries button+button{border-left:1px solid #9b7e4c2e}
+#artCulture #acv5-panel-carriers .acv7-entries button::after{content:'';position:absolute;bottom:0;left:28px;right:28px;height:2px;background:#947039;opacity:0;transition:opacity 220ms ease}
+#artCulture #acv5-panel-carriers .acv7-entries button[aria-selected=true]{color:#3f2e1e;background:linear-gradient(180deg,#eadcbd55,#ceb78540)}
+#artCulture #acv5-panel-carriers .acv7-entries button[aria-selected=true]::after{opacity:1}
+#artCulture #acv5-panel-carriers .acv7-entries button:hover{background-color:#c5ae7b22}
+#artCulture #acv5-panel-carriers .acv7-preview{width:104px;height:64px;flex-shrink:0;overflow:hidden;box-shadow:0 4px 12px #5d49321c;outline:1px solid #96794740;transform:rotate(-2deg);background-color:#dfceb0;background-repeat:no-repeat;filter:sepia(.14)}
+#artCulture #acv5-panel-carriers .acv7-preview-writing{background:linear-gradient(8deg,#ece1c9,#f2e9d5)}
+#artCulture #acv5-panel-carriers .acv7-preview-writing svg{width:100%;height:100%;fill:none;stroke:#3b3228;stroke-width:5;stroke-linecap:round;opacity:.86}
+#artCulture #acv5-panel-carriers .acv7-preview-rubbing{background-image:url('../images/art-culture/ouyang-jiucheng.webp');background-size:270%;background-position:29% 43%;transform:rotate(1.5deg)}
+#artCulture #acv5-panel-carriers .acv7-preview-print{background-image:url('../images/art-culture/diamond-868.webp');background-size:200%;background-position:50% 38%;transform:rotate(-1deg)}
+#artCulture #acv5-panel-carriers .acv7-entry-copy{display:grid;gap:3px;min-width:0}
+#artCulture #acv5-panel-carriers .acv7-entry-copy small{display:block;font-size:13px;letter-spacing:.14em;margin:0;color:#786140}
+#artCulture #acv5-panel-carriers .acv7-entry-copy strong{font-weight:500;font-size:22px;letter-spacing:.1em;line-height:1.45;white-space:nowrap}
+#artCulture #acv5-panel-carriers .acv7-entry-copy>span{font-size:14px;line-height:1.6;white-space:nowrap}
+#artCulture #acv5-panel-carriers .acv7-entry-copy em{font-style:normal;font-size:12px;color:#816943;margin-left:10px}
+#artCulture #acv5-panel-carriers .acv7-continuity{height:82px;padding:16px 42px;border-bottom:1px solid #a88b5d45;background:linear-gradient(90deg,#e4d5b8,#ebe0c9);display:flex;align-items:center}
+#artCulture #acv5-panel-carriers .acv7-session-note{font-size:14px;color:#756045;letter-spacing:.06em}
+#artCulture #acv5-panel-carriers .acv7-completion{width:100%;display:flex;align-items:center;justify-content:space-between;gap:24px}
+#artCulture #acv5-panel-carriers .acv7-completion p{font-size:19px;line-height:1.6;color:#493827;letter-spacing:.05em}
+#artCulture #acv5-panel-carriers .acv7-completion button{background:none;border:0;border-bottom:1px solid #8e6b3e;color:#654623;font-size:17px;padding:7px 0;white-space:nowrap;letter-spacing:.05em}
+#artCulture #acv5-panel-carriers .acv5-rubbing-note[hidden]{display:none!important}
+#artCulture #acv5-panel-carriers :is(canvas,button):focus-visible{outline:3px solid #a56540;outline-offset:4px}
+@media(max-width:1500px){#artCulture #acv5-panel-carriers .acv7-entries{padding:0 20px;min-height:104px}#artCulture #acv5-panel-carriers .acv7-entries button{gap:16px;padding:14px 24px}#artCulture #acv5-panel-carriers .acv7-preview{width:86px;height:58px}#artCulture #acv5-panel-carriers .acv7-entry-copy strong{font-size:20px}#artCulture #acv5-panel-carriers .acv7-entry-copy>span{font-size:13px}#artCulture #acv5-panel-carriers .acv7-entry-copy em{display:block;margin:0;font-size:12px}#artCulture #acv5-panel-carriers .acv7-continuity{padding-left:150px;padding-right:38px}#artCulture #acv5-panel-carriers .acv7-completion p{font-size:17px}#artCulture #acv5-panel-carriers .acv7-completion button{font-size:16px}}
+@media(max-width:900px){#artCulture #acv5-panel-carriers .acv7-entries{padding:0 6px;min-height:104px}#artCulture #acv5-panel-carriers .acv7-entries button{padding:10px 8px;gap:7px}#artCulture #acv5-panel-carriers .acv7-preview{width:38px;height:48px}#artCulture #acv5-panel-carriers .acv7-entry-copy strong{font-size:15px;letter-spacing:0}#artCulture #acv5-panel-carriers .acv7-entry-copy small{font-size:11px;letter-spacing:0}#artCulture #acv5-panel-carriers .acv7-entry-copy>span{font-size:11px}#artCulture #acv5-panel-carriers .acv7-entry-copy em{display:none}#artCulture #acv5-panel-carriers .acv7-continuity{padding:12px 20px;height:92px}#artCulture #acv5-panel-carriers .acv7-completion{display:block}#artCulture #acv5-panel-carriers .acv7-completion p{font-size:15px}#artCulture #acv5-panel-carriers .acv7-completion button{font-size:14px}#artCulture #acv5-panel-carriers .acv7-session-note{font-size:13px}}
+@media(prefers-reduced-motion:reduce){#artCulture #acv5-panel-carriers .acv7-entries button,#artCulture #acv5-panel-carriers .acv7-entries button::after{transition:none}}

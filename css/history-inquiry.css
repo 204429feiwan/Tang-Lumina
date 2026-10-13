@@ -1,0 +1,133 @@
+/* HISTORY-V5-R1. All selectors belong to the inquiry; no scene or global control ownership. */
+#historyInquiry{--hv5-paper:#eee5d2;--hv5-ink:#423021;--hv5-muted:#69543b;--hv5-gold:#92713e;--hv5-line:#b9a37e;position:relative;isolation:isolate;background:var(--hv5-paper);color:var(--hv5-ink);padding:20px 0 48px;font-family:'Noto Serif SC','Songti SC',SimSun,serif;font-size:16px;line-height:1.85}
+#historyInquiry *,#historyInquiry *::before,#historyInquiry *::after{box-sizing:border-box}
+#historyInquiry [hidden]{display:none!important}
+#historyInquiry button{font:inherit;cursor:pointer}
+#historyInquiry a{color:#6c491d;text-underline-offset:4px}
+#historyInquiry :is(a,button,summary,[role=tabpanel]):focus-visible{outline:2px solid #795322;outline-offset:5px}
+#historyInquiry .hv5-inner{width:min(1440px,calc(100% - 420px));margin:auto}
+#historyInquiry p{margin:0 0 12px}
+#historyInquiry .hv5-masthead{padding:28px 0 28px;border-top:1px solid var(--hv5-line)}
+#historyInquiry .hv5-kicker,#historyInquiry .hv5-volume-name{font-size:14px;letter-spacing:.12em;color:#72552e}
+#historyInquiry .hv5-kicker span,#historyInquiry .hv5-volume-name span{margin-left:24px;font:14px/1.8 Georgia,serif;letter-spacing:.13em}
+#historyInquiry h2{font-size:clamp(34px,2.8vw,48px);font-weight:500;letter-spacing:.1em;line-height:1.5;margin:0 0 14px;color:var(--hv5-ink)}
+#historyInquiry h2 i{font-style:normal;color:#987341;padding:0 .15em}
+#historyInquiry .hv5-subtitle{font-size:18px;margin-bottom:25px}
+#historyInquiry .hv5-intro{max-width:850px}
+#historyInquiry .hv5-reading-bar{display:flex;align-items:center;justify-content:space-between;gap:26px;margin-top:28px;font-size:14px}
+#historyInquiry .hv5-reading-bar>p{margin:0;color:var(--hv5-muted)}
+#historyInquiry .hv5-index{display:flex;gap:28px}
+#historyInquiry .hv5-index a{white-space:nowrap;text-decoration:none;font-size:14px}
+#historyInquiry .hv5-index b{font:22px Georgia,serif;margin-right:8px;color:#8d6d3b}
+#historyInquiry .hv5-volume{border-top:1px solid var(--hv5-line);padding:36px 0 22px;scroll-margin-top:96px}
+#historyInquiry .hv5-volume-head{position:relative;padding-left:94px;margin-bottom:24px}
+#historyInquiry .hv5-number{position:absolute;top:-8px;left:0;font:66px/1.2 Georgia,serif;color:#a38b62}
+#historyInquiry h3{font-size:32px;font-weight:500;letter-spacing:.05em;line-height:1.5;margin:0 0 13px;color:var(--hv5-ink)}
+#historyInquiry .hv5-deck{max-width:1120px}
+#historyInquiry .hv5-deck p{color:#5e4932;line-height:1.9;margin-bottom:4px}
+#historyInquiry .hv5-plate{position:relative;min-height:730px;border-top:1px solid var(--hv5-line);border-bottom:1px solid var(--hv5-line)}
+#historyInquiry .hv5-plate-label{position:absolute;top:11px;left:0;z-index:2;font:14px/1.8 Georgia,serif;color:var(--hv5-muted);letter-spacing:.1em}
+#historyInquiry .hv5-view{position:absolute;inset:0;animation:hv5Reveal .2s ease}
+#historyInquiry .hv5-main-image{display:block;width:100%;height:100%;object-fit:contain}
+#historyInquiry .hv5-institution-diagram{position:absolute;top:53px;left:-2%;width:70%;height:475px}
+#historyInquiry .hv5-document{position:absolute;right:1%;top:30px;width:25%;height:215px;margin:0;transform:rotate(2deg);background:#f8f0dd;box-shadow:3px 7px 15px #49351b1c;padding:9px 9px 0;border:1px solid #c5ad81}
+#historyInquiry .hv5-document img{width:100%;height:153px;object-fit:cover;object-position:center}
+#historyInquiry figcaption{font-size:14px;color:#5b432b;line-height:1.65;margin-top:9px}
+#historyInquiry .hv5-document figcaption{transform:rotate(-2deg);margin-top:5px}
+#historyInquiry .hv5-annotation{position:absolute;right:0;top:267px;width:35%;padding:17px 0 0 24px;border-top:2px solid #95713d;border-left:1px solid #c4ae86}
+#historyInquiry .hv5-annotation::before{content:'';position:absolute;top:26px;left:-47px;width:47px;border-top:1px solid #a2814f}
+#historyInquiry .hv5-annotation small{display:block;font-size:14px;color:#785b31;letter-spacing:.08em;margin-bottom:7px}
+#historyInquiry h4{font-size:22px;line-height:1.65;font-weight:500;margin:0 0 12px;color:var(--hv5-ink)}
+#historyInquiry .hv5-annotation p{font-size:16px;line-height:1.95;margin-bottom:10px}
+#historyInquiry .hv5-cite{display:block;font-size:14px;color:#654d32;line-height:1.8;margin-top:12px}
+#historyInquiry .hv5-cite a{display:block}
+#historyInquiry .hv5-hotspot{z-index:4;display:flex;align-items:center;gap:9px;padding:5px 8px;border:0;background:#eee5d2e8;color:#624a2d;transition:color .2s ease}
+#historyInquiry .hv5-hotspot b{display:grid;place-items:center;flex:0 0 35px;width:35px;height:35px;border:1px solid #987440;border-radius:50%;font:14px Georgia,serif;background:#f4ebd9;transition:background .2s,color .2s}
+#historyInquiry .hv5-hotspot span{font-size:14px;white-space:nowrap}
+#historyInquiry .hv5-hotspot[aria-expanded=true] b{background:#7d5b2f;color:#fff1d2;box-shadow:0 0 0 4px #ac8b551e}
+#historyInquiry .hv5-markers{position:absolute;bottom:63px;left:0;width:65%;display:flex;justify-content:space-between;gap:8px}
+#historyInquiry .hv5-figure-note{position:absolute;bottom:10px;left:0;width:100%;font-size:14px;line-height:1.8;color:#685237;margin:0}
+#historyInquiry .hv5-tabs{display:flex;gap:30px;margin:4px 0 22px;border-bottom:1px solid #c3ac82}
+#historyInquiry .hv5-tabs button{border:0;border-bottom:2px solid transparent;padding:7px 0 10px;background:none;color:#6c5438;font-size:16px}
+#historyInquiry .hv5-tabs button[aria-selected=true]{border-bottom-color:#805a2a;color:#432d17}
+#historyInquiry .hv5-city .hv5-plate{min-height:815px}
+#historyInquiry .hv5-city-map{position:absolute;top:35px;left:0;width:71%;height:640px}
+#historyInquiry .hv5-map-overlay{position:absolute;inset:0;width:100%;height:100%;fill:#cfab641f;stroke:#8e602b;stroke-width:4}
+#historyInquiry .hv5-map-overlay .hv5-map-axis{stroke-width:8;opacity:.65}
+#historyInquiry .hv5-city .hv5-hotspot{position:absolute}
+#historyInquiry .hv5-city [data-hv5-point=palace]{top:174px;left:3%}
+#historyInquiry .hv5-city [data-hv5-point=markets]{top:388px;left:3%}
+#historyInquiry .hv5-city [data-hv5-point=exchange]{top:57px;left:3%}
+#historyInquiry .hv5-city-evidence{position:absolute;right:0;top:42px;width:22%;margin:0;padding-bottom:14px;border-bottom:1px solid #af9264}
+#historyInquiry .hv5-city-crop{height:218px;background:#e4d3b1;overflow:hidden;position:relative;border:1px solid #ad8c5b}
+#historyInquiry .hv5-city-crop img{position:absolute;width:250%;max-width:none;height:auto;left:-65%;top:-34%}
+#historyInquiry [data-hv5-view=markets] .hv5-city-crop img{width:175%;left:-32%;top:-57%}
+#historyInquiry .hv5-city-evidence .hv5-camel{display:block;width:100%;height:224px;object-fit:contain;mix-blend-mode:multiply}
+#historyInquiry .hv5-city .hv5-annotation{top:340px;width:32%;padding-left:22px}
+#historyInquiry .hv5-city .hv5-figure-note{bottom:9px;max-width:76%}
+#historyInquiry .hv5-time-selector{display:flex;align-items:stretch;border-top:1px solid #b49a6e;border-bottom:1px solid #b49a6e;margin:0 0 26px;gap:36px}
+#historyInquiry .hv5-time-selector button{flex:1;display:flex;align-items:center;gap:14px;padding:13px 0;background:none;border:0;border-bottom:3px solid transparent;color:#695033;text-align:left}
+#historyInquiry .hv5-time-selector b{font:14px Georgia,serif;width:33px;height:33px;display:grid;place-items:center;border:1px solid #9d7d4c;border-radius:50%}
+#historyInquiry .hv5-time-selector strong{display:block;font:28px/1.35 Georgia,serif;font-weight:400}
+#historyInquiry .hv5-time-selector small{display:block;font-size:14px}
+#historyInquiry .hv5-time-selector [aria-selected=true]{border-bottom-color:#805a2a;color:#422b14}
+#historyInquiry .hv5-time-selector [aria-selected=true] b{background:#7d5b2f;color:#fff1d2}
+#historyInquiry .hv5-dossier{position:relative;min-height:665px;background:#f5edda;border:1px solid #b29a70;box-shadow:4px 8px 0 #d8c8a933;overflow:hidden}
+#historyInquiry .hv5-dossier::after{content:'';position:absolute;right:0;top:0;width:33px;height:33px;background:linear-gradient(45deg,#c8b48c 49%,#eee5d2 50%);pointer-events:none}
+#historyInquiry .hv5-dossier .hv5-view{inset:20px 28px}
+#historyInquiry .hv5-dossier-date{position:absolute;left:0;top:-5px;font:94px/1 Georgia,serif;color:#b79e7040;letter-spacing:-.04em;pointer-events:none}
+#historyInquiry .hv5-archive-photo{position:absolute;left:4%;top:73px;width:47%;height:406px;margin:0;transform:rotate(-3deg);padding:9px;background:#faf6e9;box-shadow:0 8px 20px #5b402226;border:1px solid #c4b28c}
+#historyInquiry .hv5-archive-photo img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+#historyInquiry .hv5-archive-photo .hv5-photo-caption{position:absolute;bottom:-63px;left:0;right:0;transform:rotate(3deg);font-size:14px;line-height:1.7}
+#historyInquiry .hv5-dossier .hv5-annotation{top:63px;right:0;width:42%;border-left:0;padding-left:0;padding-top:18px}
+#historyInquiry .hv5-dossier .hv5-annotation::before{left:-70px;top:23px;width:55px}
+#historyInquiry .hv5-dossier h4{font-size:25px;margin-bottom:16px}
+#historyInquiry .hv5-local-evidence{position:absolute;right:0;bottom:16px;width:51%;min-height:175px;border-top:1px solid #ab8f60;padding:19px 0 0 110px;font-size:16px}
+#historyInquiry .hv5-local-evidence .hv5-fragment{position:absolute;left:0;top:19px;width:85px;height:137px;object-fit:cover;object-position:right;background:#efe3cb;border:1px solid #ad9266;box-shadow:3px 3px 0 #c5ad842b}
+#historyInquiry .hv5-local-evidence b{font-size:16px;font-weight:500;display:block;margin-bottom:7px}
+#historyInquiry .hv5-local-evidence p{font-size:16px;line-height:1.85;margin:0}
+#historyInquiry .hv5-local-evidence .hv5-tax-terms{display:flex;gap:22px;margin:4px 0 8px}
+#historyInquiry .hv5-tax-terms span{border-left:2px solid #a7834e;padding-left:10px;font-size:16px}
+#historyInquiry .hv5-tax-terms small{display:block;font-size:14px}
+#historyInquiry .hv5-evidence{border-bottom:1px solid #bba37c;margin-top:20px}
+#historyInquiry .hv5-evidence summary{list-style:none;cursor:pointer;position:relative;font-size:18px;letter-spacing:.08em;padding:12px 34px 15px 0}
+#historyInquiry .hv5-evidence summary::-webkit-details-marker{display:none}
+#historyInquiry .hv5-evidence summary::after{content:'＋';position:absolute;right:0;color:#866033}
+#historyInquiry .hv5-evidence[open] summary::after{content:'－'}
+#historyInquiry .hv5-evidence summary small{font-size:14px;margin-left:25px;letter-spacing:.02em;color:#6c5438}
+#historyInquiry .hv5-drawer-body{padding:8px 0 25px;animation:hv5Reveal .2s ease}
+#historyInquiry .hv5-drawer-intro{font-size:16px}
+#historyInquiry .hv5-source-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+#historyInquiry .hv5-source-tag{font-size:14px;color:#74572e}
+#historyInquiry h5{font-size:18px;margin:9px 0;font-weight:500;color:var(--hv5-ink)}
+#historyInquiry .hv5-source p{font-size:16px;line-height:1.9}
+#historyInquiry .hv5-source a{display:inline-block;margin:0 12px 6px 0;font-size:14px}
+#historyInquiry .hv5-source-caution{border-top:1px solid #cbb795;padding:17px 0 0;margin:17px 0 0;font-size:14px;line-height:1.9;color:#604a31}
+#historyInquiry .hv5-source-caution b{display:block;font-weight:500;margin-bottom:6px}
+#historyInquiry .hv5-volume-close{font-size:17px;margin:21px 0 0;letter-spacing:.04em;color:#65482a}
+#historyInquiry .hv5-colophon{border-top:1px solid #b9a37e;padding:32px 0 4px;margin-top:16px}
+#historyInquiry .hv5-colophon>span{font:14px Georgia,serif;letter-spacing:.15em;color:#785b33}
+#historyInquiry .hv5-colophon h3{margin-top:17px}
+#historyInquiry .hv5-next-chapter{display:inline-block;margin-top:15px;text-decoration:none;font-size:18px;border-bottom:1px solid #957241;padding-bottom:7px}
+#historyInquiry .hv5-next-chapter span{margin-left:28px}
+#historyInquiry .hv5-nojs{font-size:16px}
+@keyframes hv5Reveal{from{opacity:.55}to{opacity:1}}
+@media(min-width:1600px){#historyInquiry .hv5-plate{min-height:640px}#historyInquiry .hv5-institution-diagram{width:70%;height:545px;top:35px}#historyInquiry .hv5-document{height:250px;width:23%;top:37px}#historyInquiry .hv5-document img{height:185px}#historyInquiry .hv5-annotation{top:304px;width:33%}#historyInquiry .hv5-markers{width:65%}#historyInquiry .hv5-city-map{height:700px;width:76%;left:-2%}#historyInquiry .hv5-city .hv5-plate{min-height:765px}#historyInquiry .hv5-city-evidence{width:19%}#historyInquiry .hv5-city-crop{height:210px}#historyInquiry .hv5-city .hv5-annotation{top:359px;width:29%}#historyInquiry .hv5-dossier{min-height:665px}#historyInquiry .hv5-archive-photo{width:46%;height:410px}#historyInquiry .hv5-dossier .hv5-annotation{width:42%}#historyInquiry .hv5-local-evidence{width:45%;bottom:30px}}
+@media(max-width:1200px){#historyInquiry .hv5-inner{width:calc(100% - 260px)}#historyInquiry .hv5-volume-name span{display:block;margin-left:0}#historyInquiry .hv5-source-grid{gap:18px}}
+@media(max-width:900px){#historyInquiry .hv5-inner{width:calc(100% - 48px)}#historyInquiry .hv5-reading-bar{align-items:flex-start;flex-direction:column}#historyInquiry .hv5-volume-head{padding-left:67px}#historyInquiry .hv5-number{font-size:50px}#historyInquiry h3{font-size:27px}#historyInquiry .hv5-plate{min-height:960px}#historyInquiry .hv5-institution-diagram{top:40px;width:100%;height:380px;left:0}#historyInquiry .hv5-document{top:469px;left:0;width:34%;height:205px}#historyInquiry .hv5-annotation{top:469px;right:0;width:60%}#historyInquiry .hv5-markers{top:412px;bottom:auto;width:100%;flex-wrap:wrap}#historyInquiry .hv5-hotspot span{font-size:14px}#historyInquiry .hv5-city .hv5-plate{min-height:1060px}#historyInquiry .hv5-city-map{width:100%;height:550px;top:35px}#historyInquiry .hv5-city-evidence{top:613px;left:0;width:34%}#historyInquiry .hv5-city .hv5-annotation{top:613px;width:60%}#historyInquiry .hv5-city [data-hv5-point=palace]{top:100px;left:0}#historyInquiry .hv5-city [data-hv5-point=markets]{top:325px;left:0}#historyInquiry .hv5-city [data-hv5-point=exchange]{top:55px;left:41%}#historyInquiry .hv5-city .hv5-figure-note{max-width:100%}#historyInquiry .hv5-time-selector{gap:10px}#historyInquiry .hv5-time-selector button{gap:7px}#historyInquiry .hv5-time-selector strong{font-size:22px}#historyInquiry .hv5-dossier{min-height:1050px}#historyInquiry .hv5-dossier .hv5-view{inset:20px}#historyInquiry .hv5-dossier-date{font-size:72px}#historyInquiry .hv5-archive-photo{top:70px;width:65%;height:330px}#historyInquiry .hv5-dossier .hv5-annotation{top:490px;width:100%}#historyInquiry .hv5-local-evidence{width:100%;bottom:0}#historyInquiry .hv5-source-grid{grid-template-columns:1fr}#historyInquiry .hv5-evidence summary small{display:block;margin:4px 0 0}}
+@media(prefers-reduced-motion:reduce){#historyInquiry .hv5-view,#historyInquiry .hv5-drawer-body{animation:none}#historyInquiry button{transition:none}}
+
+@media(min-width:1001px) and (max-width:1500px){#historyInquiry .hv5-inner{width:calc(100% - 320px);margin-left:210px;margin-right:110px}#historyInquiry .hv5-order .hv5-plate{min-height:700px}#historyInquiry .hv5-document{height:240px}#historyInquiry .hv5-document img{height:160px}#historyInquiry .hv5-city .hv5-plate{min-height:775px}}
+
+/* Desktop observation controls occupy a reserved rail below the entire visual. */
+@media(min-width:901px){
+  #historyInquiry .hv5-city .hv5-plate{min-height:850px}
+  #historyInquiry .hv5-city .hv5-hotspot{top:auto;bottom:86px}
+  #historyInquiry .hv5-city [data-hv5-point=palace]{left:0}
+  #historyInquiry .hv5-city [data-hv5-point=markets]{left:34%}
+  #historyInquiry .hv5-city [data-hv5-point=exchange]{left:68%}
+}
+@media(min-width:1600px){
+  #historyInquiry .hv5-order .hv5-plate{min-height:710px}
+  #historyInquiry .hv5-city .hv5-plate{min-height:910px}
+}

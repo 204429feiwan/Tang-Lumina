@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="瑰宝重器 - 唐三彩 · 金银器 · 千年遗珍">
+  <title>瑰宝重器 | 盛唐雅粹</title>
+  <link rel="preload" as="image" fetchpriority="high" href="../images/backgrounds/treasures-bg.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css?v=20260919b">
+  <style>
+    .museum-section { padding: 5rem 0; background: var(--color-silk-light); }
+    .section-title-sm { font-family: var(--font-display); color: var(--color-cinnabar); letter-spacing: 0.08em; margin-bottom: 1.5rem; font-size: 1.3rem; border-bottom: 2px solid rgba(200,150,62,0.25); padding-bottom: 0.5rem; display: inline-block; }
+
+    /* 放大镜效果 - 鼠标跟随放大细节 */
+    .museum-img-wrap {
+      overflow: hidden;
+      cursor: zoom-in;
+    }
+    .museum-img-wrap img {
+      transition: transform 0.2s ease-out;
+      transform-origin: center center;
+    }
+    .museum-img-wrap:hover img {
+      transform: scale(2.5);
+    }
+    /* 放大镜镜头圆圈 - 跟随鼠标 */
+    .museum-img-wrap {
+      --lx: 50%;
+      --ly: 50%;
+    }
+    .museum-img-wrap::after {
+      content: '';
+      position: absolute;
+      width: 80px; height: 80px;
+      border: 2px solid rgba(200,150,62,0.6);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0;
+      left: var(--lx);
+      top: var(--ly);
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 0 5px rgba(200,150,62,0.12), 0 0 25px rgba(0,0,0,0.25);
+      transition: opacity 0.2s ease;
+    }
+    .museum-img-wrap:hover::after {
+      opacity: 1;
+    }
+
+    /* ============================================================
+       窑炉开炉 · 唐三彩视频体验
+       ============================================================ */
+    .kiln-scene {
+      position: relative;
+      max-width: 560px;
+      margin: 0 auto 2rem;
+      padding: 20px;
+    }
+
+    /* 窑炉主体 */
+    .kiln-body {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* 窑炉拱门 */
+    .kiln-arch {
+      position: relative;
+      width: 380px;
+      height: 340px;
+      border-radius: 190px 190px 12px 12px;
+      overflow: hidden !important;
+      background: linear-gradient(180deg, #1a0a00 0%, #2a1200 40%, #1a0800 100%);
+      box-shadow:
+        inset 0 0 60px rgba(200,100,20,0.15),
+        inset 0 -20px 40px rgba(0,0,0,0.5),
+        0 0 0 6px #5C3A28,
+        0 0 0 10px #3C2415,
+        0 0 0 14px rgba(139,105,20,0.3),
+        0 12px 40px rgba(60,40,20,0.4),
+        0 24px 60px rgba(0,0,0,0.25);
+      z-index: 2;
+    }
+
+    /* 炉门 */
+    .kiln-door {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      cursor: pointer;
+      z-index: 5;
+      transform: translate3d(0, 0, 0);
+      transition: transform 1.6s cubic-bezier(0.33, 0, 0.2, 1);
+      will-change: transform;
+    }
+    .kiln-door.kiln-door-open {
+      transform: translate3d(0, -100%, 0);
+      pointer-events: none;
+    }
+    .kiln-door-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background:
+        radial-gradient(ellipse at 50% 85%, rgba(255,120,20,0.25) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 70%, rgba(200,80,10,0.15) 0%, transparent 60%),
+        linear-gradient(180deg, #3C2415 0%, #4A3020 30%, #3C2415 60%, #2A1810 100%);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 炉门内部光芒 */
+    .kiln-glow {
+      position: absolute;
+      bottom: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120%;
+      height: 60%;
+      background: radial-gradient(ellipse at 50% 100%, rgba(255,140,30,0.3) 0%, rgba(200,80,10,0.1) 40%, transparent 70%);
+      animation: kilnGlowPulse 3s ease-in-out infinite;
+    }
+    @keyframes kilnGlowPulse {
+      0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+      50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+    }
+
+    /* 炉门文字 */
+    .kiln-text {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .kiln-icon {
+      font-size: 2.8rem;
+      animation: kilnFireDance 1.5s ease-in-out infinite;
+      filter: drop-shadow(0 0 12px rgba(255,120,20,0.6));
+    }
+    @keyframes kilnFireDance {
+      0%, 100% { transform: scale(1) rotate(-3deg); }
+      25% { transform: scale(1.1) rotate(3deg); }
+      50% { transform: scale(1.05) rotate(-2deg); }
+      75% { transform: scale(1.12) rotate(2deg); }
+    }
+    .kiln-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-gold-light);
+      letter-spacing: 0.12em;
+      text-shadow: 0 2px 12px rgba(200,150,62,0.5);
+    }
+    .kiln-hint {
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      color: rgba(232,213,163,0.6);
+      letter-spacing: 0.08em;
+      animation: hintPulse 2s ease-in-out infinite;
+    }
+    @keyframes hintPulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.9; }
+    }
+
+    /* 炉门底部余烬 */
+    .kiln-embers {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      pointer-events: none;
+    }
+    .kiln-embers span {
+      position: absolute;
+      bottom: 8px;
+      width: 4px;
+      height: 4px;
+      background: #FF8C20;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #FF6A00, 0 0 12px rgba(255,106,0,0.4);
+      animation: emberFloat 2.5s ease-in-out infinite;
+    }
+    .kiln-embers span:nth-child(1) { left: 20%; animation-delay: 0s; animation-duration: 2.2s; }
+    .kiln-embers span:nth-child(2) { left: 35%; animation-delay: 0.5s; animation-duration: 2.8s; }
+    .kiln-embers span:nth-child(3) { left: 50%; animation-delay: 0.2s; animation-duration: 2.4s; }
+    .kiln-embers span:nth-child(4) { left: 65%; animation-delay: 0.8s; animation-duration: 2.6s; }
+    .kiln-embers span:nth-child(5) { left: 80%; animation-delay: 0.3s; animation-duration: 2.3s; }
+    @keyframes emberFloat {
+      0% { transform: translateY(0) scale(1); opacity: 0.8; }
+      50% { transform: translateY(-25px) scale(1.3); opacity: 1; }
+      100% { transform: translateY(-50px) scale(0.5); opacity: 0; }
+    }
+
+    /* 视频层 */
+    .kiln-video-wrap {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      overflow: hidden;
+      z-index: 3;
+      opacity: 1;
+    }
+    .kiln-video-wrap video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* 关闭按钮 */
+    .kiln-close-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid rgba(200,150,62,0.5);
+      background: rgba(60,40,20,0.8);
+      color: var(--color-gold-light);
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 10;
+      line-height: 1;
+      padding: 0;
+    }
+    .kiln-video-wrap.visible .kiln-close-btn {
+      opacity: 1;
+      transition-delay: 0.6s;
+    }
+    .kiln-close-btn:hover {
+      background: var(--color-cinnabar);
+      border-color: var(--color-cinnabar);
+      color: #fff;
+      transform: rotate(90deg);
+    }
+
+    /* 炉壁 */
+    .kiln-wall-left, .kiln-wall-right {
+      position: absolute;
+      top: 40px;
+      width: 60px;
+      height: 260px;
+      background: linear-gradient(180deg, #5C3A28 0%, #4A3020 50%, #3C2415 100%);
+      border-radius: 4px;
+      z-index: 1;
+    }
+    .kiln-wall-left { left: calc(50% - 240px); transform: perspective(400px) rotateY(15deg); }
+    .kiln-wall-right { right: calc(50% - 240px); transform: perspective(400px) rotateY(-15deg); }
+
+    /* 底座 */
+    .kiln-base {
+      width: 460px;
+      height: 36px;
+      background: linear-gradient(180deg, #5C3A28, #4A3020, #3C2415);
+      border-radius: 0 0 8px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 4px 16px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(200,150,62,0.15);
+      z-index: 2;
+      position: relative;
+    }
+    .kiln-base::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,150,62,0.3), transparent);
+    }
+    .kiln-base-label {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      color: rgba(200,160,100,0.6);
+      letter-spacing: 0.15em;
+    }
+
+    /* 火焰粒子层 */
+    .kiln-fire-particles {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 200px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .fire-particle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: fireParticleRise linear infinite;
+    }
+    @keyframes fireParticleRise {
+      0% { transform: translateY(0) scale(1); opacity: 0.8; }
+      100% { transform: translateY(-180px) scale(0); opacity: 0; }
+    }
+
+    /* 烟雾效果 */
+    .kiln-smoke {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 120px;
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .kiln-smoke.active { opacity: 1; }
+    .smoke-puff {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(180,160,140,0.25) 0%, transparent 70%);
+      animation: smokeRise 2.5s ease-out forwards;
+    }
+    @keyframes smokeRise {
+      0% { transform: translateY(0) scale(0.5); opacity: 0.6; }
+      50% { transform: translateY(-40px) scale(1.5); opacity: 0.3; }
+      100% { transform: translateY(-100px) scale(2.5); opacity: 0; }
+    }
+
+    /* 开炉后炉口余光 */
+    .kiln-arch::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      box-shadow: inset 0 0 80px rgba(255,120,20,0.2);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      pointer-events: none;
+      z-index: 4;
+    }
+    .kiln-arch.fired::after {
+      opacity: 1;
+      animation: kilnInnerGlow 4s ease-in-out infinite;
+    }
+    @keyframes kilnInnerGlow {
+      0%, 100% { box-shadow: inset 0 0 60px rgba(255,120,20,0.15); }
+      50% { box-shadow: inset 0 0 100px rgba(255,120,20,0.25); }
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .kiln-arch { width: 300px; height: 270px; border-radius: 150px 150px 10px 10px; }
+      .kiln-wall-left, .kiln-wall-right { display: none; }
+      .kiln-base { width: 360px; }
+      .kiln-title { font-size: 1.2rem; }
+      .kiln-icon { font-size: 2.2rem; }
+    }
+    @media (max-width: 480px) {
+      .kiln-arch { width: 260px; height: 240px; border-radius: 130px 130px 8px 8px; }
+      .kiln-base { width: 310px; }
+    }
+  </style>
+  <link rel="stylesheet" href="../css/backgrounds.css">
+  <link rel="stylesheet" href="../css/exhibition.css?v=20261013-hero-stable">
+  <link rel="stylesheet" href="../css/chapter-effects.css">
+  <link rel="stylesheet" href="../css/treasures-museum.css?v=20261013-hero-stable">
+  <link rel="stylesheet" href="../css/masterpieces-strip.css">
+  <script src="../js/exhibition.js?v=20261013-hero-stable" defer></script>
+  <script src="../js/chapter-effects.js" defer></script>
+  <script src="../js/treasures-museum.js" defer></script>
+  <script src="../js/masterpieces-strip.js" defer></script>
+<style id="treasureCompassTheme">
+  /* 罗盘展区沿用本页数字博物馆的黑褐、古金与器物氛围。 */
+  #compassSection {
+    background:
+      radial-gradient(ellipse at 50% 57%, rgba(201,155,77,.13), transparent 58%),
+      linear-gradient(180deg, rgba(12,9,7,.96), rgba(33,22,15,.93) 48%, rgba(12,9,7,.98)),
+      url('../images/backgrounds/treasures-bg.png') center / cover;
+    background-attachment: scroll;
+    border-top: 1px solid rgba(201,155,77,.2);
+    color: var(--museum-cream, #eee2c9);
+  }
+  #compassSection::before {
+    background: radial-gradient(circle, rgba(201,155,77,.1), transparent 70%);
+  }
+  #compassSection .compass-eyebrow {
+    margin: 0 0 1.2rem;
+    color: var(--museum-gold, #c99b4d);
+    font-size: .78rem;
+    letter-spacing: .3em;
+  }
+  #compassSection .tang-title {
+    color: var(--museum-gold-light, #e8ca8a);
+    font-size: clamp(2rem, 3.5vw, 3.65rem);
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-shadow: none;
+  }
+  #compassSection .tang-title::after {
+    background: linear-gradient(90deg, transparent, var(--museum-gold, #c99b4d), transparent);
+  }
+  #compassSection .section-subtitle {
+    color: var(--museum-muted, #a9977d);
+    font-size: 1rem;
+    letter-spacing: .12em;
+  }
+  #compassSection .compass-hint-top {
+    color: #c3aa80;
+    animation: none;
+    opacity: 1;
+  }
+  #compassSection .compass-popup {
+    background: rgba(23,16,11,.96);
+    border-color: rgba(201,155,77,.45);
+  }
+  #compassSection .popup-theme { color: var(--museum-gold-light, #e8ca8a); }
+  #compassSection .popup-desc { color: #c3aa80; }
+</style>
+</head>
+<body class="exhibition-page" data-page="treasures">
+<div class="golden-birds"><span class="golden-bird"></span><span class="golden-bird"></span><span class="golden-bird"></span><span class="golden-bird"></span><span class="golden-bird"></span><span class="golden-bird"></span></div>
+
+
+<nav class="navbar navbar-expand-lg fixed-top tang-shell-nav tang-ui-dark">
+  <div class="container">
+    <a class="navbar-brand" href="../index.html">盛唐雅粹</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="../index.html">首页</a></li>
+        <li class="nav-item"><a class="nav-link" href="history.html">历史溯源</a></li>
+        <li class="nav-item"><a class="nav-link active" href="treasures.html">瑰宝重器</a></li>
+        <li class="nav-item"><a class="nav-link" href="art.html">翰墨丹青</a></li>
+        <li class="nav-item"><a class="nav-link" href="aesthetics.html">唐风美学</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="page-hero" style="background-color: #0a0806;"><div class="chapter-backdrop" aria-hidden="true"></div><div class="hero-atmosphere" aria-hidden="true"></div></div>
+
+<section class="museum-section">
+  <div class="container">
+    <div class="text-center mb-5 fade-up"><h2 class="tang-title">大唐遗珍</h2><p class="section-subtitle">每一件文物，都是盛唐文明的见证者</p></div>
+
+    <h4 class="section-title-sm fade-up">盛唐珍器</h4>
+    <div class="row g-4 mb-5">
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up delay-1">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/鎏金舞马衔杯纹银壶.jpg" data-title="鎏金舞马衔杯纹银壶" data-desc="唐代金银器巅峰之作"><img src="../images/treasures/鎏金舞马衔杯纹银壶.jpg" alt="鎏金舞马衔杯纹银壶" loading="lazy"><div class="museum-overlay">鎏金舞马衔杯纹银壶</div></div><div class="museum-body"><h5>鎏金舞马衔杯纹银壶</h5><p class="museum-era">唐 · 金银器</p><p>皮囊式壶形，鎏金舞马纹饰，唐玄宗千秋节舞马祝寿的实物见证。</p><span class="museum-tag">国宝级</span><span class="museum-tag">陕西历史博物馆</span></div></div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up delay-1">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/白玉飞天.jpg" data-title="白玉飞天" data-desc="玉质洁白滋润。身着轻薄衣衫，肩披的绶带飘逸翻飞，臂挽璎珞，生动地表现出凌空飞舞的动感。"><img src="../images/treasures/白玉飞天.jpg" alt="白玉飞天" loading="lazy"><div class="museum-overlay">白玉飞天</div></div><div class="museum-body"><h5>白玉飞天</h5><p class="museum-era">唐 · 和田白玉</p><p>玉质洁白滋润。身着轻薄衣衫，肩披的绶带飘逸翻飞，臂挽璎珞，生动地表现出凌空飞舞的动感。</p></div></div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up delay-1">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/鎏金鹦鹉纹提梁银罐.jpg" data-title="鎏金鹦鹉纹提梁银罐"><img src="../images/treasures/鎏金鹦鹉纹提梁银罐.jpg" alt="鎏金鹦鹉纹提梁银罐" loading="lazy"><div class="museum-overlay">鎏金鹦鹉纹提梁银罐</div></div><div class="museum-body"><h5>鎏金鹦鹉纹提梁银罐</h5><p class="museum-era">唐 · 银鎏金</p><p>鹦鹉纹饰精美绝伦，提梁设计精巧，唐代金银器工艺的杰出代表。</p></div></div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up delay-1">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/鸳鸯莲瓣纹金碗.jpg" data-title="鸳鸯莲瓣纹金碗"><img src="../images/treasures/鸳鸯莲瓣纹金碗.jpg" alt="鸳鸯莲瓣纹金碗" loading="lazy"><div class="museum-overlay">鸳鸯莲瓣纹金碗</div></div><div class="museum-body"><h5>鸳鸯莲瓣纹金碗</h5><p class="museum-era">唐 · 金器</p><p>纯金打造，莲瓣造型，鸳鸯纹饰，被誉为"大唐第一金碗"。</p><span class="museum-tag">国宝级</span></div></div>
+      </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/镶金兽首玛瑙杯.jpg" data-title="镶金兽首玛瑙杯"><img src="../images/treasures/镶金兽首玛瑙杯.jpg" alt="镶金兽首玛瑙杯" loading="lazy"><div class="museum-overlay">镶金兽首玛瑙杯</div></div><div class="museum-body"><h5>镶金兽首玛瑙杯</h5><p class="museum-era">唐 · 玛瑙</p><p>来通杯造型，兽首口含金塞，中西文化交流的珍贵实物。</p><span class="museum-tag">禁止出境</span></div></div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/金背瑞兽葡萄镜.jpg" data-title="金背瑞兽葡萄镜"><img src="../images/treasures/金背瑞兽葡萄镜.jpg" alt="金背瑞兽葡萄镜" loading="lazy"><div class="museum-overlay">金背瑞兽葡萄镜</div></div><div class="museum-body"><h5>金背瑞兽葡萄镜</h5><p class="museum-era">唐 · 铜镜</p><p>金背镶嵌，瑞兽葡萄纹融合中西元素，唐代铜镜艺术的极致。</p></div></div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/花鸟缠葡萄纹银杯.jpg" data-title="花鸟缠葡萄纹银杯"><img src="../images/treasures/花鸟缠葡萄纹银杯.jpg" alt="花鸟缠葡萄纹银杯" loading="lazy"><div class="museum-overlay">花鸟缠葡萄纹银杯</div></div><div class="museum-body"><h5>花鸟缠葡萄纹银杯</h5><p class="museum-era">唐 · 银器</p><p>花鸟与葡萄纹缠绕，中西合璧，精美绝伦。</p></div></div>
+      </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/三彩龙耳瓶.jpg" data-title="三彩龙耳瓶" data-desc="这件作品为唐三彩的代表作。支撑呈长卵形的瓶身及盘口的颈部，以及附于其左右的龙耳，构成此瓶舒展且强有力的身姿。"><img src="../images/treasures/三彩龙耳瓶.jpg" alt="三彩龙耳瓶" loading="lazy"><div class="museum-overlay">三彩龙耳瓶</div></div><div class="museum-body"><h5>三彩龙耳瓶</h5><p class="museum-era">唐 · 陶胎施三色釉</p><p>这件作品为唐三彩的代表作。支撑呈长卵形的瓶身及盘口的颈部，以及附于其左右的龙耳，构成此瓶舒展且强有力的身姿。</p></div></div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/唐越窑荷叶盏托.jpg" data-title="唐越窑荷叶盏托" data-desc="通体施着青绿色的釉，光泽莹润，看起来就像雨后的荷叶一样清新，又像玉一样温润。"><img src="../images/treasures/唐越窑荷叶盏托.jpg" alt="唐越窑荷叶盏托" loading="lazy"><div class="museum-overlay">唐越窑荷叶盏托</div></div><div class="museum-body"><h5>唐越窑荷叶盏托</h5><p class="museum-era">唐 · 灰白细胎施青绿色釉</p><p>通体施着青绿色的釉，光泽莹润，看起来就像雨后的荷叶一样清新，又像玉一样温润。</p></div></div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/飞天宝石八棱镜.jpg" data-title="飞天宝石八棱镜"><img src="../images/treasures/飞天宝石八棱镜.jpg" alt="飞天宝石八棱镜" loading="lazy"><div class="museum-overlay">飞天宝石八棱镜</div></div><div class="museum-body"><h5>飞天宝石八棱镜</h5><p class="museum-era">唐 · 铜镜</p><p>八棱造型，飞天纹饰镶嵌宝石，佛教艺术与实用器的结合。</p></div></div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/金银瓶脱花鸟铜镜.png" data-title="金银瓶脱花鸟铜镜"><img src="../images/treasures/金银瓶脱花鸟铜镜.png" alt="金银瓶脱花鸟铜镜" loading="lazy"><div class="museum-overlay">金银瓶脱花鸟铜镜</div></div><div class="museum-body"><h5>金银瓶脱花鸟铜镜</h5><p class="museum-era">唐 · 铜镜</p><p>金银瓶脱技法，花鸟纹饰繁复精美。</p></div></div>
+      </div>
+    </div>
+
+    <h4 class="section-title-sm fade-up mt-5">唐三彩</h4>
+
+    <!-- ============ 窑炉开炉 · 唐三彩视频体验 ============ -->
+    <div class="kiln-scene fade-up mb-5" id="kilnScene">
+      <!-- 火焰粒子层 -->
+      <div class="kiln-fire-particles" id="kilnParticles"></div>
+      <!-- 窑炉主体 -->
+      <div class="kiln-body">
+        <!-- 窑炉拱门 -->
+        <div class="kiln-arch">
+          <!-- 炉门（关闭状态） -->
+          <div class="kiln-door" id="kilnDoor">
+            <div class="kiln-door-inner">
+              <div class="kiln-glow"></div>
+              <div class="kiln-text">
+                <span class="kiln-icon">🔥</span>
+                <span class="kiln-title">窑炉已就绪</span>
+                <span class="kiln-hint">点击开炉 · 观赏唐三彩</span>
+              </div>
+              <div class="kiln-embers">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+          </div>
+          <!-- 视频层（开炉后显示） -->
+          <div class="kiln-video-wrap" id="kilnVideoWrap">
+            <video id="kilnVideo" preload="metadata" playsinline controls>
+              <source src="../videos/唐三彩.mp4" type="video/mp4">
+            </video>
+            <!-- 关闭按钮 -->
+            <button class="kiln-close-btn" id="kilnCloseBtn" title="关炉">&times;</button>
+          </div>
+        </div>
+        <!-- 炉壁装饰 -->
+        <!-- 底座 -->
+        <div class="kiln-base">
+          <span class="kiln-base-label">唐三彩 · 窑火千年</span>
+        </div>
+      </div>
+      <!-- 烟雾粒子 -->
+      <div class="kiln-smoke" id="kilnSmoke"></div>
+    </div>
+
+    <div class="row g-4 mb-5">
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/三彩梳妆女坐俑.jpg" data-title="三彩梳妆女坐俑"><img src="../images/treasures/三彩梳妆女坐俑.jpg" alt="三彩梳妆女坐俑" loading="lazy"><div class="museum-overlay">三彩梳妆女坐俑</div></div><div class="museum-body"><h5>三彩梳妆女坐俑</h5><p class="museum-era">唐 · 高岭土胎施低温三色釉</p><p>女俑坐在束腰形座墩上，左手握铜镜（已残），右手似正往额上贴饰“花黄”。</p></div></div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/唐三彩载货骆驼俑.jpg" data-title="唐三彩载货骆驼俑"><img src="../images/treasures/唐三彩载货骆驼俑.jpg" alt="唐三彩载货骆驼俑" loading="lazy"><div class="museum-overlay">唐三彩载货骆驼俑</div></div><div class="museum-body"><h5>唐三彩载货骆驼俑</h5><p class="museum-era">唐 · 三彩</p><p>满载丝绸货物，再现丝绸之路商贸盛况。</p></div></div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/唐三彩仕女立俑.jpg" data-title="唐三彩仕女立俑"><img src="../images/treasures/唐三彩仕女立俑.jpg" alt="唐三彩仕女立俑" loading="lazy"><div class="museum-overlay">唐三彩仕女立俑</div></div><div class="museum-body"><h5>唐三彩仕女立俑</h5><p class="museum-era">唐 · 三彩</p><p>体态丰腴，衣饰华美，展现盛唐女性的雍容气度。</p></div></div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/唐三彩骑马女俑.jpg" data-title="唐三彩骑马女俑"><img src="../images/treasures/唐三彩骑马女俑.jpg" alt="唐三彩骑马女俑" loading="lazy"><div class="museum-overlay">唐三彩骑马女俑</div></div><div class="museum-body"><h5>唐三彩骑马女俑</h5><p class="museum-era">唐 · 三彩</p><p>唐代女子骑马风尚的真实写照，开放自信的时代精神。</p></div></div>
+      </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/唐三彩胡人半身俑.jpg" data-title="唐三彩胡人半身俑"><img src="../images/treasures/唐三彩胡人半身俑.jpg" alt="唐三彩胡人半身俑" loading="lazy"><div class="museum-overlay">唐三彩胡人半身俑</div></div><div class="museum-body"><h5>唐三彩胡人半身俑</h5><p class="museum-era">唐 · 三彩</p><p>深目高鼻的胡人形象，万国来朝的历史见证。</p></div></div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/唐三彩持壶胡人俑.jpg" data-title="唐三彩持壶胡人俑"><img src="../images/treasures/唐三彩持壶胡人俑.jpg" alt="唐三彩持壶胡人俑" loading="lazy"><div class="museum-overlay">唐三彩持壶胡人俑</div></div><div class="museum-body"><h5>唐三彩持壶胡人俑</h5><p class="museum-era">唐 · 三彩</p><p>手执胡瓶的西域商人，丝路贸易的生动记录。</p></div></div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/三彩仕女陶俑.jpg" data-title="三彩仕女陶俑"><img src="../images/treasures/三彩仕女陶俑.jpg" alt="三彩仕女陶俑" loading="lazy"><div class="museum-overlay">三彩仕女陶俑</div></div><div class="museum-body"><h5>三彩仕女陶俑</h5><p class="museum-era">唐 · 三彩</p><p>釉色温润，面容安详，唐代贵族女性的优雅姿态。</p></div></div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/三彩女坐俑.jpg" data-title="三彩女坐俑"><img src="../images/treasures/三彩女坐俑.jpg" alt="三彩女坐俑" loading="lazy"><div class="museum-overlay">三彩女坐俑</div></div><div class="museum-body"><h5>三彩女坐俑</h5><p class="museum-era">唐 · 三彩</p><p>端坐姿态，服饰纹理清晰可见，唐三彩人物俑中的精品。</p></div></div>
+      </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/三彩凤首壶.jpg" data-title="三彩凤首壶"><img src="../images/treasures/三彩凤首壶.jpg" alt="三彩凤首壶" loading="lazy"><div class="museum-overlay">三彩凤首壶</div></div><div class="museum-body"><h5>三彩凤首壶</h5><p class="museum-era">唐 · 三彩</p><p>凤首造型壶口，波斯风格影响，中西文化交融的见证。</p></div></div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/三彩贴塑璎珞纹盖罐.jpg" data-title="三彩贴塑璎珞纹盖罐"><img src="../images/treasures/三彩贴塑璎珞纹盖罐.jpg" alt="三彩贴塑璎珞纹盖罐" loading="lazy"><div class="museum-overlay">三彩贴塑璎珞纹盖罐</div></div><div class="museum-body"><h5>三彩贴塑璎珞纹盖罐</h5><p class="museum-era">唐 · 三彩</p><p>贴塑技法，璎珞纹饰繁复精美，唐三彩中的稀有器型。</p></div></div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/三彩花瓣式三足盘.jpg" data-title="三彩花瓣式三足盘"><img src="../images/treasures/三彩花瓣式三足盘.jpg" alt="三彩花瓣式三足盘" loading="lazy"><div class="museum-overlay">三彩花瓣式三足盘</div></div><div class="museum-body"><h5>三彩花瓣式三足盘</h5><p class="museum-era">唐 · 三彩</p><p>花瓣造型优美，三彩釉色斑斓，实用与审美的完美结合。</p></div></div>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6 fade-up">
+        <div class="card-museum"><div class="museum-img-wrap" data-lightbox="../images/treasures/唐三彩卧驼俑.jpg" data-title="唐三彩卧驼俑"><img src="../images/treasures/唐三彩卧驼俑.jpg" alt="唐三彩卧驼俑" loading="lazy"><div class="museum-overlay">唐三彩卧驼俑</div></div><div class="museum-body"><h5>唐三彩卧驼俑</h5><p class="museum-era">唐 · 三彩</p><p>卧驼姿态安详，丝路之舟的生动再现。</p></div></div>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+<!-- ============ 镇馆之宝 · 横向数字展柜 ============ -->
+<!-- 上方四件精选展柜的数据源；与末尾原版横向展柜分开维护。 -->
+<template id="museumFeaturedSource">
+    <article class="artifact-card" data-artifact="baoxiang-mirror" data-title="宝相花纹铜镜" role="button" tabindex="0" aria-label="查看宝相花纹铜镜详情">
+      <div class="artifact-dark-bg" aria-hidden="true"></div>
+      <div class="artifact-copy"><span class="era">唐 · 铜镜</span><h3>宝相花纹铜镜</h3><p>八出葵花形，圆纽，莲花瓣纽座。</p></div>
+      <div class="artifact-vertical-title">宝相花纹铜镜</div>
+      <img class="artifact-ghost" src="../images/treasures/宝相花纹铜镜.jpg" alt="" aria-hidden="true" loading="lazy" draggable="false">
+      <img class="artifact-hero" src="../images/treasures/宝相花纹铜镜.jpg" alt="宝相花纹铜镜" loading="lazy" draggable="false">
+      <span class="artifact-enter-indicator" aria-hidden="true"></span>
+    </article>
+
+    <article class="artifact-card" data-artifact="celadon-human-headed-bird" data-title="唐代青釉人首鸡身俑" role="button" tabindex="0" aria-label="查看唐代青釉人首鸡身俑详情">
+      <div class="artifact-dark-bg" aria-hidden="true"></div>
+      <div class="artifact-copy"><span class="era">唐 · 施青黄釉</span><h3>唐代青釉人首鸡身俑</h3><p>人的面庞，身体却是禽鸟模样，是负责接引墓主人灵魂飞升的使者。</p></div>
+      <div class="artifact-vertical-title">唐代青釉人首鸡身俑</div>
+      <img class="artifact-ghost" src="../images/treasures/唐代青釉人首鸡身俑.jpg" alt="" aria-hidden="true" loading="lazy" draggable="false">
+      <img class="artifact-hero" src="../images/treasures/唐代青釉人首鸡身俑.jpg" alt="唐代青釉人首鸡身俑" loading="lazy" draggable="false">
+      <span class="artifact-enter-indicator" aria-hidden="true"></span>
+    </article>
+
+    <article class="artifact-card" data-artifact="floral-hairpin" data-title="唐代折股花卉纹钿头钗" role="button" tabindex="0" aria-label="查看唐代折股花卉纹钿头钗详情">
+      <div class="artifact-dark-bg" aria-hidden="true"></div>
+      <div class="artifact-copy"><span class="era">唐 · 金银首饰</span><h3>唐代折股花卉纹钿头钗</h3><p>唐代贵族女性头饰与金银细工工艺的经典代表。用比头发还细的金丝编织，还撒满了上千颗金色小糖珠，走起路来会随着步摇轻轻晃动。</p></div>
+      <div class="artifact-vertical-title">唐代折股花卉纹钿头钗</div>
+      <img class="artifact-ghost" src="../images/treasures/唐代折股花卉纹钿头钗.jpg" alt="" aria-hidden="true" loading="lazy" draggable="false">
+      <img class="artifact-hero" src="../images/treasures/唐代折股花卉纹钿头钗.jpg" alt="唐代折股花卉纹钿头钗" loading="lazy" draggable="false">
+      <span class="artifact-enter-indicator" aria-hidden="true"></span>
+    </article>
+</template>
+
+<section class="tang-treasure-strip" id="masterpieces" aria-label="镇馆之宝 · MASTERPIECES 横向巡礼">
+  <div class="tang-treasure-scroll" id="tangTreasureScroll">
+    <header class="masterpiece-intro" aria-label="镇馆之宝展柜引导">
+      <h2 class="masterpiece-intro-title">镇馆之宝</h2>
+      <p class="masterpiece-intro-kicker">MASTERPIECES · 横向巡礼</p>
+      <p class="masterpiece-intro-note">从金银、玛瑙、三彩与青瓷中择取十件国宝重器，横向铺陈，静观盛唐工艺的巅峰。</p>
+      <img class="masterpiece-intro-ghost" src="../images/treasures/唐三彩骆驼载乐俑.jpg" alt="" aria-hidden="true" draggable="false">
+    </header>
+
+    <article class="artifact-card" data-artifact="dance-horse" data-title="鎏金舞马衔杯纹银壶" role="button" tabindex="0" aria-label="查看鎏金舞马衔杯纹银壶详情">
+      <div class="artifact-dark-bg" aria-hidden="true"></div>
+      <div class="artifact-copy"><span class="era">唐 · 金银器</span><h3>鎏金舞马衔杯纹银壶</h3><p>皮囊式壶形，鎏金舞马纹饰，唐玄宗千秋节舞马祝寿的实物见证。</p></div>
+      <div class="artifact-vertical-title">鎏金舞马衔杯纹银壶</div>
+      <img class="artifact-ghost" src="../images/treasures/masterpieces/1.png" alt="" aria-hidden="true" loading="lazy" draggable="false">
+      <img class="artifact-hero" src="../images/treasures/masterpieces/1.png" alt="鎏金舞马衔杯纹银壶" loading="lazy" draggable="false">
+      <span class="artifact-enter-indicator" aria-hidden="true"></span>
+    </article>
+
+    <article class="artifact-card" data-artifact="agate-cup" data-title="镶金兽首玛瑙杯" role="button" tabindex="0" aria-label="查看镶金兽首玛瑙杯详情">
+      <div class="artifact-dark-bg" aria-hidden="true"></div>
+      <div class="artifact-copy"><span class="era">唐 · 玛瑙</span><h3>镶金兽首玛瑙杯</h3><p>来通杯造型，兽首口含金塞，中西文化交流的珍贵实物。</p></div>
+      <div class="artifact-vertical-title">镶金兽首玛瑙杯</div>
+      <img class="artifact-ghost" src="../images/treasures/masterpieces/2.png" alt="" aria-hidden="true" loading="lazy" draggable="false">
+      <img class="artifact-hero" src="../images/treasures/masterpieces/2.png" alt="镶金兽首玛瑙杯" loading="lazy" draggable="false">
+      <span class="artifact-enter-indicator" aria-hidden="true"></span>
+    </article>
+
+    <article class="artifact-card" data-artifact="gold-bowl" data-title="鸳鸯莲瓣纹金碗" role="button" tabindex="0" aria-label="查看鸳鸯莲瓣纹金碗详情">
+      <div class="artifact-dark-bg" aria-hidden="true"></div>
+      <div class="artifact-copy"><span class="era">唐 · 金器</span><h3>鸳鸯莲瓣纹金碗</h3><p>纯金打造，莲瓣造型，鸳鸯纹饰，被誉为“大唐第一金碗”。</p></div>
+      <div class="artifact-vertical-title">鸳鸯莲瓣纹金碗</div>
+      <img class="artifact-ghost" src="../images/treasures/masterpieces/3.png" alt="" aria-hidden="true" loading="lazy" draggable="false">
+      <img class="artifact-hero" src="../images/treasures/masterpieces/3.png" alt="鸳鸯莲瓣纹金碗" loading="lazy" draggable="false">
+      <span class="artifact-enter-indicator" aria-hidden="true"></span>
+    </article>
+
+    <article class="artifact-card" data-artifact="copper-dragon" data-title="鎏金铁芯铜龙" role="button" tabindex="0" aria-label="查看鎏金铁芯铜龙详情">
+      <div class="artifact-dark-bg" aria-hidden="true"></div>
+      <div class="artifact-copy"><span class="era">唐 · 铜鎏金</span><h3>鎏金铁芯铜龙</h3><p>铁芯铜身，通体鎏金，龙姿矫健威猛，尽显盛唐气象。</p></div>
+      <div class="artifact-vertical-title">鎏金铁芯铜龙</div>
+      <img class="artifact-ghost" src="../images/treasures/masterpieces/4.png" alt="" aria-hidden="true" loading="lazy" draggable="false">
+      <img class="artifact-hero" src="../images/treasures/masterpieces/4.png" alt="鎏金铁芯铜龙" loading="lazy" draggable="false">
+      <span class="artifact-enter-indicator" aria-hidden="true"></span>
+    </article>
+
+    <article class="artifact-card" data-artifact="camel" data-title="唐三彩骆驼载乐俑" role="button" tabindex="0" aria-label="查看唐三彩骆驼载乐俑详情">
+      <div class="artifact-dark-bg" aria-hidden="true"></div>
+      <div class="artifact-copy"><span class="era">唐 · 三彩</span><h3>唐三彩骆驼载乐俑</h3><p>骆驼背上乐队演奏，丝路文化的生动写照，唐三彩雕塑的巅峰之作。</p></div>
+      <div class="artifact-vertical-title">唐三彩骆驼载乐俑</div>
+      <img class="artifact-ghost" src="../images/treasures/masterpieces/5.png" alt="" aria-hidden="true" loading="lazy" draggable="false">
+      <img class="artifact-hero" src="../images/treasures/masterpieces/5.png" alt="唐三彩骆驼载乐俑" loading="lazy" draggable="false">
+      <span class="artifact-enter-indicator" aria-hidden="true"></span>
+    </article>
+
+    <article class="artifact-card" data-artifact="sachet" data-title="葡萄花鸟纹香囊" role="button" tabindex="0" aria-label="查看葡萄花鸟纹香囊详情">
+      <div class="artifact-dark-bg" aria-hidden="true"></div>
+      <div class="artifact-copy"><span class="era">唐 · 银鎏金</span><h3>葡萄花鸟纹香囊</h3><p>内置陀螺仪平衡装置，无论怎样转动香盂始终向上，体现古代机械结构与金银器工艺的巧妙结合。</p></div>
+      <div class="artifact-vertical-title">葡萄花鸟纹香囊</div>
+      <img class="artifact-ghost" src="../images/treasures/masterpieces/6.png" alt="" aria-hidden="true" loading="lazy" draggable="false">
+      <img class="artifact-hero" src="../images/treasures/masterpieces/6.png" alt="葡萄花鸟纹香囊" loading="lazy" draggable="false">
+      <span class="artifact-enter-indicator" aria-hidden="true"></span>
+    </article>
+
+    <article class="artifact-card" data-artifact="mirror" data-title="四鸾衔绶纹金银平脱镜" role="button" tabindex="0" aria-label="查看四鸾衔绶纹金银平脱镜详情">
+      <div class="artifact-dark-bg" aria-hidden="true"></div>
+      <div class="artifact-copy"><span class="era">唐 · 金银平脱</span><h3>四鸾衔绶纹金银平脱镜</h3><p>金银平脱工艺的巅峰，四鸾衔绶象征长寿吉祥。</p></div>
+      <div class="artifact-vertical-title">四鸾衔绶纹金银平脱镜</div>
+      <img class="artifact-ghost" src="../images/treasures/masterpieces/8.png" alt="" aria-hidden="true" loading="lazy" draggable="false">
+      <img class="artifact-hero" src="../images/treasures/masterpieces/8.png" alt="四鸾衔绶纹金银平脱镜" loading="lazy" draggable="false">
+      <span class="artifact-enter-indicator" aria-hidden="true"></span>
+    </article>
+
+    <article class="artifact-card" data-artifact="silver-cup" data-title="唐鎏金伎乐纹八棱银杯" role="button" tabindex="0" aria-label="查看唐鎏金伎乐纹八棱银杯详情">
+      <div class="artifact-dark-bg" aria-hidden="true"></div>
+      <div class="artifact-copy"><span class="era">唐 · 银鎏金</span><h3>唐鎏金伎乐纹八棱银杯</h3><p>八棱杯身，伎乐纹饰栩栩如生，鎏金璀璨夺目，唐代金银器艺术巅峰。</p></div>
+      <div class="artifact-vertical-title">唐鎏金伎乐纹八棱银杯</div>
+      <img class="artifact-ghost" src="../images/treasures/masterpieces/9.png" alt="" aria-hidden="true" loading="lazy" draggable="false">
+      <img class="artifact-hero" src="../images/treasures/masterpieces/9.png" alt="唐鎏金伎乐纹八棱银杯" loading="lazy" draggable="false">
+      <span class="artifact-enter-indicator" aria-hidden="true"></span>
+    </article>
+
+    <article class="artifact-card" data-artifact="celadon-pot" data-title="青釉提梁倒灌壶" role="button" tabindex="0" aria-label="查看青釉提梁倒灌壶详情">
+      <div class="artifact-dark-bg" aria-hidden="true"></div>
+      <div class="artifact-copy"><span class="era">唐 · 青瓷</span><h3>青釉提梁倒灌壶</h3><p>壶底注水反转不漏，提梁造型精巧，古代工匠智慧的巧妙体现。</p></div>
+      <div class="artifact-vertical-title">青釉提梁倒灌壶</div>
+      <img class="artifact-ghost" src="../images/treasures/masterpieces/10.png" alt="" aria-hidden="true" loading="lazy" draggable="false">
+      <img class="artifact-hero" src="../images/treasures/masterpieces/10.png" alt="青釉提梁倒灌壶" loading="lazy" draggable="false">
+      <span class="artifact-enter-indicator" aria-hidden="true"></span>
+    </article>
+  </div>
+
+  <p class="tang-treasure-hint">滚轮 / 拖动 · 横向浏览</p>
+</section>
+
+<!-- 循珍探唐：罗盘交互与本页展陈风格衔接。 -->
+<section class="section section-compass" id="compassSection" aria-label="循珍探唐 · 互动罗盘">
+  <div class="container">
+    <div class="text-center mb-3 fade-up"><p class="compass-eyebrow">EXPLORE · 盛唐巡游</p><h2 class="tang-title">循珍探唐</h2><p class="section-subtitle">循器物之美，续一程盛唐之旅。</p></div>
+    <p class="compass-hint-top fade-up delay-1">&#8634; 拖动罗盘选择专题 · 悬停查看 · 点击前往 &#8635;</p>
+    <div class="compass-stage fade-up delay-1" id="compassStage">
+      <canvas class="gold-particles" id="goldParticles"></canvas>
+      <!-- 罗盘主体 -->
+      <div class="compass-outer-ring">
+        <!-- 祥云宝相花纹饰环 -->
+        <div class="compass-carved-ring"></div>
+        <!-- 可旋转的罗盘 -->
+        <div class="compass-rotor" id="compassRotor">
+          <!-- 哑光古铜盘面 -->
+          <div class="compass-face">
+            <!-- 云雷纹纹理 -->
+            <div class="compass-texture"></div>
+            <!-- 四象限分隔线 -->
+            <div class="compass-quadrant-lines">
+              <div class="quadrant-line-h"></div>
+              <div class="quadrant-line-v"></div>
+            </div>
+            <!-- 四个扇形区块（悬浮弹出主题） -->
+            <div class="compass-quad compass-q-north" data-target="aesthetics.html" data-theme="唐风美学" data-desc="织锦歌舞 · 大唐色系 · 盛唐乐舞"></div>
+            <div class="compass-quad compass-q-east" data-target="art.html" data-theme="翰墨丹青" data-desc="传世名画 · 敦煌壁画 · 笔墨千秋"></div>
+            <div class="compass-quad compass-q-south" data-target="history.html" data-theme="历史溯源" data-desc="帝王年表 · 王朝兴衰 · 长安舆图"></div>
+            <div class="compass-quad compass-q-west" data-target="treasures.html" data-theme="瑰宝重器" data-desc="金银器 · 唐三彩 · 千年遗珍"></div>
+            <!-- 方位刻度标记 -->
+            <div class="compass-markings">
+              <span class="cm-n">北</span>
+              <span class="cm-e">东</span>
+              <span class="cm-s">南</span>
+              <span class="cm-w">西</span>
+            </div>
+          </div>
+          <!-- 中心水浮磁针指南 -->
+          <div class="compass-water-basin">
+            <div class="water-surface"></div>
+            <div class="water-needle" id="waterNeedle">
+              <div class="needle-north"></div>
+              <div class="needle-south"></div>
+            </div>
+            <div class="water-ripple"></div>
+          </div>
+        </div>
+      </div>
+      <div class="compass-popup" id="compassPopup">
+        <div class="popup-theme"></div>
+        <div class="popup-desc"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer tang-ui-dark">
+  <div class="container"><div class="row g-4">
+    <div class="col-lg-4"><h5>盛唐雅粹</h5><p style="font-size:0.88rem;">每一件文物都是盛唐文明的见证者。</p></div>
+    <div class="col-lg-4"><h5>探索专题</h5><ul class="list-unstyled" style="font-size:0.88rem; line-height:2.2;"><li><a href="history.html">历史溯源</a></li><li><a href="treasures.html">瑰宝重器</a></li><li><a href="art.html">翰墨丹青</a></li><li><a href="aesthetics.html">唐风美学</a></li></ul></div>
+    <div class="col-lg-4"><h5>参考</h5><p style="font-size:0.82rem;">陕西历史博物馆 · 故宫博物院 · 国家博物馆</p></div>
+  </div><hr class="footer-divider"><div class="footer-bottom"><p>&copy; 2026 盛唐雅粹文化专题 | 梦回长安 · 盛世重现</p></div></div>
+</footer>
+
+<button class="back-to-top" id="backToTop" title="回到顶部">&#8593;</button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/main.js?v=20260919b"></script>
+<script>
+  // 放大镜效果 - 鼠标跟随放大细节
+  document.addEventListener('DOMContentLoaded', function() {
+    const imgWraps = document.querySelectorAll('.museum-img-wrap');
+    imgWraps.forEach(wrap => {
+      const img = wrap.querySelector('img');
+      if (!img) return;
+      wrap.addEventListener('mousemove', function(e) {
+        const rect = wrap.getBoundingClientRect();
+        const px = e.clientX - rect.left;
+        const py = e.clientY - rect.top;
+        const x = (px / rect.width) * 100;
+        const y = (py / rect.height) * 100;
+        img.style.transformOrigin = x + '% ' + y + '%';
+        wrap.style.setProperty('--lx', px + 'px');
+        wrap.style.setProperty('--ly', py + 'px');
+      });
+      wrap.addEventListener('mouseleave', function() {
+        img.style.transformOrigin = 'center center';
+      });
+    });
+
+    // ========== 窑炉开炉 · 唐三彩视频体验 ==========
+    var kilnScene = document.getElementById('kilnScene');
+    var kilnDoor = document.getElementById('kilnDoor');
+    var kilnVideoWrap = document.getElementById('kilnVideoWrap');
+    var kilnVideo = document.getElementById('kilnVideo');
+    var kilnCloseBtn = document.getElementById('kilnCloseBtn');
+    var kilnSmoke = document.getElementById('kilnSmoke');
+    var kilnParticles = document.getElementById('kilnParticles');
+    var kilnArch = kilnScene ? kilnScene.querySelector('.kiln-arch') : null;
+    var isOpen = false;
+
+    // 生成火焰粒子
+    function spawnFireParticles() {
+      if (!kilnParticles) return;
+      for (var i = 0; i < 12; i++) {
+        var p = document.createElement('div');
+        p.className = 'fire-particle';
+        var size = 3 + Math.random() * 5;
+        var hue = 20 + Math.random() * 30; // orange-yellow
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        p.style.left = (20 + Math.random() * 60) + '%';
+        p.style.bottom = '0';
+        p.style.background = 'hsl(' + hue + ', 100%, ' + (50 + Math.random() * 20) + '%)';
+        p.style.boxShadow = '0 0 ' + (size * 2) + 'px hsl(' + hue + ', 100%, 50%)';
+        p.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+        p.style.animationDelay = (Math.random() * 2) + 's';
+        kilnParticles.appendChild(p);
+      }
+    }
+    spawnFireParticles();
+
+    // 生成烟雾
+    function spawnSmoke() {
+      if (!kilnSmoke) return;
+      kilnSmoke.classList.add('active');
+      for (var i = 0; i < 6; i++) {
+        var s = document.createElement('div');
+        s.className = 'smoke-puff';
+        var size = 30 + Math.random() * 40;
+        s.style.width = size + 'px';
+        s.style.height = size + 'px';
+        s.style.left = (20 + Math.random() * 60) + '%';
+        s.style.bottom = '0';
+        s.style.animationDelay = (i * 0.3) + 's';
+        kilnSmoke.appendChild(s);
+      }
+      setTimeout(function() {
+        kilnSmoke.classList.remove('active');
+        kilnSmoke.innerHTML = '';
+      }, 3000);
+    }
+
+    // 开炉
+    function openKiln() {
+      if (isOpen) return;
+      isOpen = true;
+      // 炉门打开动画
+      kilnDoor.classList.add('kiln-door-open');
+      // 烟雾
+      spawnSmoke();
+      // 拱门余光
+      if (kilnArch) kilnArch.classList.add('fired');
+      // 显示视频
+      setTimeout(function() {
+        kilnVideoWrap.classList.add('visible');
+        kilnVideo.play();
+        // 暂停背景音乐
+        var bgAudio = document.getElementById('bgMusic');
+        if (bgAudio && !bgAudio.paused) {
+          bgAudio.pause();
+          window._kilnPausedMusic = true;
+        }
+      }, 400);
+    }
+
+    // 关炉
+    function closeKiln() {
+      if (!isOpen) return;
+      isOpen = false;
+      kilnVideo.pause();
+      kilnVideoWrap.classList.remove('visible');
+      if (kilnArch) kilnArch.classList.remove('fired');
+      setTimeout(function() {
+        kilnDoor.classList.remove('kiln-door-open');
+        // 恢复背景音乐
+        if (window._kilnPausedMusic) {
+          var bgAudio = document.getElementById('bgMusic');
+          if (bgAudio) bgAudio.play().catch(function(){});
+          window._kilnPausedMusic = false;
+        }
+      }, 500);
+    }
+
+    if (kilnDoor) kilnDoor.addEventListener('click', openKiln);
+    if (kilnCloseBtn) kilnCloseBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      closeKiln();
+    });
+
+    // 视频结束时自动关炉
+    if (kilnVideo) {
+      kilnVideo.addEventListener('ended', function() {
+        setTimeout(closeKiln, 1500);
+      });
+    }
+  });
+</script>
+<!-- 背景音乐 -->
+<audio id="bgMusic" loop preload="auto"></audio>
+<div class="music-widget tang-ui-dark" id="musicWidget">
+  <button class="music-toggle paused" id="musicToggle" title="播放">&#9835;</button>
+  <button class="music-close" id="musicClose" title="关闭">&times;</button>
+</div>
+<style>
+  .music-widget { position: fixed; bottom: 36px; left: 36px; display: flex; align-items: center; gap: 8px; z-index: 1001; }
+  .music-widget.hidden { display: none; }
+  .music-toggle { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--tang-gold); background: var(--tang-bg-surface); color: var(--tang-gold-soft); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; box-shadow: 0 4px 14px var(--tang-shadow); }
+  .music-toggle.playing { border-color: var(--tang-gold); animation: musicPulse 2s ease-in-out infinite; }
+  .music-toggle.paused { opacity: 1; border-color: color-mix(in srgb, var(--tang-gold) 65%, transparent); }
+  @keyframes musicPulse { 0%,100%{ box-shadow:0 4px 14px var(--tang-shadow); } 50%{ box-shadow:0 4px 24px color-mix(in srgb, var(--tang-gold) 40%, transparent),0 0 40px color-mix(in srgb, var(--tang-gold) 15%, transparent); } }
+  .music-toggle:hover, .music-toggle:active { background: var(--tang-gold); color:var(--tang-ink); border-color:var(--tang-gold); }
+  .music-close { width:28px; height:28px; border-radius:50%; border:1px solid var(--tang-gold); background:var(--tang-bg-surface); color:var(--tang-gold-soft); font-size:0.9rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.3s ease; padding:0; line-height:1; }
+  .music-close:hover, .music-close:active { background:var(--tang-gold); border-color:var(--tang-gold); color:var(--tang-ink); }
+  .music-toggle:focus-visible, .music-close:focus-visible { outline-color: var(--tang-focus); }
+  @media(max-width:768px){ .music-widget{bottom:24px;left:24px;} .music-toggle{width:38px;height:38px;font-size:1rem;} .music-close{width:24px;height:24px;font-size:0.8rem;} }
+</style>
+<script src="../js/music.js"></script>
+</body>
+</html>

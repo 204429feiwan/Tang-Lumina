@@ -1,0 +1,130 @@
+/* 每页唯一背景入口。更换扩展名只改对应 url；正文由浅色蒙版保护。 */
+.exhibition-page[data-page="home"] {
+  --page-atmosphere-image: url('../images/backgrounds/home-bg.png');
+  --atmosphere-position: center;
+}
+.exhibition-page[data-page="history"] {
+  --page-atmosphere-image: url('../images/backgrounds/history-bg.png');
+  --atmosphere-position: center 58%;
+}
+.exhibition-page[data-page="treasures"] {
+  --page-atmosphere-image: url('../images/backgrounds/treasures-bg.png');
+  --atmosphere-position: center;
+}
+.exhibition-page[data-page="art"] {
+  --page-atmosphere-image: url('../images/backgrounds/art-bg.png');
+  --atmosphere-position: center;
+}
+.exhibition-page[data-page="aesthetics"] {
+  --page-atmosphere-image: url('../images/backgrounds/aesthetics-bg.png');
+  --atmosphere-position: center;
+}
+
+/* 氛围层只作用于展区，卡片与文字保持各自原有底色。 */
+.exhibition-page > .section-light,
+.exhibition-page > .section-compass,
+.exhibition-page > .museum-section,
+.exhibition-page > .painting-section,
+.exhibition-page > .brocade-section {
+  background-image: linear-gradient(90deg, rgba(253,249,242,.91), rgba(253,249,242,.96) 28%, rgba(253,249,242,.96) 72%, rgba(253,249,242,.91)), var(--page-atmosphere-image);
+  background-size: cover;
+  background-position: var(--atmosphere-position, center);
+  background-attachment: fixed;
+}
+.exhibition-page > .section-compass {
+  background-image: radial-gradient(ellipse at center, rgba(253,249,242,.92) 16%, rgba(247,237,217,.80) 75%), var(--page-atmosphere-image);
+}
+
+/* 首页正文稍微透出长安画卷；卡片仍保留独立浅色底，保证文字清晰。 */
+.exhibition-page[data-page="home"] > .section-light {
+  background-image: linear-gradient(90deg, rgba(253,249,242,.76), rgba(253,249,242,.86) 28%, rgba(253,249,242,.86) 72%, rgba(253,249,242,.76)), var(--page-atmosphere-image);
+}
+.exhibition-page[data-page="home"] > .section-compass {
+  background-image: radial-gradient(ellipse at center, rgba(253,249,242,.78) 16%, rgba(247,237,217,.60) 75%), var(--page-atmosphere-image);
+}
+
+/* 艺术页中部画卷区使用通透模式；顶部 Hero 与敦煌 3D 展厅保持各自原貌。 */
+.exhibition-page[data-page="art"] > .painting-section {
+  background-image: linear-gradient(90deg, rgba(253,249,242,.66), rgba(253,249,242,.79) 24%, rgba(253,249,242,.79) 76%, rgba(253,249,242,.66)), var(--page-atmosphere-image);
+  background-position: center;
+}
+.exhibition-page > .mural-section {
+  background-image: linear-gradient(rgba(26,16,8,.91), rgba(26,16,8,.95)), var(--page-atmosphere-image);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* 页尾沿用各页末章的纸色或夜色，颜色仅作用于公共页脚。 */
+.exhibition-page[data-page="home"] > .footer {
+  --footer-surface: #f5eddc;
+  --footer-base: #ecdfc5;
+  --footer-ink: #64503b;
+  --footer-heading: #503626;
+  --footer-muted: #70583e;
+  --footer-accent: #8e392e;
+  --footer-line: rgba(131, 100, 55, .24);
+}
+.exhibition-page[data-page="history"] > .footer {
+  --footer-surface: #e9dec6;
+  --footer-base: #e1d3b6;
+  --footer-ink: #604932;
+  --footer-heading: #482e21;
+  --footer-muted: #6c5238;
+  --footer-accent: #8a392a;
+  --footer-line: rgba(124, 91, 43, .25);
+}
+.exhibition-page[data-page="treasures"] > .footer {
+  --footer-surface: #0c0907;
+  --footer-base: #19120d;
+  --footer-ink: #c7b697;
+  --footer-heading: #e4c992;
+  --footer-muted: #b6a181;
+  --footer-accent: #f0d6a0;
+  --footer-line: rgba(201, 155, 77, .22);
+}
+.exhibition-page[data-page="art"] > .footer {
+  --footer-surface: #efe7d5;
+  --footer-base: #e7dcc5;
+  --footer-ink: #62513e;
+  --footer-heading: #46382b;
+  --footer-muted: #70583e;
+  --footer-accent: #913a30;
+  --footer-line: rgba(140, 113, 67, .23);
+}
+.exhibition-page[data-page="aesthetics"] > .footer {
+  --footer-surface: #080f20;
+  --footer-base: #0e1425;
+  --footer-ink: #c6bba5;
+  --footer-heading: #e6d5ae;
+  --footer-muted: #b0a58f;
+  --footer-accent: #f2ddb3;
+  --footer-line: rgba(210, 186, 139, .20);
+}
+.exhibition-page[data-page] > .footer.tang-ui-dark {
+  background: linear-gradient(180deg, var(--footer-surface), var(--footer-base));
+  color: var(--footer-ink);
+  border-top: 1px solid var(--footer-line);
+}
+.exhibition-page[data-page] > .footer.tang-ui-dark h5 {
+  color: var(--footer-heading);
+}
+.exhibition-page[data-page] > .footer.tang-ui-dark a {
+  color: var(--footer-ink);
+}
+.exhibition-page[data-page] > .footer.tang-ui-dark a:hover,
+.exhibition-page[data-page] > .footer.tang-ui-dark a:active {
+  color: var(--footer-accent);
+}
+.exhibition-page[data-page] > .footer.tang-ui-dark a:focus-visible {
+  color: var(--footer-accent);
+  outline: 2px solid var(--footer-accent);
+  outline-offset: 4px;
+}
+.exhibition-page[data-page] > .footer.tang-ui-dark .footer-divider {
+  border-color: var(--footer-line);
+  opacity: 1;
+}
+.exhibition-page[data-page] > .footer.tang-ui-dark .footer-bottom {
+  color: var(--footer-muted);
+}

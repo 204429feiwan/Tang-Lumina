@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="翰墨丹青 - 传世名画 · 敦煌壁画 · 笔墨千秋">
+  <title>翰墨丹青 | 盛唐雅粹</title>
+  <link rel="preload" as="image" fetchpriority="high" href="../images/backgrounds/art-bg.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css?v=20260919b">
+  <style>
+    .painting-section { padding: 7rem 0; background: var(--color-silk-light); }
+    .mural-section { padding: 6rem 0; background: #1a1008; position: relative; overflow: hidden; }
+    .roof-title {
+      position: relative;
+      text-align: center;
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      color: #B3483C;
+      letter-spacing: 0.3em;
+      margin: 2rem 0 1rem;
+      pointer-events: none;
+    }
+    .roof-title {
+      text-align: center;
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.6rem;
+      color: #B3483C;
+      letter-spacing: 0.3em;
+      margin-bottom: 1rem;
+      pointer-events: none;
+    }
+    .fixed-parallax-bg {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url('../images/supplement/屋檐背景.png');
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+      z-index: -1;
+    }
+    .chang-an-section {
+      padding: 6rem 0 0;
+      background-color: transparent;
+      position: relative;
+      overflow: hidden;
+    }
+    .eave-reveal { position: relative; width: 100%; margin-top: 0; background: transparent; transform: translateY(100%); transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
+    .eave-reveal.visible { transform: translateY(0); }
+    .eave-reveal img { width: 100%; display: block; }
+    .mural-section::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 20% 10%, rgba(200,150,62,0.05) 0%, transparent 50%),
+                  radial-gradient(ellipse at 80% 70%, rgba(200,150,62,0.04) 0%, transparent 40%);
+      pointer-events: none; z-index: 0;
+    }
+    .mural-section .container { position: relative; z-index: 1; }
+    .mural-section .tang-title { color: var(--color-gold-light); }
+    .mural-section .section-subtitle { color: rgba(255,240,210,0.55); }
+
+    /* Horizontal scroll track */
+    .scroll-track {
+      position: relative;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 2rem 0 3rem;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      cursor: grab;
+    }
+    .scroll-track:active { cursor: grabbing; }
+    .scroll-track::-webkit-scrollbar { height: 6px; }
+    .scroll-track::-webkit-scrollbar-track { background: rgba(255,240,210,0.05); border-radius: 3px; }
+    .scroll-track::-webkit-scrollbar-thumb { background: rgba(200,150,62,0.3); border-radius: 3px; }
+    .scroll-track::-webkit-scrollbar-thumb:hover { background: rgba(200,150,62,0.5); }
+
+    /* Scroll reel - the unfolding画卷 */
+    .scroll-reel {
+      display: flex;
+      gap: 1.2rem;
+      padding: 0 2rem;
+      animation: scrollUnfurl 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      width: max-content;
+    }
+    @keyframes scrollUnfurl {
+      from { opacity: 0; transform: translateX(80px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Individual mural card */
+    .mural-scroll-card {
+      flex: 0 0 220px;
+      width: 220px;
+      position: relative;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+      background: #2A1810;
+      border: 2px solid rgba(139,105,20,0.3);
+      /* Aged scroll colors */
+      filter: sepia(0.55) saturate(0.7) brightness(0.85);
+      transition: filter 0.7s ease, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s ease, border-color 0.5s ease;
+    }
+    .mural-scroll-card img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.8s ease;
+    }
+    /* Hover: digital restoration - colors bloom */
+    .mural-scroll-card:hover {
+      filter: sepia(0) saturate(1.1) brightness(1.05);
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 0 50px rgba(200,150,62,0.4), 0 12px 36px rgba(0,0,0,0.6);
+      border-color: rgba(200,150,62,0.7);
+      z-index: 20;
+    }
+    .mural-scroll-card:hover img {
+      transform: scale(1.06);
+    }
+
+    /* Gold ornamental corner */
+    .mural-scroll-card::before {
+      content: ''; position: absolute; top: 8px; left: 8px;
+      width: 20px; height: 20px;
+      border-top: 2px solid rgba(200,150,62,0);
+      border-left: 2px solid rgba(200,150,62,0);
+      z-index: 3; pointer-events: none;
+      transition: all 0.6s ease;
+    }
+    .mural-scroll-card:hover::before {
+      border-color: rgba(200,150,62,0.7);
+      width: 30px; height: 30px;
+    }
+
+    /* Poem overlay - brush writing animation */
+    .mural-scroll-card .poem-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 1.5rem 1rem 1rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.9) 30%);
+      z-index: 4; pointer-events: none;
+      opacity: 0; transform: translateY(20px);
+      transition: all 0.5s ease 0.15s;
+    }
+    .mural-scroll-card:hover .poem-overlay {
+      opacity: 1; transform: translateY(0);
+    }
+    .poem-overlay .poem-text {
+      font-family: 'KaiTi', 'STKaiti', 'Noto Serif SC', serif;
+      color: var(--color-gold-light);
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      line-height: 1.8;
+      text-align: center;
+      /* Brush writing reveal */
+      overflow: hidden;
+      white-space: nowrap;
+      width: 0;
+      animation: none;
+    }
+    .mural-scroll-card:hover .poem-text {
+      animation: brushWrite 2s steps(20) forwards;
+      width: 100%;
+    }
+    @keyframes brushWrite {
+      from { width: 0; opacity: 0.4; }
+      30% { opacity: 1; }
+      to { width: 100%; opacity: 1; }
+    }
+
+    /* Card label */
+    .mural-scroll-card .card-label {
+      position: absolute; top: 12px; right: 12px;
+      padding: 3px 10px; background: rgba(0,0,0,0.6);
+      color: rgba(255,240,210,0.7); font-size: 0.7rem;
+      font-family: var(--font-display); letter-spacing: 0.06em;
+      border-radius: 2px; z-index: 3; pointer-events: none;
+      transition: all 0.5s ease;
+    }
+    .mural-scroll-card:hover .card-label {
+      background: rgba(200,150,62,0.7); color: #fff;
+    }
+
+    /* Scroll edge decorations */
+    .scroll-edge-left, .scroll-edge-right {
+      position: absolute; top: 0; bottom: 0; width: 40px; z-index: 5;
+      pointer-events: none;
+    }
+    .scroll-edge-left { left: 0; background: linear-gradient(90deg, #1a1008 0%, transparent 100%); }
+    .scroll-edge-right { right: 0; background: linear-gradient(270deg, #1a1008 0%, transparent 100%); }
+
+    @media (max-width: 768px) {
+      .mural-scroll-card { flex: 0 0 160px; width: 160px; }
+      .mural-scroll-card img { height: 240px; }
+    }
+  </style>
+  <link rel="stylesheet" href="../css/backgrounds.css">
+  <link rel="stylesheet" href="../css/exhibition.css?v=20261013-hero-stable">
+  <link rel="stylesheet" href="../css/chapter-effects.css">
+  <link rel="stylesheet" href="../css/mural-gallery.css">
+  <link rel="stylesheet" href="../css/history-poem.css">
+  <link rel="stylesheet" href="../css/art-culture.css?v=20261013r8-next">
+  <link rel="stylesheet" href="../css/art-rubbing.css?v=20261012r7">
+  <script src="../js/exhibition.js?v=20261013-hero-stable" defer></script>
+  <script src="../js/chapter-effects.js" defer></script>
+  <script src="../js/vendor/three.min.js"></script>
+  <script src="../js/mural-gallery.js" defer></script>
+  <script src="../js/history-poem.js" defer></script>
+  <script src="../js/art-culture.js?v=20261013r8" defer></script>
+  <script src="../js/art-rubbing.js?v=20261012r7" defer></script>
+  <script src="../js/art-carriers.js?v=20261012r7" defer></script>
+  <script src="../js/art-triad.js?v=20261012r7" defer></script>
+</head>
+<body class="exhibition-page" data-page="art" style="background: transparent;">
+  <div class="fixed-parallax-bg"></div>
+<div class="golden-birds"><span class="golden-bird"></span><span class="golden-bird"></span><span class="golden-bird"></span><span class="golden-bird"></span><span class="golden-bird"></span><span class="golden-bird"></span></div>
+
+
+<nav class="navbar navbar-expand-lg fixed-top tang-shell-nav">
+  <div class="container">
+    <a class="navbar-brand" href="../index.html">盛唐雅粹</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="../index.html">首页</a></li>
+        <li class="nav-item"><a class="nav-link" href="history.html">历史溯源</a></li>
+        <li class="nav-item"><a class="nav-link" href="treasures.html">瑰宝重器</a></li>
+        <li class="nav-item"><a class="nav-link active" href="art.html">翰墨丹青</a></li>
+        <li class="nav-item"><a class="nav-link" href="aesthetics.html">唐风美学</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="page-hero" style="background-image: url('../images/backgrounds/art-bg.png'); background-color: #29251f;"><div class="chapter-backdrop" aria-hidden="true"></div><div class="hero-atmosphere" aria-hidden="true"></div></div>
+
+<section class="painting-section">
+  <div class="container">
+    <div class="text-center mb-5 fade-up"><h2 class="tang-title">传世名画</h2><p class="section-subtitle">每一幅画作，都是大唐风华的时代留影</p></div>
+
+    <style>
+      /* Scroll frame */
+      .unfurl-scroll {
+        position: relative;
+        background: var(--color-silk-light);
+        border: 2px solid var(--color-silk-dark);
+        border-radius: 2px;
+        margin-bottom: 2.5rem;
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+        cursor: pointer;
+      }
+      /* Top rod */
+      .unfurl-scroll::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 14px;
+        background: linear-gradient(180deg, #A08050 0%, #8B6B3E 40%, #6B4F2E 60%, #A08050 100%);
+        border-radius: 3px 3px 0 0;
+        z-index: 5;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      }
+      /* Bottom rod */
+      .unfurl-scroll::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        height: 14px;
+        background: linear-gradient(180deg, #8B6B3E 0%, #6B4F2E 40%, #A08050 60%, #8B6B3E 100%);
+        border-radius: 0 0 3px 3px;
+        z-index: 5;
+        box-shadow: 0 -2px 6px rgba(0,0,0,0.15);
+      }
+      /* Painting container — above text, collapsed initially */
+      .unfurl-img-wrap {
+        height: 0;
+        overflow: hidden;
+        position: relative;
+      }
+      .unfurl-img-wrap img {
+        width: 100%;
+        display: block;
+        border: 1px solid var(--color-silk-dark);
+        border-radius: 2px;
+        transform: translateX(100%);
+        transition: transform 1.8s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      /* Text info — always visible, sits behind the painting */
+      .unfurl-info {
+        position: relative;
+        z-index: 1;
+        padding: 1.5rem 1.8rem 1.8rem;
+        text-align: center;
+        background: rgba(255,255,255,0.5);
+      }
+      .unfurl-info h4 {
+        color: var(--color-cinnabar);
+        font-family: var(--font-display);
+        margin-bottom: 0.2rem;
+      }
+      .unfurl-info .unfurl-meta {
+        font-size: 0.85rem;
+        color: var(--color-gold-dark);
+        letter-spacing: 0.05em;
+        margin-bottom: 0.6rem;
+      }
+      .unfurl-info p {
+        color: var(--color-ink-light);
+        line-height: 1.8;
+        font-size: 0.9rem;
+        margin: 0;
+      }
+      /* Side rod ends */
+      .rod-end-left, .rod-end-right {
+        position: absolute;
+        top: -4px;
+        width: 10px; height: 22px;
+        background: radial-gradient(circle, #C8A860 0%, #8B6B3E 100%);
+        border-radius: 3px;
+        z-index: 6;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      }
+      .rod-end-left { left: -4px; }
+      .rod-end-right { right: -4px; }
+      .rod-end-bottom { top: auto; bottom: -4px; }
+    </style>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="unfurl-scroll fade-up">
+          <span class="rod-end-left"></span>
+          <span class="rod-end-right"></span>
+          <span class="rod-end-left rod-end-bottom"></span>
+          <span class="rod-end-right rod-end-bottom"></span>
+          <div class="unfurl-img-wrap">
+            <img src="../images/paintings/唐 阎立本 《步辇图》.jpg" alt="步辇图" class="unfurl-img" data-lightbox="../images/paintings/唐 阎立本 《步辇图》.jpg" data-title="《步辇图》" data-desc="唐·阎立本，绢本设色，纵38.5厘米，横129.6厘米" loading="lazy">
+          </div>
+          <div class="unfurl-info">
+            <h4>《步辇图》</h4>
+            <p class="unfurl-meta">唐 · 阎立本 | 绢本设色 | 故宫博物院藏</p>
+            <p>描绘唐太宗李世民接见吐蕃使者禄东赞的历史场景。画面中唐太宗端坐步辇之上，威严庄重；禄东赞恭敬肃立，展现出大唐天子气度与汉藏友好的历史佳话。笔法精炼，设色古雅，是唐代历史画的巅峰之作。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mt-4">
+      <div class="col-lg-6 fade-up delay-1">
+        <div class="unfurl-scroll h-100">
+          <span class="rod-end-left"></span>
+          <span class="rod-end-right"></span>
+          <span class="rod-end-left rod-end-bottom"></span>
+          <span class="rod-end-right rod-end-bottom"></span>
+          <div class="unfurl-img-wrap">
+            <img src="../images/paintings/唐 周昉 《簪花仕女图》.jpg" alt="簪花仕女图" class="unfurl-img" data-lightbox="../images/paintings/唐 周昉 《簪花仕女图》.jpg" data-title="《簪花仕女图》" data-desc="唐·周昉" loading="lazy">
+          </div>
+          <div class="unfurl-info">
+            <h4>《簪花仕女图》</h4>
+            <p class="unfurl-meta">唐 · 周昉 | 绢本设色 | 辽宁省博物馆藏</p>
+            <p>描绘唐代贵族妇女赏花游园的闲适生活，仕女体态丰腴，衣饰华丽，发髻高耸簪花。画面设色柔美，线条流畅，充分展现了唐代"绮罗人物"画风的最高成就，是唐代仕女画的典范之作。</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 fade-up delay-2">
+        <div class="unfurl-scroll h-100">
+          <span class="rod-end-left"></span>
+          <span class="rod-end-right"></span>
+          <span class="rod-end-left rod-end-bottom"></span>
+          <span class="rod-end-right rod-end-bottom"></span>
+          <div class="unfurl-img-wrap">
+            <img src="../images/paintings/唐 张萱 《捣练图》.jpg" alt="捣练图" class="unfurl-img" data-lightbox="../images/paintings/唐 张萱 《捣练图》.jpg" data-title="《捣练图》" data-desc="唐·张萱（宋摹本）" loading="lazy">
+          </div>
+          <div class="unfurl-info">
+            <h4>《捣练图》</h4>
+            <p class="unfurl-meta">唐 · 张萱（宋徽宗摹本）| 绢本设色 | 波士顿美术馆藏</p>
+            <p>描绘唐代宫廷妇女捣练、织修、熨烫的劳动场景，生动再现了盛唐时期的纺织工艺与女性日常生活。人物神态各异，动态自然，设色明丽，是唐代风俗画的经典之作。</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 fade-up delay-3">
+        <div class="unfurl-scroll h-100">
+          <span class="rod-end-left"></span>
+          <span class="rod-end-right"></span>
+          <span class="rod-end-left rod-end-bottom"></span>
+          <span class="rod-end-right rod-end-bottom"></span>
+          <div class="unfurl-img-wrap">
+            <img src="../images/paintings/唐 张萱 《虢国夫人游春图》.jpg" alt="虢国夫人游春图" class="unfurl-img" data-lightbox="../images/paintings/唐 张萱 《虢国夫人游春图》.jpg" data-title="《虢国夫人游春图》" data-desc="唐·张萱（宋摹本）" loading="lazy">
+          </div>
+          <div class="unfurl-info">
+            <h4>《虢国夫人游春图》</h4>
+            <p class="unfurl-meta">唐 · 张萱（宋摹本）| 绢本设色 | 辽宁省博物馆藏</p>
+            <p>描绘杨贵妃之姊虢国夫人与从骑春日出游的场景。画面不绘背景，以人物鞍马为主体，通过服饰、马匹的华美展现贵族的奢华气派。构图疏密有致，人物神采飞扬。</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 fade-up delay-4">
+        <div class="unfurl-scroll h-100">
+          <span class="rod-end-left"></span>
+          <span class="rod-end-right"></span>
+          <span class="rod-end-left rod-end-bottom"></span>
+          <span class="rod-end-right rod-end-bottom"></span>
+          <div class="unfurl-img-wrap">
+            <img src="../images/paintings/《挥扇仕女图》.jpg" alt="挥扇仕女图" class="unfurl-img" data-lightbox="../images/paintings/《挥扇仕女图》.jpg" data-title="《挥扇仕女图》" data-desc="唐·周昉" loading="lazy">
+          </div>
+          <div class="unfurl-info">
+            <h4>《挥扇仕女图》</h4>
+            <p class="unfurl-meta">唐 · 周昉 | 绢本设色 | 故宫博物院藏</p>
+            <p>描绘唐代宫廷妇女夏日纳凉的生活场景，仕女或挥扇、或抚琴、或对镜梳妆。画面氛围慵懒闲适，表现出宫廷贵妇的日常生活情趣，是周昉"绮罗人物"风格的重要代表作。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="mural-section">
+  <div class="container" style="max-width:100%; padding:0 2rem;">
+    <div class="text-center mb-5 fade-up"><h2 class="tang-title">敦煌壁画</h2><p class="section-subtitle">古卷徐展 · 风沙千年 — 悬停壁画，数字修复重现流光溢彩</p></div>
+    <p class="text-center mb-4 fade-up" style="max-width:700px; margin:0 auto 3rem; color:rgba(255,240,210,0.45); line-height:1.9;">
+      敦煌莫高窟始建于前秦，历经千年营建，是现存规模最大的佛教艺术圣地。唐代壁画是敦煌的黄金时代——飞天伎乐衣袂飘飘，经变画气势恢宏。左右滑动画卷，悬停任一幅，让千年风沙褪去，重现盛唐璀璨。
+    </p>
+
+    <!-- Horizontal Scroll Reel -->
+    <div class="scroll-track" id="muralScrollTrack">
+      <div class="scroll-reel" id="muralScrollReel">
+        <!-- 15 JPGs + 5 PNGs = 20 murals -->
+        <div class="mural-scroll-card" data-lightbox="../images/murals/IMG_5985.jpg" data-title="敦煌壁画 · 大唐佛国">
+          <img src="../images/murals/IMG_5985.jpg" alt="大唐佛国" loading="lazy">
+          <div class="card-label">大唐佛国</div>
+          <div class="poem-overlay"><p class="poem-text">大漠孤烟 · 佛国净土</p></div>
+        </div>
+        <div class="mural-scroll-card" data-lightbox="../images/murals/IMG_5986.jpg" data-title="敦煌壁画 · 天衣飞扬">
+          <img src="../images/murals/IMG_5986.jpg" alt="天衣飞扬" loading="lazy">
+          <div class="card-label">天衣飞扬</div>
+          <div class="poem-overlay"><p class="poem-text">霓裳曳广带 · 飘拂升天行</p></div>
+        </div>
+        <div class="mural-scroll-card" data-lightbox="../images/murals/IMG_5987.jpg" data-title="敦煌壁画 · 满壁风动">
+          <img src="../images/murals/IMG_5987.jpg" alt="满壁风动" loading="lazy">
+          <div class="card-label">满壁风动</div>
+          <div class="poem-overlay"><p class="poem-text">天衣飞扬满壁 · 梵音缭绕千年</p></div>
+        </div>
+        <div class="mural-scroll-card" data-lightbox="../images/murals/IMG_5988.jpg" data-title="敦煌壁画 · 宝相庄严">
+          <img src="../images/murals/IMG_5988.jpg" alt="宝相庄严" loading="lazy">
+          <div class="card-label">宝相庄严</div>
+          <div class="poem-overlay"><p class="poem-text">宝相花开见佛 · 菩提树下悟禅</p></div>
+        </div>
+        <div class="mural-scroll-card" data-lightbox="../images/murals/IMG_5989.jpg" data-title="敦煌壁画 · 梵音缭绕">
+          <img src="../images/murals/IMG_5989.jpg" alt="梵音缭绕" loading="lazy">
+          <div class="card-label">梵音缭绕</div>
+          <div class="poem-overlay"><p class="poem-text">梵音袅袅飞天舞 · 丝路花雨落人间</p></div>
+        </div>
+        <div class="mural-scroll-card" data-lightbox="../images/murals/IMG_5990.jpg" data-title="敦煌壁画 · 丝路花雨">
+          <img src="../images/murals/IMG_5990.jpg" alt="丝路花雨" loading="lazy">
+          <div class="card-label">丝路花雨</div>
+          <div class="poem-overlay"><p class="poem-text">无数铃声遥过碛 · 应驮白练到安西</p></div>
+        </div>
+        <div class="mural-scroll-card" data-lightbox="../images/murals/IMG_5991.jpg" data-title="敦煌壁画 · 供养礼佛">
+          <img src="../images/murals/IMG_5991.jpg" alt="供养礼佛" loading="lazy">
+          <div class="card-label">供养礼佛</div>
+          <div class="poem-overlay"><p class="poem-text">一心供养三世佛 · 功德无量照大千</p></div>
+        </div>
+        <div class="mural-scroll-card" data-lightbox="../images/murals/IMG_5992.jpg" data-title="敦煌壁画 · 佛国净土">
+          <img src="../images/murals/IMG_5992.jpg" alt="佛国净土" loading="lazy">
+          <div class="card-label">佛国净土</div>
+          <div class="poem-overlay"><p class="poem-text">西方极乐庄严土 · 七宝莲池功德水</p></div>
+        </div>
+        <div class="mural-scroll-card" data-lightbox="../images/murals/IMG_5993.jpg" data-title="敦煌壁画 · 伎乐飞天">
+          <img src="../images/murals/IMG_5993.jpg" alt="伎乐飞天" loading="lazy">
+          <div class="card-label">伎乐飞天</div>
+          <div class="poem-overlay"><p class="poem-text">素手把芙蓉 · 虚步蹑太清</p></div>
+        </div>
+        <div class="mural-scroll-card" data-lightbox="../images/murals/IMG_5994.jpg" data-title="敦煌壁画 · 宝相庄严">
+          <img src="../images/murals/IMG_5994.jpg" alt="宝相庄严" loading="lazy">
+          <div class="card-label">宝相庄严</div>
+          <div class="poem-overlay"><p class="poem-text">云想衣裳花想容 · 春风拂槛露华浓</p></div>
+        </div>
+        <div class="mural-scroll-card" data-lightbox="../images/murals/IMG_5995.jpg" data-title="敦煌壁画 · 佛光普照">
+          <img src="../images/murals/IMG_5995.jpg" alt="佛光普照" loading="lazy">
+          <div class="card-label">佛光普照</div>
+          <div class="poem-overlay"><p class="poem-text">佛光普照三千界 · 法雨均沾九地春</p></div>
+        </div>
+        <div class="mural-scroll-card" data-lightbox="../images/murals/IMG_5996.jpg" data-title="敦煌壁画 · 禅定修行">
+          <img src="../images/murals/IMG_5996.jpg" alt="禅定修行" loading="lazy">
+          <div class="card-label">禅定修行</div>
+          <div class="poem-overlay"><p class="poem-text">行到水穷处 · 坐看云起时</p></div>
+        </div>
+        <div class="mural-scroll-card" data-lightbox="../images/murals/IMG_5997.jpg" data-title="敦煌壁画 · 藻井华盖">
+          <img src="../images/murals/IMG_5997.jpg" alt="藻井华盖" loading="lazy">
+          <div class="card-label">藻井华盖</div>
+          <div class="poem-overlay"><p class="poem-text">天花乱坠垂璎珞 · 华盖庄严覆法筵</p></div>
+        </div>
+        <div class="mural-scroll-card" data-lightbox="../images/murals/IMG_5998.jpg" data-title="敦煌壁画 · 经变说法">
+          <img src="../images/murals/IMG_5998.jpg" alt="经变说法" loading="lazy">
+          <div class="card-label">经变说法</div>
+          <div class="poem-overlay"><p class="poem-text">佛陀说法祇园会 · 万类生灵皆得度</p></div>
+        </div>
+        <div class="mural-scroll-card" data-lightbox="../images/murals/IMG_5999.jpg" data-title="敦煌壁画 · 大唐余韵">
+          <img src="../images/murals/IMG_5999.jpg" alt="大唐余韵" loading="lazy">
+          <div class="card-label">大唐余韵</div>
+          <div class="poem-overlay"><p class="poem-text">九天阊阖开宫殿 · 万国衣冠拜冕旒</p></div>
+        </div>
+        <!-- PNG murals -->
+        <div class="mural-scroll-card" data-lightbox="../images/murals/33.png" data-title="敦煌壁画 · 飞天伎乐">
+          <img src="../images/murals/33.png" alt="飞天伎乐" loading="lazy">
+          <div class="card-label">飞天伎乐</div>
+          <div class="poem-overlay"><p class="poem-text">此曲只应天上有 · 人间能得几回闻</p></div>
+        </div>
+        <div class="mural-scroll-card" data-lightbox="../images/murals/56.png" data-title="敦煌壁画 · 天宫楼阁">
+          <img src="../images/murals/56.png" alt="天宫楼阁" loading="lazy">
+          <div class="card-label">天宫楼阁</div>
+          <div class="poem-overlay"><p class="poem-text">天上白玉京 · 十二楼五城</p></div>
+        </div>
+        <div class="mural-scroll-card" data-lightbox="../images/murals/66.png" data-title="敦煌壁画 · 维摩诘经变">
+          <img src="../images/murals/66.png" alt="维摩诘经变" loading="lazy">
+          <div class="card-label">维摩诘经变</div>
+          <div class="poem-overlay"><p class="poem-text">不二法门深似海 · 维摩一默响如雷</p></div>
+        </div>
+        <div class="mural-scroll-card" data-lightbox="../images/murals/67.png" data-title="敦煌壁画 · 菩萨赴会">
+          <img src="../images/murals/67.png" alt="菩萨赴会" loading="lazy">
+          <div class="card-label">菩萨赴会</div>
+          <div class="poem-overlay"><p class="poem-text">菩萨如云赴华会 · 天女散花满虚空</p></div>
+        </div>
+        <div class="mural-scroll-card" data-lightbox="../images/murals/77.png" data-title="敦煌壁画 · 观无量寿经变">
+          <img src="../images/murals/77.png" alt="观无量寿经变" loading="lazy">
+          <div class="card-label">观无量寿经变</div>
+          <div class="poem-overlay"><p class="poem-text">愿我临终无障碍 · 阿弥陀佛远相迎</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:2rem; position:relative; z-index:2;">
+      <p style="color:rgba(255,240,210,0.2); font-family:var(--font-display); letter-spacing:0.1em; font-size:0.78rem;">
+        左右滑动画卷 · 悬停修复千年 | 点击壁画放大观看细节
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="chang-an-section" id="artCulture" aria-label="书法、纸墨与文学艺术体验">
+<div class="acv5-gallery acv3-gallery" id="acv5Gallery">
+<section class="acv3-panel acv8-chapter acv8-ink" id="acv5-panel-ink" aria-labelledby="inkChapterTitle"><header class="acv8-chapter-head"><div class="acv8-chapter-name"><span class="acv8-chapter-number">01</span><div><p class="acv3-kicker">墨迹鉴赏 · THE ART OF INK</p><h2 id="inkChapterTitle">翰墨风骨</h2></div></div><p class="acv8-chapter-intro">从原作的全貌，走近一笔墨色。</p></header>
+        <div class="acv3-select" role="tablist" aria-label="选择书家"><button type="button" role="tab" id="acv3-artist-ou" aria-controls="acv3-ink-stage" aria-selected="false" tabindex="-1" data-acv5-artist="ou">欧阳询 <small>楷法</small></button><button type="button" role="tab" id="acv3-artist-yan" aria-controls="acv3-ink-stage" aria-selected="false" tabindex="-1" data-acv5-artist="yan">颜真卿 <small>行书</small></button><button type="button" role="tab" id="acv3-artist-liu" aria-controls="acv3-ink-stage" aria-selected="false" tabindex="-1" data-acv5-artist="liu">柳公权 <small>楷书</small></button><button type="button" role="tab" id="acv3-artist-sun" aria-controls="acv3-ink-stage" aria-selected="true" data-acv5-artist="sun">孙过庭 <small>书理</small></button></div>
+        <div class="acv3-ink-stage" id="acv3-ink-stage" role="tabpanel" aria-labelledby="acv3-artist-sun" data-artist="sun">
+          <p class="acv3-ink-poetic" aria-hidden="true">一笔之中<br>风骨自见</p><span class="acv3-ink-seal" aria-hidden="true">墨</span>
+          <div class="acv3-ink-rail" aria-hidden="true"></div>
+          <div class="acv3-ink-window acv3-picture" data-acv3-ink-window tabindex="0" role="group" aria-label="墨迹鉴赏视窗" aria-describedby="inkReadingHelp"><div class="acv3-plane" data-acv3-ink-plane><img data-acv3-ink-image src="../images/art-culture/sun-shupu-1.webp" alt="孙过庭书谱唐代墨迹卷首选片" loading="lazy" decoding="async"></div></div>
+          <div class="acv8-ink-tools" role="group" aria-label="墨迹鉴赏操作"><button type="button" data-acv8-inspect aria-pressed="false">局部细读 ↗</button><button type="button" data-acv8-zoom="in" aria-label="放大墨迹">＋</button><output data-acv8-zoom-label aria-label="放大倍率">1.0×</output><button type="button" data-acv8-zoom="out" aria-label="缩小墨迹">−</button><button type="button" data-acv3-reset="ink">还原全貌 ↙</button></div><p class="acv8-ink-help" id="inkReadingHelp">点击“局部细读”后移动鼠标；亦可拖动、用方向键或 ＋ / − 细看。</p></div>
+        <div class="acv3-work-caption"><h3 data-acv3-ink-title>孙过庭《书谱》</h3><p data-acv3-ink-brief>草书墨迹与书学论述，汇在同一卷笔势之中。</p><p class="acv3-credit" data-acv3-ink-credit>唐 · 687年墨迹｜国立故宫博物院，台北 · CC BY 4.0</p><p class="acv3-look-note" data-acv3-look-note>原件数字图像 · 墨迹不作重绘。</p></div>
+      <details class="acv3-provenance acv8-provenance"><summary>作品、版本与书家<span>展开完整资料 ＋</span></summary><div class="acv3-source-body"><h4 data-acv3-source-title></h4><p class="acv3-credit" data-acv3-source-credit></p><p data-acv3-source-copy></p><p data-acv3-source-version></p><div class="acv3-source-links" data-acv3-source-links></div></div></details></section>
+<section class="acv3-panel acv8-chapter acv8-carriers" id="acv5-panel-carriers" aria-labelledby="carrierChapterTitle"><header class="acv8-chapter-head"><div class="acv8-chapter-name"><span class="acv8-chapter-number">02</span><div><p class="acv3-kicker">三艺工坊 · THE TOUCH OF PAPER</p><h2 id="carrierChapterTitle">纸墨留痕</h2></div></div><p class="acv8-chapter-intro">写于纸，拓于石，印于版。亲手留下一次纸墨。</p></header>
+        <div class="acv3-select acv7-entries" role="tablist" aria-label="纸墨三艺 · 选择交互体验">
+          <button type="button" role="tab" id="acv3-carrier-manuscript" data-acv5-carrier="manuscript" aria-controls="acv3-material-stage" aria-selected="true"><span class="acv7-preview acv7-preview-writing" aria-hidden="true"><svg viewBox="0 0 120 60"><path d="M20 43Q36 8 42 23T62 39Q72 41 84 17M35 47Q59 32 98 43"/></svg></span><span class="acv7-entry-copy"><small>01 · 写本</small><strong>执笔留墨</strong><span>以笔留痕 <em>落笔体验 ↗</em></span></span></button>
+          <button type="button" role="tab" id="acv3-carrier-rubbing" data-acv5-carrier="rubbing" aria-controls="acv3-material-stage" aria-selected="false" tabindex="-1"><span class="acv7-preview acv7-preview-rubbing" aria-hidden="true"></span><span class="acv7-entry-copy"><small>02 · 碑拓</small><strong>墨拓留痕</strong><span>以墨传文 <em>拓墨体验 ↗</em></span></span></button>
+          <button type="button" role="tab" id="acv3-carrier-print" data-acv5-carrier="print" aria-controls="acv3-material-stage" aria-selected="false" tabindex="-1"><span class="acv7-preview acv7-preview-print" aria-hidden="true"></span><span class="acv7-entry-copy"><small>03 · 印本</small><strong>覆纸印经</strong><span>一版千印 <em>印经体验 ↗</em></span></span></button>
+        </div>
+        <div class="acv3-material-stage" id="acv3-material-stage" role="tabpanel" aria-labelledby="acv3-carrier-manuscript" data-carrier="manuscript"><span class="acv3-material-word" aria-hidden="true" data-acv3-material-word>印</span><p class="acv3-material-imprint" data-acv3-material-imprint>咸通九年 · 868<br>图像与文字，共入卷面</p><div class="acv3-material-window acv3-picture" data-acv3-material-window><div class="acv3-plane" data-acv3-material-plane><img data-acv3-material-image src="../images/art-culture/diamond-868.webp" alt="868年金刚经雕版印本卷首版画" loading="lazy" decoding="async"></div><div class="acv3-lens" hidden data-acv3-lens><img data-acv3-lens-image src="../images/art-culture/diamond-868.webp" alt="同一印本原图局部放大" loading="lazy" decoding="async"><span>原图局部</span></div></div><div class="acv3-material-looks" role="group" aria-label="文字材质观察"><button type="button" data-acv3-material-look="0" aria-pressed="false">雕版线条</button><button type="button" data-acv3-material-look="1" aria-pressed="false">纸面与墨色</button><button type="button" data-acv3-reset="material">还原视图 ↙</button></div>
+<section class="acv6-writing" data-writing-workbench data-state="idle" hidden aria-label="写本 · 执笔留墨">
+  <header class="acv6-head"><div><h4>执笔留墨</h4><p>一笔一画，留在纸上的，是此刻的你。</p></div><span data-writing-status>展纸 · 待书</span></header>
+  <div class="acv6-writing-desk">
+    <div class="acv6-writing-sheet"><span class="acv6-sheet-mark" aria-hidden="true">此刻留墨</span><canvas data-writing-canvas tabindex="0" role="img" aria-label="自由书写纸面。按住鼠标书写；键盘可使用下方试笔控制。" aria-describedby="writingInstruction writingVersion">可使用下方键盘试笔按钮体验留墨，或查看右侧原卷。</canvas><span class="acv6-sheet-foot" aria-hidden="true">不拘一字 · 随意落笔</span></div>
+    <figure class="acv6-writing-original"><div class="acv6-original-fragment"><img src="../images/art-culture/dunhuang-manuscript.webp" alt="敦煌法华经残卷 Or.8210/S.970 原件数字图像局部" loading="lazy"></div><figcaption><small>原卷对照 · 手写的痕迹</small><h5>敦煌《法华经》残卷</h5><p>Or.8210/S.970 · 具体抄写年未定</p><button type="button" data-writing-original>展开原卷 ↗</button></figcaption></figure>
+  </div>
+  <footer class="acv6-foot"><p id="writingInstruction" data-writing-instruction>按住纸面移动，快慢之间，墨色与线条也随之变化。</p><div class="acv6-actions"><button type="button" data-writing-clear>清除墨迹 ↙</button><button type="button" data-writing-finish>收笔完成</button><button type="button" data-writing-keyboard>键盘试笔</button></div><p id="writingVersion" class="acv6-credit">原卷：British Library / IDP · <a href="https://commons.wikimedia.org/wiki/File:Lotus_Sutra_Or.8210_S.970.jpg" target="_blank" rel="noopener noreferrer">图像来源 ↗</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a><br>左侧墨迹为你的自由书写，非唐代书迹；不模拟古代书家的真实笔顺。右侧为原件数字图像的局部，原图未改。</p></footer>
+</section>
+<section class="acv6-print" data-print-workbench data-state="idle" hidden aria-label="印本 · 覆纸印经">
+  <header class="acv6-head"><div><h4>覆纸印经</h4><p>覆纸、压印、揭纸，让一版图文走向纸面。</p></div><ol class="acv6-print-steps" aria-label="印经顺序"><li data-print-step="cover" aria-current="step">覆纸</li><li data-print-step="press">压印</li><li data-print-step="reveal">揭纸</li></ol></header>
+  <div class="acv6-print-desk"><span class="acv6-print-aside">一版刻线<br>多纸相传</span><div class="acv6-print-plate" data-print-plate>
+    <canvas data-print-block role="img" aria-label="依据存世印本图像制作的现代雕版示意，并非真实存世原版"></canvas>
+    <figure class="acv6-print-result"><img src="../images/art-culture/diamond-868.webp" alt="868年金刚经卷首图像，存世印本的数字图像" loading="lazy"><figcaption>868年《金刚经》卷首 · 存世印本数字图像</figcaption></figure>
+    <div class="acv6-print-paper" data-print-paper><span class="acv6-print-paper-name">覆纸于版</span><button type="button" class="acv6-print-handle" data-print-handle aria-label="拖动纸张覆盖木版；压印后拖动揭纸">执纸 ↙</button><button type="button" class="acv6-print-pressure" data-print-pressure aria-disabled="true" aria-label="覆纸后按住此处压印，或聚焦后按住空格键或回车键">按住此处，轻轻压合</button><span class="acv6-print-paper-edge" aria-hidden="true"></span></div>
+  </div><span class="acv6-print-aside acv6-print-aside-right">木版 · 现代示意<br>印本 · 868年</span></div>
+  <footer class="acv6-foot"><p data-print-instruction aria-live="polite">点击“覆纸”，也可拖动纸角，将纸张移向木版。</p><div class="acv6-actions"><button type="button" data-print-cover>覆纸于版</button><button type="button" data-print-reveal disabled>揭纸见印 ↗</button><button type="button" data-print-reset>重新印经 ↙</button><button type="button" data-print-original>查看存世印本 ↗</button></div><p class="acv6-credit">868年《金刚经》卷首 · British Library / IDP · <a href="https://commons.wikimedia.org/wiki/File:Diamond_sutra.jpg" target="_blank" rel="noopener noreferrer">图像来源 ↗</a> · <a href="https://creativecommons.org/publicdomain/mark/1.0/" target="_blank" rel="noopener noreferrer">Public Domain</a><br>木版为据印本制作的现代示意，并非存世原版。本体验简化覆纸、压印和揭纸，不完整复原唐代印刷工艺。纪年见卷末题记。</p></footer>
+</section>
+<dialog class="acv6-source-dialog" data-carrier-dialog aria-labelledby="acv6SourceTitle"><header><h4 id="acv6SourceTitle" data-carrier-dialog-title>原卷对照</h4><button type="button" data-carrier-dialog-close aria-label="关闭原图对照">关闭 ×</button></header><img data-carrier-dialog-image alt="原件数字图像"><p data-carrier-dialog-caption></p></dialog>
+
+<section class="acv5-rubbing" data-rubbing-workbench data-state="idle" hidden aria-label="九成宫醴泉铭 · 交互式拓墨工作台">
+  <header class="acv5-rubbing-head"><div><h4>《九成宫醴泉铭》· 拓墨工作台</h4><p>文字刻于石，墨痕留在纸。此处为宋拓本局部的数字交互演示。</p></div><span class="acv5-rubbing-status" data-rubbing-status>覆纸 · 待拓</span></header>
+  <div class="acv5-rubbing-desk">
+    <p class="acv5-rubbing-side acv5-rubbing-side-left">石上刻文<br>纸上留墨</p>
+    <canvas class="acv5-rubbing-paper" data-rubbing-canvas tabindex="0" role="img" aria-label="待拓纸面：按住鼠标拖动，或用方向键拓印" aria-describedby="rubbingInstruction rubbingVersion">交互式数字拓印。无法使用画布时，可通过下方馆藏记录查看《九成宫醴泉铭》宋拓本。</canvas>
+    <figure class="acv5-rubbing-original"><img src="../images/art-culture/ouyang-jiucheng.webp" alt="九成宫醴泉铭宋拓本完整数字原图" loading="lazy"><figcaption>完整馆藏数字原图 · 宋拓本</figcaption></figure>
+    <p class="acv5-rubbing-side acv5-rubbing-side-right">唐人碑铭<br>宋代拓本<br>今日图像</p>
+    <p class="acv5-rubbing-error" data-rubbing-error hidden>图像暂未载入，请稍后重新拓印，或查看下方馆藏记录。</p>
+  </div>
+  <div class="acv5-rubbing-bottom">
+    <p id="rubbingInstruction" data-rubbing-instruction>按住并移动，试着拓出纸上的字迹</p>
+    <div class="acv5-rubbing-buttons"><button class="acv5-rubbing-reset" type="button" data-rubbing-reset>重新拓印 ↙</button><button class="acv5-rubbing-reset" type="button" data-rubbing-original>完整原图 ↗</button><button class="acv5-rubbing-reset" type="button" data-rubbing-result>查看拓成效果</button></div>
+    <p class="acv5-rubbing-note" data-rubbing-completion hidden>墨痕成形。石上凹刻的文字，在纸面留下白字与墨底；这张图像所据为宋拓本。</p>
+    <p class="acv5-rubbing-credit" id="rubbingVersion">《九成宫醴泉铭》宋拓本局部 · 国立故宫博物院，台北 · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a> · <a href="https://digitalarchive.npm.gov.tw/Collection/Detail/20595?dep=P" target="_blank" rel="noopener noreferrer">馆藏记录 ↗</a><br>这是数字化拓印体验，并非对真实传统拓印全过程的精确复原；据数字原图裁切、着墨显影，非唐代墨迹原件。聚焦纸面后，也可用方向键拓印。</p>
+  </div>
+</section>
+</div>
+        <div class="acv7-continuity" data-triad-continuity>
+          <p class="acv7-session-note" data-triad-pending>任选一艺，亲手留下纸墨；切换时保留本次会话的作品。</p>
+          <div class="acv7-completion" data-triad-completion hidden><p role="status" aria-live="polite" aria-atomic="true" data-triad-message></p><button type="button" data-triad-next>继续探索 →</button></div>
+        </div>
+        <div class="acv3-work-caption"><h3 data-acv3-material-title>868年《金刚经》卷首版画</h3><p data-acv3-material-brief>雕版线条将图像与经文带入可复制的卷面。</p><p class="acv3-credit" data-acv3-material-credit>唐代雕版印本 · 原件数字图像｜British Library / IDP · Public Domain</p><p class="acv3-look-note" data-acv3-material-note>纪年见卷末题记；此处所示为卷首图像。</p></div>
+      <details class="acv3-provenance acv8-provenance"><summary>纸墨原件与工艺说明<span>展开完整资料 ＋</span></summary><div class="acv3-source-body"><h4 data-acv3-source-title></h4><p class="acv3-credit" data-acv3-source-credit></p><p data-acv3-source-copy></p><p data-acv3-source-version></p><div class="acv3-source-links" data-acv3-source-links></div></div></details></section>
+<section class="acv3-panel acv8-chapter acv8-literature" id="acv5-panel-literature" aria-labelledby="literatureChapterTitle"><header class="acv8-chapter-head"><div class="acv8-chapter-name"><span class="acv8-chapter-number">03</span><div><p class="acv3-kicker">古画入境 · THE WORLD OF STORIES</p><h2 id="literatureChapterTitle">文苑新声</h2></div></div><p class="acv8-chapter-intro">以古画读传奇，在现实与梦境之间驻足。</p></header>
+  <div class="acv3-select acv3-story-select" role="tablist" aria-label="选择唐传奇"><button type="button" role="tab" id="acv3-story-letter" data-acv5-story="letter" aria-controls="acv3-story-stage" aria-selected="true">柳毅传 <small>传书与情义</small></button><button type="button" role="tab" id="acv3-story-dream" data-acv5-story="dream" aria-controls="acv3-story-stage" aria-selected="false" tabindex="-1">枕中记 <small>梦与人生</small></button></div>
+  <div class="acv8-story-layout">
+    <div class="acv3-story-stage" id="acv3-story-stage" role="tabpanel" aria-labelledby="acv3-story-letter" data-story="letter" data-step="0">
+      <div class="acv8-scene-plane" data-acv8-scene-plane><img data-acv3-scene src="../images/art-culture/zhu-yu-longgong.webp" alt="元代朱玉龙宫水府图，柳毅与龙王相揖的画幅" loading="lazy" decoding="async"></div>
+      <div class="acv8-scene-echo" data-acv8-scene-echo aria-hidden="true"></div>
+      <span class="acv8-art-sign" aria-hidden="true">古画入境</span><span class="acv3-story-count" data-acv3-story-count aria-hidden="true">镜头 01 / 03</span>
+      <p class="acv8-image-error" data-acv8-image-error hidden>图像暂未载入，可查看下方作品资料。</p>
+    </div>
+    <div class="acv8-story-aside">
+      <div class="acv3-story-heading"><span data-acv3-story-author>李朝威 · 唐传奇</span><h3 data-acv3-story-name>柳毅传</h3><p class="acv8-story-deck" data-acv8-story-deck>一封书信，越过人世与水府。</p></div>
+      <div class="acv3-story-reading" aria-live="polite" aria-atomic="true"><h4 data-acv3-story-title>唐传奇，在元人笔下</h4><p data-acv3-story-copy></p><p class="acv3-excerpt"><span data-acv3-excerpt-label>画意释读 · 非古籍引文</span><q data-acv3-excerpt>以一瞬相揖，写千里传书。</q></p></div>
+      <div class="acv8-image-credit"><span data-acv8-image-type>元代后世绘画</span><p data-acv8-image-credit>朱玉《龙宫水府图》页 · 故宫博物院藏</p><p data-acv8-image-note>三个镜头均来自同一画幅，不是三段独立情节。</p></div>
+    </div>
+  </div>
+  <div class="acv3-story-nodes" role="group" aria-label="选择古画镜头或文学场景"><button type="button" data-acv5-step="0" aria-pressed="true"><span>01</span><strong>画幅全景</strong></button><button type="button" data-acv5-step="1" aria-pressed="false"><span>02</span><strong>相揖人物</strong></button><button type="button" data-acv5-step="2" aria-pressed="false"><span>03</span><strong>水府波纹</strong></button></div>
+<details class="acv3-provenance acv8-provenance"><summary>古画、原典与场景出处<span>展开完整资料 ＋</span></summary><div class="acv3-source-body"><h4 data-acv3-source-title></h4><p class="acv3-credit" data-acv3-source-credit></p><p data-acv3-source-copy></p><p data-acv3-source-version></p><div class="acv3-source-links" data-acv3-source-links></div><div class="acv3-prose" data-acv3-prose><h4>古文旁读 · 韩愈与柳宗元</h4><div class="acv3-prose-nodes" role="group" aria-label="古文旁读线索"><button type="button" data-acv3-prose-step="0" aria-pressed="true">立意</button><button type="button" data-acv3-prose-step="1" aria-pressed="false">从师</button><button type="button" data-acv3-prose-step="2" aria-pressed="false">明道</button><button type="button" data-acv3-prose-step="3" aria-pressed="false">为文</button></div><h5 data-acv3-prose-title>由“为文”走向“立意”</h5><p data-acv3-prose-copy>韩愈、柳宗元提倡古文，重视文章的思想内容与表达。</p><p class="acv3-prose-excerpt"><span data-acv3-prose-label>韩愈《师说》 · 原文节选</span><q data-acv3-prose-excerpt>师者，所以传道受业解惑也。</q></p><a href="https://zh.wikisource.org/wiki/師說" target="_blank" rel="noopener noreferrer">《师说》原文 ↗</a> · <a href="https://zh.wikisource.org/wiki/答韋中立論師道書" target="_blank" rel="noopener noreferrer">《答韦中立论师道书》原文 ↗</a></div></div></details><div class="acv3-footer"><p>真实古画与现代演绎分别标注 · 点击后切换，画面停驻。</p><a href="#historyPoem">由故事，走入檐下诗声 ↘</a></div></section><p class="acv3-live" aria-live="polite" aria-atomic="true"></p></div>
+
+  <div style="margin-top: 100px;">
+  <div class="text-center fade-up" style="margin-bottom: -200px;"><h2 class="tang-title">檐下余响</h2><p class="section-subtitle">檐下听雨 · 诗里长安 — 一曲琵琶，诉尽千年心事</p></div>
+  <div class="eave-reveal" id="eaveReveal">
+    <img src="../images/supplement/屋檐.png" alt="唐代屋檐">
+  </div>
+  </div>
+</section>
+<section class="history-poem" id="historyPoem" aria-label="檐下余响 · 屋顶诗幕" style="background: transparent !important;">
+
+  <div class="cloth-container" id="clothContainer">
+    <img class="roof-img" id="roofImg" src="../images/supplement/屋檐.png" alt="唐代屋顶" draggable="false" onload="window.__roofLoaded = true; window.__initCloth && window.__initCloth();" onerror="window.__roofLoaded = true; window.__initCloth && window.__initCloth();">
+    <canvas class="cloth-canvas" id="clothCanvas" aria-hidden="true"></canvas>
+  </div>
+  <article class="poem-semantic-text" id="poemSemanticText" aria-labelledby="poemSemanticTitle">
+    <h2>檐下余响</h2>
+    <h3 id="poemSemanticTitle">琵琶行 (Pípa Xíng) 白居易</h3>
+    <p id="poemSemanticBody"></p>
+  </article>
+  <div class="left-hero" aria-hidden="true">
+    <div class="left-label" id="leftLabel">琵琶行 (Pípa Xíng) 白居易</div>
+  </div>
+  <div class="poem-switcher" role="group" aria-label="选择诗篇">
+    <button class="poem-btn active" data-poem="琵琶行" type="button" aria-controls="poemSemanticText" aria-pressed="true">琵琶行</button>
+    <button class="poem-btn" data-poem="长恨歌" type="button" aria-controls="poemSemanticText" aria-pressed="false">长恨歌</button>
+    <button class="poem-btn" data-poem="秦妇吟" type="button" aria-controls="poemSemanticText" aria-pressed="false">秦妇吟</button>
+  </div>
+  <div class="sound-hint" id="soundHint">点击任意处 · 开启声音</div>
+</section>
+
+<section class="art-next-chapter" aria-labelledby="artAestheticsTitle">
+  <a class="art-next-chapter__link" href="aesthetics.html" aria-labelledby="artAestheticsTitle" aria-describedby="artAestheticsDescription">
+    <div class="art-next-chapter__copy">
+      <p class="art-next-chapter__kicker">长安余韵 · 继续游览</p>
+      <h2 id="artAestheticsTitle">唐风美学</h2>
+      <p id="artAestheticsDescription">由诗幕余响，走入色彩、纹样与衣冠的盛唐日常。</p>
+    </div>
+    <span class="art-next-chapter__action" aria-hidden="true">走进唐风美学 <span class="art-next-chapter__arrow">→</span></span>
+  </a>
+</section>
+
+<footer class="footer tang-ui-dark">
+  <div class="container"><div class="row g-4">
+    <div class="col-lg-4"><h5>盛唐雅粹</h5><p style="font-size:0.88rem;">笔墨之间，尽显大唐风华。</p></div>
+    <div class="col-lg-4"><h5>探索专题</h5><ul class="list-unstyled" style="font-size:0.88rem; line-height:2.2;"><li><a href="history.html">历史溯源</a></li><li><a href="treasures.html">瑰宝重器</a></li><li><a href="art.html">翰墨丹青</a></li><li><a href="aesthetics.html">唐风美学</a></li></ul></div>
+    <div class="col-lg-4"><h5>参考</h5><p style="font-size:0.82rem;">故宫博物院 · 敦煌研究院 · 辽宁省博物馆</p></div>
+  </div><hr class="footer-divider"><div class="footer-bottom"><p>&copy; 2026 盛唐雅粹文化专题 | 梦回长安 · 盛世重现</p></div></div>
+</footer>
+
+<button class="back-to-top" id="backToTop" title="回到顶部">&#8593;</button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/main.js?v=20260919b"></script>
+<!-- 背景音乐 -->
+<audio id="bgMusic" loop preload="auto"></audio>
+<div class="music-widget tang-ui-dark" id="musicWidget">
+  <button class="music-toggle paused" id="musicToggle" title="播放">&#9835;</button>
+  <button class="music-close" id="musicClose" title="关闭">&times;</button>
+</div>
+<style>
+  .music-widget { position: fixed; bottom: 36px; left: 36px; display: flex; align-items: center; gap: 8px; z-index: 1001; }
+  .music-widget.hidden { display: none; }
+  .music-toggle { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--tang-gold); background: var(--tang-bg-surface); color: var(--tang-gold-soft); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; box-shadow: 0 4px 14px var(--tang-shadow); }
+  .music-toggle.playing { border-color: var(--tang-gold); animation: musicPulse 2s ease-in-out infinite; }
+  .music-toggle.paused { opacity: 1; border-color: color-mix(in srgb, var(--tang-gold) 65%, transparent); }
+  @keyframes musicPulse { 0%,100%{ box-shadow:0 4px 14px var(--tang-shadow); } 50%{ box-shadow:0 4px 24px color-mix(in srgb, var(--tang-gold) 40%, transparent),0 0 40px color-mix(in srgb, var(--tang-gold) 15%, transparent); } }
+  .music-toggle:hover, .music-toggle:active { background: var(--tang-gold); color:var(--tang-ink); border-color:var(--tang-gold); }
+  .music-close { width:28px; height:28px; border-radius:50%; border:1px solid var(--tang-gold); background:var(--tang-bg-surface); color:var(--tang-gold-soft); font-size:0.9rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.3s ease; padding:0; line-height:1; }
+  .music-close:hover, .music-close:active { background:var(--tang-gold); border-color:var(--tang-gold); color:var(--tang-ink); }
+  .music-toggle:focus-visible, .music-close:focus-visible { outline-color: var(--tang-focus); }
+  @media(max-width:768px){ .music-widget{bottom:24px;left:24px;} .music-toggle{width:38px;height:38px;font-size:1rem;} .music-close{width:24px;height:24px;font-size:0.8rem;} }
+</style>
+<script src="../js/music.js"></script>
+<script>
+// 屋檐滚动升起
+(function(){
+  var eave = document.getElementById('eaveReveal');
+  if(!eave) return;
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        eave.classList.add('visible');
+        obs.unobserve(eave);
+      }
+    });
+  }, { threshold: 0.3 });
+  obs.observe(eave);
+})();
+</script>
+</body>
+</html>

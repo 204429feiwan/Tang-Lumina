@@ -1,0 +1,2107 @@
+/* ============================================================
+   大唐遗珍 · 数字博物馆
+   仅在 treasures-museum.js 开关开启后生效
+   ============================================================ */
+
+body.digital-museum-enabled {
+  --museum-black: #0c0907;
+  --museum-brown: #17100b;
+  --museum-brown-soft: #21160f;
+  --museum-red: #6f231d;
+  --museum-gold: #c99b4d;
+  --museum-gold-light: #e8ca8a;
+  --museum-cream: #eee2c9;
+  --museum-muted: #a9977d;
+  background: var(--museum-black);
+  color: var(--museum-cream);
+  overflow-x: clip;
+}
+
+body.museum-viewer-open {
+  overflow: hidden;
+}
+
+/* ---- 博物馆入口 ---- */
+body.exhibition-page[data-page="treasures"] .page-hero {
+  height: 94vh;
+  min-height: 680px;
+  max-height: 1080px;
+  overflow: hidden;
+  isolation: isolate;
+  background-position: 50% 50%;
+}
+
+body.exhibition-page[data-page="treasures"] .page-hero .chapter-heading {
+  display: none;
+}
+
+body.exhibition-page[data-page="treasures"] .page-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(7, 4, 2, .88) 0%, rgba(8, 5, 3, .48) 35%, rgba(8, 5, 3, .3) 62%, rgba(7, 4, 2, .8) 100%),
+    radial-gradient(ellipse at 22% 45%, rgba(205, 145, 52, .2), transparent 42%),
+    radial-gradient(ellipse at 50% 45%, transparent 28%, rgba(4, 2, 1, .62) 100%);
+}
+
+body.exhibition-page[data-page="treasures"] .page-hero::after {
+  height: 24%;
+  z-index: 4;
+  background: linear-gradient(180deg, transparent, rgba(12, 9, 7, .42) 55%, var(--museum-black, #0c0907));
+}
+
+.museum-entry {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(200px, .34fr);
+  align-items: center;
+  width: min(1180px, calc(100% - 96px));
+  margin: auto;
+  padding-top: 72px;
+}
+
+.museum-entry-copy {
+  position: relative;
+  max-width: 720px;
+  padding: 4rem 0 4rem 4.5rem;
+}
+
+.museum-entry-copy::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1px;
+  height: 68%;
+  transform: translateY(-50%);
+  background: linear-gradient(transparent, rgba(226, 186, 105, .7), transparent);
+  box-shadow: 0 0 22px rgba(218, 166, 74, .28);
+}
+
+.museum-entry-kicker,
+.hall-kicker,
+.museum-label-kicker,
+.viewer-kicker {
+  margin: 0 0 1rem;
+  color: var(--museum-gold-light);
+  font-size: .68rem;
+  line-height: 1.6;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+}
+
+.museum-entry h1 {
+  margin: 0;
+  color: #f4dfad;
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 7.3vw, 7.2rem);
+  font-weight: 500;
+  line-height: .98;
+  letter-spacing: .16em;
+  text-shadow: 0 7px 42px rgba(0, 0, 0, .78), 0 0 55px rgba(188, 128, 36, .11);
+}
+
+.museum-entry-subtitle {
+  margin: 1.8rem 0 .7rem;
+  color: rgba(242, 224, 188, .9);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.6vw, 1.35rem);
+  letter-spacing: .2em;
+}
+
+.museum-entry-note {
+  margin: 0;
+  color: rgba(216, 201, 175, .62);
+  font-size: .83rem;
+  letter-spacing: .1em;
+}
+
+.museum-entry-seal {
+  justify-self: end;
+  align-self: center;
+  display: grid;
+  place-items: center;
+  width: 126px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(212, 165, 80, .46);
+  color: rgba(232, 200, 136, .72);
+  font-family: var(--font-display);
+  font-size: .72rem;
+  line-height: 1.9;
+  letter-spacing: .25em;
+  text-align: center;
+  transform: rotate(45deg);
+  box-shadow: inset 0 0 36px rgba(198, 135, 31, .07), 0 0 35px rgba(0, 0, 0, .35);
+}
+
+.museum-entry-seal span {
+  transform: rotate(-45deg);
+}
+
+.museum-entry-scroll {
+  position: absolute;
+  left: 4.5rem;
+  bottom: 3.2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .85rem;
+  border: 0;
+  background: transparent;
+  color: rgba(234, 216, 178, .72);
+  font-size: .72rem;
+  letter-spacing: .2em;
+  cursor: pointer;
+}
+
+.museum-entry-scroll::before {
+  content: '';
+  width: 44px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--museum-gold), transparent);
+  animation: museumGuidePulse 2.4s ease-in-out infinite;
+}
+
+@keyframes museumGuidePulse {
+  50% { width: 62px; opacity: .55; }
+}
+
+.museum-entry-dust,
+.museum-entry-dust::before,
+.museum-entry-dust::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, rgba(243, 213, 151, .56) 0 1px, transparent 1.4px),
+    radial-gradient(circle, rgba(243, 213, 151, .34) 0 1px, transparent 1.3px);
+  background-size: 210px 230px, 330px 290px;
+  background-position: 12% 30%, 73% 54%;
+  opacity: .15;
+  animation: museumDustDrift 22s linear infinite alternate;
+}
+
+.museum-entry-dust::before { transform: translate3d(3%, -2%, 0); animation-duration: 29s; }
+.museum-entry-dust::after { transform: translate3d(-2%, 3%, 0); animation-duration: 35s; }
+
+@keyframes museumDustDrift {
+  to { transform: translate3d(1.5%, -2.5%, 0); }
+}
+
+/* ---- 总展厅 ---- */
+body.digital-museum-enabled > .museum-section {
+  position: relative;
+  padding: 0;
+  overflow: clip;
+  background: var(--museum-black);
+}
+
+body.digital-museum-enabled > .museum-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(12, 9, 7, .96), rgba(20, 13, 9, .91) 35%, rgba(10, 7, 5, .98)),
+    url('../images/backgrounds/treasures-bg.png') center top / cover fixed;
+  opacity: .98;
+}
+
+body.digital-museum-enabled .museum-source-content {
+  display: none;
+}
+
+.museum-journey {
+  position: relative;
+  z-index: 1;
+}
+
+.museum-hall {
+  position: relative;
+  padding: clamp(6.5rem, 10vw, 10rem) 0;
+  scroll-margin-top: 72px;
+}
+
+.museum-hall-inner {
+  width: min(1240px, calc(100% - 80px));
+  margin: 0 auto;
+}
+
+.museum-hall-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, .7fr);
+  align-items: end;
+  gap: 4rem;
+  margin-bottom: 3.8rem;
+}
+
+.museum-hall-heading h2 {
+  position: relative;
+  margin: 0;
+  color: #ead09c;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 3.65rem);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: .12em;
+}
+
+.museum-hall-heading h2::after {
+  content: '';
+  display: block;
+  width: 72px;
+  height: 1px;
+  margin-top: 1.35rem;
+  background: linear-gradient(90deg, var(--museum-gold), transparent);
+}
+
+.museum-hall-heading > p {
+  margin: 0 0 .35rem;
+  color: var(--museum-muted);
+  font-size: .88rem;
+  line-height: 2;
+  letter-spacing: .08em;
+}
+
+.museum-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .9s cubic-bezier(.16, 1, .3, 1), transform .9s cubic-bezier(.16, 1, .3, 1);
+}
+
+.museum-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- 镇馆之宝 ---- */
+.hall-featured {
+  background:
+    radial-gradient(ellipse at 31% 48%, rgba(163, 105, 24, .13), transparent 38%),
+    linear-gradient(180deg, rgba(12, 9, 7, .08), rgba(25, 16, 10, .72) 55%, rgba(12, 9, 7, .1));
+}
+
+.featured-showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 1.62fr) minmax(350px, 1fr);
+  min-height: min(720px, 73vh);
+  border: 1px solid rgba(211, 163, 75, .18);
+  background: rgba(8, 6, 4, .72);
+  box-shadow: 0 38px 90px rgba(0, 0, 0, .44), inset 0 0 80px rgba(174, 111, 24, .035);
+}
+
+.featured-stage {
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  --light-x: 50%;
+  --light-y: 42%;
+  position: relative;
+  min-height: 620px;
+  overflow: hidden;
+  border: 0;
+  border-right: 1px solid rgba(209, 163, 78, .14);
+  background:
+    radial-gradient(ellipse at var(--light-x) var(--light-y), rgba(227, 176, 75, .16), transparent 34%),
+    radial-gradient(ellipse at 50% 86%, rgba(178, 118, 31, .11), transparent 43%),
+    linear-gradient(180deg, #0e0a07, #090604 74%, #120c08);
+  cursor: zoom-in;
+  perspective: 1100px;
+}
+
+.featured-stage::before {
+  content: '';
+  position: absolute;
+  left: 17%;
+  right: 17%;
+  bottom: 11%;
+  height: 8%;
+  border-radius: 50%;
+  background: rgba(201, 146, 54, .13);
+  filter: blur(22px);
+  transform: scaleY(.45);
+}
+
+.featured-stage::after {
+  content: '';
+  position: absolute;
+  inset: -30%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(108deg, transparent 39%, rgba(242, 199, 107, .08) 47%, rgba(242, 199, 107, .13) 50%, transparent 59%);
+  transform: translateX(calc((var(--light-x) - 50%) * .18));
+  transition: transform .6s cubic-bezier(.16, 1, .3, 1);
+  mix-blend-mode: screen;
+}
+
+.featured-object {
+  position: absolute;
+  inset: 7% 8% 11%;
+  display: grid;
+  place-items: center;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+  transition: transform .55s cubic-bezier(.16, 1, .3, 1), opacity .32s ease, filter .32s ease;
+}
+
+.featured-object img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 26px 28px rgba(0, 0, 0, .68)) saturate(.92) contrast(1.03);
+  transform: translateZ(10px) scale(.98);
+  transition: transform .7s cubic-bezier(.16, 1, .3, 1), opacity .36s ease, filter .36s ease;
+}
+
+.featured-stage:hover .featured-object img {
+  transform: translateZ(18px) scale(1.005);
+}
+
+.featured-object.is-leaving {
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(18px) scale(.98);
+}
+
+.featured-object.is-entering {
+  animation: featuredEnter .62s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+@keyframes featuredEnter {
+  from { opacity: 0; filter: blur(7px); transform: translateY(15px) scale(.96); }
+}
+
+.featured-observe-hint {
+  position: absolute;
+  z-index: 3;
+  left: 2rem;
+  bottom: 1.6rem;
+  color: rgba(220, 197, 154, .48);
+  font-size: .63rem;
+  letter-spacing: .16em;
+  pointer-events: none;
+}
+
+.featured-label {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(2.4rem, 4vw, 4.5rem);
+  background:
+    linear-gradient(180deg, rgba(39, 27, 18, .88), rgba(19, 13, 9, .96)),
+    repeating-linear-gradient(90deg, rgba(238, 221, 188, .015) 0 1px, transparent 1px 5px);
+}
+
+.featured-label-copy {
+  flex: 1;
+  transition: opacity .24s ease, transform .24s ease;
+}
+
+.featured-label-copy.is-leaving {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.featured-label-copy.is-entering > * {
+  animation: featuredLabelEnter .62s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.featured-label-copy.is-entering > *:nth-child(2) { animation-delay: 60ms; }
+.featured-label-copy.is-entering > *:nth-child(3) { animation-delay: 130ms; }
+.featured-label-copy.is-entering > *:nth-child(4) { animation-delay: 200ms; }
+.featured-label-copy.is-entering > *:nth-child(5) { animation-delay: 270ms; }
+
+@keyframes featuredLabelEnter {
+  from { opacity: 0; transform: translateY(9px); }
+}
+
+.featured-label h3 {
+  margin: 0 0 1.4rem;
+  color: #f0d8a6;
+  font-family: var(--font-display);
+  font-size: clamp(1.65rem, 2.4vw, 2.65rem);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: .08em;
+}
+
+.featured-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem 1.5rem;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(208, 161, 77, .18);
+  border-bottom: 1px solid rgba(208, 161, 77, .18);
+  color: #c8ad78;
+  font-size: .76rem;
+  letter-spacing: .12em;
+}
+
+.featured-description {
+  margin: 1.55rem 0;
+  color: rgba(224, 210, 183, .72);
+  font-size: .9rem;
+  line-height: 2;
+}
+
+.museum-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+}
+
+.museum-tags span {
+  padding: .34rem .7rem;
+  border: 1px solid rgba(205, 158, 72, .3);
+  color: #cdb17c;
+  font-size: .67rem;
+  letter-spacing: .06em;
+}
+
+.featured-nav {
+  margin-top: 2.4rem;
+}
+
+.featured-progress {
+  display: flex;
+  align-items: baseline;
+  gap: .38rem;
+  margin-bottom: 1.2rem;
+  color: var(--museum-gold-light);
+  font-family: Georgia, serif;
+  letter-spacing: .1em;
+}
+
+.featured-progress strong { font-size: 1.8rem; font-weight: 400; }
+.featured-progress span { color: #75644c; font-size: .76rem; }
+
+.featured-thumbs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: .55rem;
+}
+
+.featured-thumb {
+  position: relative;
+  aspect-ratio: 1;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(203, 156, 71, .2);
+  background: #0d0906;
+  cursor: pointer;
+  opacity: .55;
+  transition: opacity .35s ease, border-color .35s ease, transform .35s ease;
+}
+
+.featured-thumb img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.65); }
+.featured-thumb:hover,
+.featured-thumb.is-active { opacity: 1; border-color: rgba(228, 186, 105, .72); transform: translateY(-2px); }
+
+.featured-arrows {
+  display: flex;
+  gap: .6rem;
+  margin-top: 1rem;
+}
+
+.museum-line-button {
+  flex: 1;
+  padding: .72rem .85rem;
+  border: 1px solid rgba(207, 160, 76, .25);
+  background: transparent;
+  color: #c7ad7b;
+  font-size: .7rem;
+  letter-spacing: .12em;
+  cursor: pointer;
+  transition: background .3s ease, border-color .3s ease, color .3s ease;
+}
+
+.museum-line-button:hover { background: rgba(198, 144, 50, .08); border-color: rgba(221, 177, 94, .58); color: #edd3a0; }
+
+/* ---- 数字典藏墙 ---- */
+.hall-collection {
+  padding-bottom: 2rem;
+  background: linear-gradient(180deg, rgba(13, 9, 7, .05), rgba(31, 20, 13, .64) 50%, rgba(11, 8, 6, .16));
+}
+
+.curated-display-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 2rem;
+}
+
+.curated-display-title h3 {
+  margin: 0;
+  color: #d9b16f;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: .12em;
+}
+
+.curated-display-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(209, 153, 68, .34), transparent);
+}
+
+.curated-display-title > span {
+  color: rgba(213, 184, 131, .44);
+  font-size: .62rem;
+  letter-spacing: .12em;
+}
+
+.collection-grid,
+.sancai-grid,
+.other-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-flow: dense;
+  grid-auto-rows: 292px;
+  gap: 1.1rem;
+}
+
+.collection-item,
+.sancai-item,
+.other-item {
+  min-width: 0;
+}
+
+.collection-item.size-standard { grid-column: span 3; }
+.collection-item.size-wide { grid-column: span 6; }
+.collection-item.size-tall { grid-column: span 3; grid-row: span 2; }
+
+.collection-grid-curated { grid-auto-rows: 250px; }
+
+.museum-collection-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(207, 161, 78, .15);
+  border-radius: 0;
+  background: #100b08;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .012), 0 16px 36px rgba(0, 0, 0, .2);
+  transition: transform .55s cubic-bezier(.16, 1, .3, 1), border-color .45s ease, filter .45s ease, opacity .45s ease, box-shadow .45s ease;
+}
+
+.museum-collection-card::before {
+  content: '查看藏品  ＋';
+  position: absolute;
+  z-index: 4;
+  top: 1rem;
+  right: 1rem;
+  padding: .38rem .55rem;
+  border: 1px solid rgba(226, 187, 112, .3);
+  background: rgba(10, 7, 5, .62);
+  color: #e1c693;
+  font-size: .58rem;
+  letter-spacing: .08em;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity .35s ease, transform .35s ease;
+}
+
+.museum-card-image {
+  position: absolute;
+  inset: 0;
+}
+
+.museum-card-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 28%, rgba(7, 5, 3, .12) 53%, rgba(7, 5, 3, .95) 100%);
+}
+
+.museum-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(.76) brightness(.83) contrast(1.04);
+  transform: scale(1.001);
+  transition: transform .7s cubic-bezier(.16, 1, .3, 1), filter .55s ease;
+}
+
+.museum-card-caption {
+  position: absolute;
+  z-index: 3;
+  left: 1.2rem;
+  right: 1.2rem;
+  bottom: 1.15rem;
+}
+
+.museum-card-number {
+  display: block;
+  margin-bottom: .48rem;
+  color: #caa15b;
+  font-size: .58rem;
+  letter-spacing: .16em;
+}
+
+.museum-card-title {
+  display: block;
+  margin: 0;
+  color: #f1dfbd;
+  font-family: var(--font-display);
+  font-size: clamp(.92rem, 1.25vw, 1.18rem);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: .055em;
+}
+
+.museum-card-era {
+  display: block;
+  margin-top: .35rem;
+  color: rgba(225, 207, 172, .57);
+  font-size: .67rem;
+  letter-spacing: .08em;
+}
+
+.museum-card-description {
+  max-height: 0;
+  margin: 0;
+  overflow: hidden;
+  color: rgba(229, 214, 185, .72);
+  font-size: .72rem;
+  line-height: 1.7;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: max-height .5s cubic-bezier(.16, 1, .3, 1), margin .4s ease, opacity .4s ease, transform .5s cubic-bezier(.16, 1, .3, 1);
+}
+
+.museum-collection-card:hover,
+.museum-collection-card:focus-visible {
+  z-index: 2;
+  transform: translateY(-6px);
+  border-color: rgba(227, 183, 98, .7);
+  box-shadow: 0 25px 55px rgba(0, 0, 0, .34), inset 0 0 0 1px rgba(232, 189, 101, .15);
+}
+
+.museum-collection-card:hover::before,
+.museum-collection-card:focus-visible::before { opacity: 1; transform: none; }
+.museum-collection-card:hover .museum-card-image img,
+.museum-collection-card:focus-visible .museum-card-image img { transform: scale(1.028); filter: saturate(.9) brightness(.94) contrast(1.03); }
+.museum-collection-card:hover .museum-card-description,
+.museum-collection-card:focus-visible .museum-card-description { max-height: 90px; margin-top: .65rem; opacity: 1; transform: none; }
+
+.collection-grid.is-inspecting .collection-item:not(.is-hovered) .museum-collection-card,
+.sancai-grid.is-inspecting .sancai-item:not(.is-hovered) .museum-collection-card {
+  opacity: .9;
+  filter: brightness(.91);
+}
+
+/* 金银重器：双面展板以纵轴翻转，一次聚焦一件器物 */
+.metal-flip-exhibit {
+  position: relative;
+  margin-top: .2rem;
+}
+
+.metal-flip-topline {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.15rem;
+  color: rgba(215, 177, 111, .65);
+  font-size: .62rem;
+  letter-spacing: .2em;
+}
+
+.metal-flip-stage {
+  position: relative;
+  height: clamp(470px, 39vw, 610px);
+  perspective: 1800px;
+  perspective-origin: 50% 48%;
+}
+
+.metal-flip-stage::before {
+  content: '';
+  position: absolute;
+  inset: 5% -3%;
+  z-index: -1;
+  background: radial-gradient(ellipse at 50% 85%, rgba(143, 88, 29, .21), transparent 65%);
+  filter: blur(22px);
+}
+
+.metal-flip-rotor {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 1.15s cubic-bezier(.65, .04, .22, 1);
+}
+
+.metal-flip-face.museum-collection-card {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(280px, .85fr);
+  overflow: hidden;
+  border: 1px solid rgba(226, 181, 91, .42);
+  border-radius: 4px;
+  background: #1b120d;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, .4), inset 0 0 0 1px rgba(255, 229, 170, .07);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(1px);
+  transition: border-color .3s ease, box-shadow .3s ease;
+}
+
+.metal-flip-face.metal-flip-back { transform: rotateY(180deg) translateZ(1px); }
+.metal-flip-face.museum-collection-card::before { display: none; }
+.metal-flip-face.museum-collection-card:hover,
+.metal-flip-face.museum-collection-card:focus-visible {
+  transform: translateZ(1px);
+  border-color: rgba(247, 204, 124, .8);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, .4), inset 0 0 0 1px rgba(255, 229, 170, .12);
+}
+.metal-flip-face.metal-flip-back:hover,
+.metal-flip-face.metal-flip-back:focus-visible { transform: rotateY(180deg) translateZ(1px); }
+
+.metal-flip-photo {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #2c2118 0, #0a0807 75%);
+}
+
+.metal-flip-photo img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: saturate(.96) contrast(1.03);
+}
+
+.metal-flip-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 0;
+  padding: clamp(2rem, 4vw, 4.5rem);
+  border-left: 1px solid rgba(224, 174, 85, .19);
+  background:
+    radial-gradient(circle at 100% 0, rgba(189, 127, 51, .16), transparent 53%),
+    linear-gradient(145deg, #291a10, #130d0a 83%);
+}
+
+.metal-flip-ordinal {
+  color: #cda66a;
+  font-size: .68rem;
+  letter-spacing: .17em;
+}
+
+.metal-flip-name {
+  display: block;
+  margin-top: 1.25rem;
+  color: #f1dab0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.5vw, 2.75rem);
+  line-height: 1.35;
+  letter-spacing: .06em;
+}
+
+.metal-flip-era {
+  display: block;
+  margin-top: 1rem;
+  color: rgba(227, 196, 145, .68);
+  font-size: .83rem;
+  letter-spacing: .13em;
+}
+
+.metal-flip-description {
+  display: block;
+  margin-top: 2rem;
+  color: rgba(229, 212, 182, .75);
+  font-size: .9rem;
+  line-height: 2;
+  letter-spacing: .035em;
+}
+
+.metal-flip-detail {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.4rem;
+  margin-top: 2.4rem;
+  padding-bottom: .6rem;
+  border-bottom: 1px solid rgba(231, 188, 103, .64);
+  color: #e7c58d;
+  font-size: .79rem;
+  letter-spacing: .12em;
+}
+
+.metal-flip-stage.is-turning .metal-flip-face { pointer-events: none; }
+
+.metal-flip-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin: 1.4rem 0 1.8rem;
+}
+
+.metal-flip-arrow {
+  display: grid;
+  width: 3.15rem;
+  height: 3.15rem;
+  place-items: center;
+  border: 1px solid rgba(211, 167, 91, .45);
+  border-radius: 50%;
+  background: rgba(39, 25, 14, .58);
+  color: #e5c68f;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: background .25s ease, border-color .25s ease, transform .25s ease;
+}
+
+.metal-flip-arrow:hover,
+.metal-flip-arrow:focus-visible {
+  transform: scale(1.08);
+  border-color: #e2bd76;
+  background: rgba(125, 80, 28, .3);
+}
+
+.metal-flip-progress {
+  min-width: 5rem;
+  color: rgba(217, 183, 125, .52);
+  font-size: .9rem;
+  text-align: center;
+  letter-spacing: .13em;
+}
+
+.metal-flip-progress strong { color: #ebcb93; font-weight: 500; }
+
+.metal-flip-index {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: .7rem;
+}
+
+.metal-flip-choice {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-width: 0;
+  padding: .65rem;
+  border: 1px solid rgba(194, 147, 70, .2);
+  background: rgba(20, 13, 9, .65);
+  color: rgba(220, 191, 145, .65);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .3s ease, background .3s ease, transform .3s ease;
+}
+
+.metal-flip-choice:hover,
+.metal-flip-choice:focus-visible,
+.metal-flip-choice.is-active {
+  transform: translateY(-3px);
+  border-color: rgba(226, 184, 103, .75);
+  background: rgba(74, 45, 22, .5);
+  color: #f0d5a5;
+}
+
+.metal-flip-choice-number { margin-bottom: .4rem; font-size: .6rem; letter-spacing: .1em; }
+.metal-flip-choice img { display: block; width: 100%; height: 72px; object-fit: cover; background: #100c09; }
+.metal-flip-choice-title { overflow: hidden; margin-top: .55rem; font-size: .68rem; white-space: nowrap; text-overflow: ellipsis; }
+
+/* ---- Level B：轻量馆藏目录 ---- */
+.museum-archive-panel {
+  margin-top: clamp(4rem, 7vw, 6.5rem);
+  border-top: 1px solid rgba(203, 157, 73, .2);
+  border-bottom: 1px solid rgba(203, 157, 73, .12);
+}
+
+.archive-panel-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2rem;
+  min-height: 126px;
+  padding: 1.5rem 0;
+}
+
+.archive-kicker {
+  margin: 0 0 .42rem;
+  color: rgba(206, 166, 94, .56);
+  font-size: .58rem;
+  letter-spacing: .18em;
+}
+
+.archive-panel-heading h3 {
+  margin: 0;
+  color: #ddc28f;
+  font-family: var(--font-display);
+  font-size: 1.28rem;
+  font-weight: 500;
+  letter-spacing: .08em;
+}
+
+.archive-meta {
+  margin: .42rem 0 0;
+  color: rgba(202, 187, 159, .46);
+  font-size: .67rem;
+  letter-spacing: .07em;
+}
+
+.archive-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 176px;
+  padding: .82rem 1.05rem;
+  border: 1px solid rgba(211, 166, 82, .4);
+  background: rgba(25, 17, 11, .6);
+  color: #d9bc83;
+  font-size: .7rem;
+  letter-spacing: .12em;
+  cursor: pointer;
+  transition: border-color .35s ease, background .35s ease, color .35s ease;
+}
+
+.archive-toggle i {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  margin-left: auto;
+}
+
+.archive-toggle i::before,
+.archive-toggle i::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 13px;
+  height: 1px;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+  transition: transform .45s cubic-bezier(.16, 1, .3, 1);
+}
+
+.archive-toggle i::after { transform: translate(-50%, -50%) rotate(90deg); }
+.museum-archive-panel.is-open .archive-toggle i::after { transform: translate(-50%, -50%) rotate(0deg); }
+.archive-toggle:hover { border-color: rgba(226, 184, 103, .72); background: rgba(55, 37, 22, .62); color: #edd29c; }
+
+.archive-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition: grid-template-rows .62s cubic-bezier(.16, 1, .3, 1), opacity .45s ease, visibility 0s linear .62s;
+}
+
+.museum-archive-panel.is-open .archive-collapse {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transition: grid-template-rows .62s cubic-bezier(.16, 1, .3, 1), opacity .48s ease .08s, visibility 0s;
+}
+
+.archive-collapse-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.museum-archive-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .72rem;
+  padding: 1.2rem 0 2rem;
+}
+
+.museum-archive-card {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr) auto;
+  align-items: center;
+  min-width: 0;
+  min-height: 112px;
+  padding: .55rem .8rem .55rem .55rem;
+  overflow: hidden;
+  border: 1px solid rgba(205, 161, 79, .13);
+  background: rgba(18, 12, 8, .68);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: none;
+  transition: border-color .35s ease, background .35s ease;
+}
+
+.archive-thumb {
+  width: 88px;
+  height: 88px;
+  overflow: hidden;
+  background: #0d0906;
+}
+
+.archive-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(.65) brightness(.75);
+  transform: scale(1);
+  transition: filter .35s ease, transform .45s cubic-bezier(.16, 1, .3, 1);
+}
+
+.archive-card-copy {
+  display: block;
+  min-width: 0;
+}
+
+.archive-number,
+.archive-title,
+.archive-era {
+  display: block;
+}
+
+.archive-number {
+  margin-bottom: .33rem;
+  color: rgba(198, 153, 72, .65);
+  font-size: .52rem;
+  letter-spacing: .12em;
+}
+
+.archive-title {
+  overflow: hidden;
+  color: rgba(236, 218, 184, .82);
+  font-family: var(--font-display);
+  font-size: .82rem;
+  line-height: 1.45;
+  letter-spacing: .035em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.archive-era {
+  margin-top: .3rem;
+  color: rgba(202, 186, 157, .42);
+  font-size: .59rem;
+  letter-spacing: .06em;
+}
+
+.archive-action {
+  width: 0;
+  overflow: hidden;
+  color: rgba(220, 181, 109, .72);
+  font-size: .56rem;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  opacity: 0;
+  transition: width .4s cubic-bezier(.16, 1, .3, 1), opacity .3s ease;
+}
+
+.museum-archive-card:hover,
+.museum-archive-card:focus-visible {
+  border-color: rgba(217, 173, 89, .42);
+  background: rgba(31, 21, 14, .76);
+}
+
+.museum-archive-card:hover .archive-thumb img,
+.museum-archive-card:focus-visible .archive-thumb img {
+  filter: saturate(.76) brightness(.86);
+  transform: scale(1.01);
+}
+
+.museum-archive-card:hover .archive-action,
+.museum-archive-card:focus-visible .archive-action { width: 64px; opacity: 1; }
+
+.museum-static-archive {
+  padding-top: .5rem;
+  border-top: 1px solid rgba(202, 157, 74, .15);
+}
+
+/* ---- 唐三彩特别展 ---- */
+.hall-sancai {
+  padding-top: 4rem;
+  overflow: clip;
+  background:
+    radial-gradient(ellipse at 50% 27%, rgba(190, 83, 24, .16), transparent 38%),
+    radial-gradient(ellipse at 8% 60%, rgba(139, 68, 27, .13), transparent 32%),
+    linear-gradient(180deg, rgba(15, 9, 6, .2), #1a0d07 32%, #170b06 75%, rgba(9, 6, 4, .4));
+  transition: background-color 1s ease;
+}
+
+.hall-sancai::before,
+.hall-sancai::after {
+  content: '';
+  position: absolute;
+  top: 8%;
+  bottom: 4%;
+  width: 29%;
+  opacity: .16;
+  filter: blur(9px) saturate(.55);
+  background: url('../images/backgrounds/treasures-bg.png') center / cover;
+  pointer-events: none;
+}
+
+.hall-sancai::before { left: -11%; }
+.hall-sancai::after { right: -11%; transform: scaleX(-1); }
+
+.hall-sancai.is-fired {
+  background-color: #281008;
+}
+
+.hall-sancai .museum-hall-inner { position: relative; z-index: 1; }
+
+.kiln-hall {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 620px;
+  margin: 1rem 0 6rem;
+  border-top: 1px solid rgba(207, 120, 55, .14);
+  border-bottom: 1px solid rgba(207, 120, 55, .14);
+  background:
+    radial-gradient(ellipse at 50% 61%, rgba(235, 105, 26, .12), transparent 31%),
+    linear-gradient(90deg, transparent, rgba(40, 18, 8, .56) 23%, rgba(25, 12, 7, .72) 50%, rgba(40, 18, 8, .56) 77%, transparent);
+  transition: box-shadow 1.1s ease, background 1.1s ease;
+}
+
+.hall-sancai.is-fired .kiln-hall {
+  background:
+    radial-gradient(ellipse at 50% 58%, rgba(255, 133, 36, .27), transparent 42%),
+    linear-gradient(90deg, transparent, rgba(74, 29, 10, .62) 24%, rgba(46, 17, 7, .72) 50%, rgba(74, 29, 10, .62) 76%, transparent);
+  box-shadow: inset 0 0 120px rgba(221, 82, 12, .08), 0 0 100px rgba(222, 87, 15, .06);
+}
+
+.kiln-hall-label {
+  position: absolute;
+  left: 2rem;
+  top: 2rem;
+  color: rgba(222, 175, 108, .47);
+  font-size: .62rem;
+  letter-spacing: .22em;
+  writing-mode: vertical-rl;
+}
+
+body.digital-museum-enabled .kiln-scene {
+  margin: 0 auto !important;
+}
+
+/* ---- 唐三彩滚动翻转展陈 ---- */
+.sancai-flip-exhibit { color: #ead4ad; }
+
+.sancai-flip-intro {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.sancai-flip-kicker {
+  margin: 0 0 .45rem;
+  color: #ba8650;
+  font-family: Georgia, serif;
+  font-size: .65rem;
+  letter-spacing: .2em;
+}
+
+.sancai-flip-intro h4 {
+  margin: 0;
+  color: #e9d0a4;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2.5vw, 2.2rem);
+  font-weight: 500;
+  letter-spacing: .12em;
+}
+
+.sancai-flip-instruction {
+  max-width: 26rem;
+  margin: 0 0 .15rem;
+  color: rgba(224, 192, 145, .68);
+  font-size: .76rem;
+  line-height: 1.8;
+  letter-spacing: .06em;
+}
+
+.sancai-flip-track { height: 190svh; }
+
+.sancai-flip-sticky {
+  position: sticky;
+  top: 8svh;
+  height: min(74svh, 560px);
+  min-height: 390px;
+  perspective: 1400px;
+}
+
+.sancai-flip-stage {
+  --sancai-panel-gap: 0px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+  height: 100%;
+  perspective: 1400px;
+}
+
+.sancai-flip-card {
+  position: relative;
+  display: block;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  perspective: 1400px;
+  will-change: transform;
+}
+
+.sancai-flip-card:disabled { cursor: default; }
+
+.sancai-flip-rotor {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.sancai-flip-face {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.sancai-flip-front { background: #130b07; }
+
+.sancai-flip-front img {
+  position: absolute;
+  top: 0;
+  width: calc(300% + 2 * var(--sancai-panel-gap));
+  max-width: none;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sancai-flip-card:nth-child(1) .sancai-flip-front img { left: 0; }
+.sancai-flip-card:nth-child(2) .sancai-flip-front img { left: calc(-100% - var(--sancai-panel-gap)); }
+.sancai-flip-card:nth-child(3) .sancai-flip-front img { left: calc(-200% - 2 * var(--sancai-panel-gap)); }
+
+.sancai-flip-back {
+  border: 1px solid rgba(223, 172, 105, .3);
+  background: #100a07;
+  transform: rotateY(180deg);
+}
+
+.sancai-flip-back::after {
+  content: '';
+  position: absolute;
+  inset: 30% 0 0;
+  background: linear-gradient(180deg, transparent, rgba(7, 4, 3, .96));
+  pointer-events: none;
+}
+
+.sancai-flip-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center 42%;
+  filter: saturate(.9) contrast(1.04);
+}
+
+.sancai-flip-card-caption {
+  position: absolute;
+  z-index: 1;
+  right: 1.3rem;
+  bottom: 1.25rem;
+  left: 1.3rem;
+  display: block;
+}
+
+.sancai-flip-card-number,
+.sancai-flip-card-era {
+  display: block;
+  color: #c69b65;
+  font-size: .65rem;
+  letter-spacing: .12em;
+}
+
+.sancai-flip-card-title {
+  display: block;
+  margin: .35rem 0;
+  color: #f2dfbc;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.4vw, 1.35rem);
+  line-height: 1.5;
+  letter-spacing: .06em;
+}
+
+.sancai-flip-card:not(:disabled):hover .sancai-flip-back,
+.sancai-flip-card:focus-visible .sancai-flip-back { border-color: #e5ba78; }
+
+.sancai-flip-hero-caption {
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+  left: 2rem;
+  z-index: 2;
+  pointer-events: none;
+  text-shadow: 0 2px 20px #090503;
+}
+
+.sancai-flip-hero-caption > span {
+  color: #d4aa6d;
+  font-size: .66rem;
+  letter-spacing: .18em;
+}
+
+.sancai-flip-hero-caption h5 {
+  margin: .55rem 0 .3rem;
+  color: #f4dfba;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.2vw, 2.2rem);
+  font-weight: 500;
+  letter-spacing: .08em;
+}
+
+.sancai-flip-hero-caption p {
+  margin: 0;
+  color: #e6cda4;
+  font-size: .75rem;
+}
+
+.sancai-flip-footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: .8rem 0 1.2rem;
+  border-bottom: 1px solid rgba(208, 150, 73, .25);
+}
+
+.sancai-flip-footer p {
+  margin: 0;
+  color: rgba(225, 201, 162, .7);
+  font-size: .76rem;
+  line-height: 1.7;
+}
+
+.sancai-flip-footer a {
+  color: rgba(225, 201, 162, .58);
+  font-size: .7rem;
+  text-decoration: none;
+}
+
+.sancai-flip-footer a:hover,
+.sancai-flip-footer a:focus-visible { color: #e9d0a4; }
+
+.sancai-flip-selector {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-top: 1rem;
+}
+
+.sancai-flip-choice {
+  display: flex;
+  align-items: baseline;
+  gap: .75rem;
+  min-width: 0;
+  min-height: 58px;
+  padding: 1rem .75rem;
+  border: 0;
+  border-top: 2px solid rgba(198, 139, 69, .23);
+  background: transparent;
+  color: rgba(224, 198, 159, .55);
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: .78rem;
+  cursor: pointer;
+  transition: border-color .25s ease, color .25s ease, background-color .25s ease;
+}
+
+.sancai-flip-choice > span:first-child {
+  color: #ad7948;
+  font-family: Georgia, serif;
+  font-size: .62rem;
+}
+
+.sancai-flip-choice:hover,
+.sancai-flip-choice:focus-visible,
+.sancai-flip-choice.is-active {
+  border-top-color: #dca75f;
+  background: rgba(179, 99, 41, .08);
+  color: #f0d5a9;
+}
+
+/* ---- 其他珍藏 ---- */
+.hall-other {
+  padding-top: clamp(6rem, 8vw, 8rem);
+  padding-bottom: clamp(6rem, 8vw, 8rem);
+  background: linear-gradient(180deg, rgba(16, 10, 7, .05), rgba(25, 16, 11, .72));
+}
+.other-grid { grid-auto-rows: 320px; }
+.other-item { grid-column: span 4; }
+.other-item:nth-child(1), .other-item:nth-child(6) { grid-column: span 8; }
+
+/* ---- 楼层导览 ---- */
+.museum-floor-nav {
+  position: fixed;
+  z-index: 900;
+  top: 50%;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+
+body.digital-museum-enabled.museum-has-scrolled .museum-floor-nav { opacity: .38; }
+body.digital-museum-enabled.museum-has-scrolled .museum-floor-nav:hover,
+body.digital-museum-enabled.museum-has-scrolled .museum-floor-nav:focus-within { opacity: .92; }
+
+.museum-floor-nav button {
+  display: grid;
+  grid-template-columns: 23px 74px;
+  align-items: center;
+  gap: .55rem;
+  padding: .42rem 0;
+  border: 0;
+  background: transparent;
+  color: rgba(216, 192, 151, .35);
+  font-size: .58rem;
+  letter-spacing: .1em;
+  text-align: left;
+  cursor: pointer;
+  transition: color .3s ease;
+}
+
+.museum-floor-nav button::before {
+  content: '';
+  width: 12px;
+  height: 1px;
+  justify-self: end;
+  background: currentColor;
+  transition: width .35s ease, box-shadow .35s ease;
+}
+
+.museum-floor-nav button.is-active { color: rgba(216, 181, 116, .95); }
+.museum-floor-nav button.is-active::before { width: 23px; box-shadow: 0 0 8px rgba(212, 168, 86, .42); }
+
+/* ---- 沉浸式藏品观察器 ---- */
+.museum-viewer {
+  position: fixed;
+  z-index: 2200;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.75fr) minmax(360px, .8fr);
+  background: #0c0907;
+  color: var(--museum-cream);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .48s cubic-bezier(.16, 1, .3, 1), visibility .48s;
+}
+
+.museum-viewer.is-open {
+  /* Show the controls immediately; keep the existing opacity entrance. */
+  transition-property: opacity;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.museum-viewer-close {
+  position: absolute;
+  z-index: 5;
+  top: 24px;
+  right: 26px;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(229, 194, 126, .35);
+  border-radius: 50%;
+  background: rgba(16, 10, 7, .62);
+  color: #e4c889;
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform .35s ease, background .35s ease;
+}
+
+.museum-viewer-close:hover { transform: rotate(90deg); background: rgba(111, 35, 29, .72); }
+
+.viewer-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+  background:
+    radial-gradient(ellipse at 50% 46%, rgba(190, 131, 41, .14), transparent 38%),
+    linear-gradient(145deg, #100b08, #080604 72%);
+}
+
+.viewer-stage.is-dragging { cursor: grabbing; }
+
+.viewer-stage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, .65);
+}
+
+.viewer-image {
+  max-width: 88%;
+  max-height: 82%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  transform: translate3d(0, 0, 0) scale(1);
+  will-change: transform;
+  filter: drop-shadow(0 30px 42px rgba(0, 0, 0, .7));
+  transition: opacity .3s ease, filter .3s ease;
+}
+
+.viewer-image.is-changing { opacity: 0; filter: blur(7px); }
+.viewer-image.is-resetting { transition: transform .45s cubic-bezier(.16, 1, .3, 1), opacity .3s ease, filter .3s ease; }
+
+.viewer-tools {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: .42rem;
+  transform: translateX(-50%);
+  padding: .45rem;
+  border: 1px solid rgba(213, 169, 83, .2);
+  background: rgba(12, 8, 5, .72);
+  backdrop-filter: blur(10px);
+}
+
+.viewer-tools button {
+  min-width: 36px;
+  height: 34px;
+  padding: 0 .7rem;
+  border: 0;
+  background: transparent;
+  color: #d9bb80;
+  font-size: .72rem;
+  cursor: pointer;
+}
+
+.viewer-tools button:hover { background: rgba(204, 153, 62, .1); color: #f0d59f; }
+.viewer-zoom-value { width: 48px; color: rgba(219, 195, 148, .52); font-size: .62rem; letter-spacing: .06em; text-align: center; }
+
+.viewer-label {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: clamp(5.5rem, 8vh, 7.5rem) clamp(2.5rem, 4vw, 4.5rem) 3rem;
+  border-left: 1px solid rgba(211, 166, 80, .18);
+  background:
+    linear-gradient(180deg, rgba(40, 28, 19, .96), rgba(18, 12, 8, .98)),
+    url('../images/backgrounds/treasures-bg.png') 65% center / cover;
+}
+
+.viewer-label-content { flex: 1; transition: opacity .25s ease, transform .25s ease; }
+.viewer-label-content.is-changing { opacity: 0; transform: translateY(8px); }
+
+.viewer-number { color: #94733e; font-family: Georgia, serif; font-size: 3rem; line-height: 1; }
+
+.viewer-label h2 {
+  margin: 1.6rem 0 1rem;
+  color: #efd7a6;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 2.3vw, 2.55rem);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: .07em;
+}
+
+.viewer-era {
+  padding: .85rem 0;
+  border-top: 1px solid rgba(209, 164, 79, .18);
+  border-bottom: 1px solid rgba(209, 164, 79, .18);
+  color: #c6a66c;
+  font-size: .75rem;
+  letter-spacing: .15em;
+}
+
+.viewer-description { margin: 1.5rem 0; color: rgba(228, 213, 184, .72); font-size: .9rem; line-height: 2.05; }
+.viewer-digital-note { margin-top: 1.2rem; color: rgba(190, 163, 115, .43); font-size: .6rem; line-height: 1.8; letter-spacing: .12em; }
+
+.viewer-pagination {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .65rem;
+  margin-top: 2.2rem;
+}
+
+.viewer-pagination button {
+  padding: .9rem .7rem;
+  border: 1px solid rgba(207, 160, 76, .25);
+  background: transparent;
+  color: #c7aa73;
+  font-size: .68rem;
+  letter-spacing: .1em;
+  cursor: pointer;
+  transition: background .3s ease, color .3s ease, border-color .3s ease;
+}
+
+.viewer-pagination button:hover { background: rgba(197, 142, 49, .09); color: #efd49e; border-color: rgba(221, 177, 94, .56); }
+
+/* 新展陈中禁用旧的 2.5 倍放大镜；旧版开关关闭时仍保持原样 */
+body.digital-museum-enabled .museum-journey .museum-img-wrap:hover img,
+body.digital-museum-enabled .museum-journey .museum-img-wrap img {
+  transform: none !important;
+}
+
+body.digital-museum-enabled .museum-journey .museum-img-wrap::after {
+  display: none !important;
+}
+
+body.digital-museum-enabled .golden-birds {
+  opacity: .09;
+}
+
+body.digital-museum-enabled.exhibit-focus .golden-birds,
+body.digital-museum-enabled.museum-has-scrolled .golden-birds {
+  opacity: 0;
+}
+
+/* ---- 响应式 ---- */
+@media (min-width: 1200px) and (max-width: 1499px) {
+  .museum-hall-inner { width: min(1240px, calc(100% - 240px)); }
+}
+
+@media (max-width: 1199px) {
+  .museum-floor-nav { display: none; }
+  .museum-hall-inner { width: min(1120px, calc(100% - 48px)); }
+  .featured-showcase { grid-template-columns: minmax(0, 1.45fr) minmax(320px, 1fr); }
+  .featured-label { padding: 2.5rem; }
+  .collection-grid, .sancai-grid, .other-grid { grid-auto-rows: 260px; }
+  .metal-flip-stage { height: 500px; }
+  .metal-flip-copy { padding: 2.5rem; }
+}
+
+@media (max-width: 991px) {
+  body.exhibition-page[data-page="treasures"] .page-hero { height: 88svh; min-height: 600px; }
+  .museum-entry { grid-template-columns: 1fr; width: calc(100% - 64px); }
+  .museum-entry-copy { padding-left: 3rem; }
+  .museum-entry-seal { display: none; }
+  .museum-hall-heading { grid-template-columns: 1fr; gap: 1.3rem; }
+  .featured-showcase { grid-template-columns: 1fr; }
+  .featured-stage { min-height: 540px; border-right: 0; border-bottom: 1px solid rgba(209, 163, 78, .14); }
+  .collection-grid, .sancai-grid, .other-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); grid-auto-rows: 280px; }
+  .metal-flip-face.museum-collection-card { grid-template-columns: minmax(0, 1.2fr) minmax(260px, .8fr); }
+  .metal-flip-index { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .collection-item.size-standard, .collection-item.size-tall { grid-column: span 3; grid-row: span 1; }
+  .collection-item.size-wide { grid-column: span 6; }
+  .sancai-item { grid-column: span 3; }
+  .sancai-grid-curated .sancai-item:nth-child(1) { grid-column: span 6; grid-row: span 2; }
+  .sancai-flip-sticky { height: min(68svh, 480px); }
+  .sancai-flip-card-caption { right: .85rem; bottom: .9rem; left: .85rem; }
+  .sancai-flip-selector { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .other-item { grid-column: span 3; }
+  .other-item:nth-child(1), .other-item:nth-child(6) { grid-column: span 6; }
+  .museum-archive-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .museum-viewer { grid-template-columns: 1fr; grid-template-rows: 58vh 42vh; overflow-y: auto; }
+  .viewer-label { border-left: 0; border-top: 1px solid rgba(211, 166, 80, .18); padding: 3rem 2rem; overflow: visible; }
+  .museum-viewer-close { position: fixed; }
+}
+
+@media (max-width: 600px) {
+  body.exhibition-page[data-page="treasures"] .page-hero { height: 84svh; min-height: 540px; }
+  .museum-entry { width: calc(100% - 36px); padding-top: 58px; }
+  .museum-entry-copy { padding: 2rem 0 2rem 1.7rem; }
+  .museum-entry h1 { font-size: clamp(3rem, 17vw, 4.6rem); letter-spacing: .1em; }
+  .museum-entry-subtitle { font-size: .9rem; line-height: 1.8; }
+  .museum-entry-scroll { left: 1.7rem; bottom: 2.2rem; }
+  .museum-hall { padding: 5.5rem 0; }
+  .museum-hall-inner { width: calc(100% - 28px); }
+  .museum-hall-heading { margin-bottom: 2.4rem; }
+  .featured-stage { min-height: 420px; }
+  .featured-label { padding: 2rem 1.4rem; }
+  .collection-grid, .sancai-grid, .other-grid { grid-template-columns: 1fr; grid-auto-rows: 330px; gap: .9rem; }
+  .metal-flip-stage { height: 650px; }
+  .metal-flip-face.museum-collection-card { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; }
+  .metal-flip-copy { padding: 1.3rem; border-top: 1px solid rgba(224, 174, 85, .19); border-left: 0; }
+  .metal-flip-name { margin-top: .5rem; font-size: 1.45rem; }
+  .metal-flip-era { margin-top: .4rem; }
+  .metal-flip-description { margin-top: .8rem; font-size: .76rem; }
+  .metal-flip-detail { margin-top: .8rem; }
+  .metal-flip-index { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .collection-item.size-standard, .collection-item.size-wide, .collection-item.size-tall,
+  .sancai-item, .sancai-grid-curated .sancai-item:nth-child(1),
+  .other-item, .other-item:nth-child(1), .other-item:nth-child(6) { grid-column: 1; grid-row: auto; }
+  .sancai-flip-intro { display: block; }
+  .sancai-flip-instruction { margin-top: .7rem; line-height: 1.6; }
+  .sancai-flip-track { height: 155svh; }
+  .sancai-flip-sticky { top: 16svh; height: 56svh; min-height: 300px; }
+  .sancai-flip-card-caption { right: .45rem; bottom: .6rem; left: .45rem; }
+  .sancai-flip-card-title { font-size: .8rem; line-height: 1.4; }
+  .sancai-flip-card-number, .sancai-flip-card-era { font-size: .55rem; }
+  .sancai-flip-hero-caption { right: 1rem; bottom: 1rem; left: 1rem; }
+  .sancai-flip-hero-caption h5 { font-size: 1.25rem; }
+  .sancai-flip-selector { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sancai-flip-choice { min-height: 52px; padding: .7rem .5rem; font-size: .72rem; }
+  .archive-panel-heading { grid-template-columns: 1fr; gap: 1.15rem; padding: 1.5rem 0 1.7rem; }
+  .archive-toggle { width: 100%; }
+  .museum-archive-grid { grid-template-columns: 1fr; }
+  .museum-archive-card { grid-template-columns: 92px minmax(0, 1fr) auto; }
+  .archive-thumb { width: 76px; height: 76px; }
+  .kiln-hall { min-height: 500px; margin-bottom: 4rem; }
+  .kiln-hall-label { display: none; }
+  .museum-viewer { grid-template-rows: 54vh 46vh; }
+  .viewer-tools { bottom: 14px; }
+  .viewer-label { padding: 2.7rem 1.35rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .museum-entry-dust,
+  .museum-entry-dust::before,
+  .museum-entry-dust::after,
+  .museum-entry-scroll::before { animation: none !important; }
+  .museum-reveal { opacity: 1; transform: none; transition: none; }
+  .featured-object, .featured-object img, .museum-collection-card, .museum-card-image img { transition-duration: .01ms !important; }
+  .metal-flip-rotor { transition-duration: .01ms !important; }
+  .sancai-flip-choice { transition-duration: .01ms !important; }
+}
+
+/* F3-R1C: dark exhibition UI only. Reuse the approved .tang-ui-dark
+   token values for JS-created label/tool containers; never theme the artwork. */
+body[data-page="treasures"] :is(.museum-hall-heading, .featured-label, .metal-flip-copy,
+  .metal-flip-controls, .metal-flip-choice-number, .metal-flip-choice-title,
+  .sancai-flip-intro, .sancai-flip-hero-caption, .sancai-flip-footer,
+  .sancai-flip-choice, .viewer-label, .viewer-tools, .museum-viewer-close) {
+  --tang-bg-surface: #17100B;
+  --tang-text-primary: #EEE2C9;
+  --tang-text-secondary: #D8C8A8;
+  --tang-text-muted: #A9977D;
+  --tang-shadow: rgba(0, 0, 0, 0.30);
+  --tang-focus: #E8D5A3;
+}
+body[data-page="treasures"] :is(.museum-hall-heading h2, .hall-kicker,
+  .museum-label-kicker, .featured-label h3, .metal-flip-name, .metal-flip-progress strong,
+  .sancai-flip-intro h4, .sancai-flip-kicker, .sancai-flip-hero-caption h5,
+  .viewer-kicker, .viewer-label h2) { color: var(--tang-gold-soft); }
+body[data-page="treasures"] .museum-hall-heading h2::after {
+  background: linear-gradient(90deg, var(--tang-gold), transparent);
+}
+body[data-page="treasures"] :is(.museum-hall-heading > p, .featured-description,
+  .metal-flip-description, .sancai-flip-instruction, .sancai-flip-hero-caption p,
+  .viewer-description) { color: var(--tang-text-secondary); }
+body[data-page="treasures"] :is(.featured-meta, .metal-flip-era, .metal-flip-ordinal,
+  .metal-flip-choice-number, .metal-flip-choice-title, .metal-flip-progress,
+  .sancai-flip-footer p, .sancai-flip-footer a, .viewer-era, .viewer-digital-note,
+  .viewer-zoom-value) { color: var(--tang-text-muted); }
+body[data-page="treasures"] :is(.featured-meta, .viewer-era, .viewer-label,
+  .viewer-tools, .sancai-flip-footer) { border-color: var(--tang-border); }
+body[data-page="treasures"] :is(.featured-label, .viewer-label) .museum-tags span {
+  color: var(--tang-gold-soft); border-color: var(--tang-border);
+}
+body[data-page="treasures"] :is(.museum-line-button, .metal-flip-arrow,
+  .metal-flip-choice, .sancai-flip-choice, .museum-viewer-close,
+  .viewer-tools button, .viewer-pagination button) {
+  color: var(--tang-gold-soft); border-color: var(--tang-gold);
+}
+body[data-page="treasures"] :is(.museum-line-button, .metal-flip-arrow,
+  .metal-flip-choice, .sancai-flip-choice, .museum-viewer-close,
+  .viewer-tools button, .viewer-pagination button):hover {
+  background: var(--tang-gold); color: var(--tang-ink); border-color: var(--tang-gold);
+}
+body[data-page="treasures"] :is(.metal-flip-choice, .sancai-flip-choice).is-active[aria-pressed="true"] {
+  background: var(--tang-bg-deep); color: var(--tang-gold-soft);
+  border-color: var(--tang-gold); box-shadow: inset 0 -3px 0 var(--tang-cinnabar);
+}
+body[data-page="treasures"] .metal-flip-choice:hover :is(.metal-flip-choice-number, .metal-flip-choice-title),
+body[data-page="treasures"] .sancai-flip-choice:hover > span:first-child { color: var(--tang-ink); }
+body[data-page="treasures"] .metal-flip-choice.is-active :is(.metal-flip-choice-number, .metal-flip-choice-title),
+body[data-page="treasures"] .sancai-flip-choice.is-active > span:first-child { color: var(--tang-gold-soft); }
+body[data-page="treasures"] .sancai-flip-choice > span:first-child { color: inherit; }
+body[data-page="treasures"] :is(.museum-line-button, .metal-flip-arrow,
+  .metal-flip-choice, .sancai-flip-choice, .museum-viewer-close,
+  .viewer-tools button, .viewer-pagination button, .featured-thumb):focus-visible {
+  --tang-focus: var(--tang-gold-soft);
+  outline: 2px solid var(--tang-focus); outline-offset: 4px;
+}
+body[data-page="treasures"] .featured-thumb.is-active {
+  border-color: var(--tang-gold); box-shadow: 0 3px 0 var(--tang-cinnabar);
+}
+body[data-page="treasures"] .museum-viewer { background: var(--tang-bg-deep); }
+body[data-page="treasures"] .viewer-tools { background: color-mix(in srgb, var(--tang-bg-deep) 92%, transparent); }
+body[data-page="treasures"] .viewer-number { color: var(--tang-gold); }
+@media (min-width: 1024px) {
+  body[data-page="treasures"] :is(.museum-hall-heading > p, .featured-description,
+    .metal-flip-description, .viewer-description) { font-size: clamp(15px, 1vw, 18px); }
+  body[data-page="treasures"] :is(.hall-kicker, .museum-label-kicker, .viewer-kicker,
+    .featured-meta, .viewer-era, .viewer-digital-note, .sancai-flip-instruction,
+    .sancai-flip-footer p, .sancai-flip-footer a, .metal-flip-choice-number,
+    .metal-flip-choice-title, .viewer-zoom-value, .museum-line-button,
+    .viewer-tools button, .viewer-pagination button, .sancai-flip-choice,
+    .featured-label .museum-tags span, .viewer-label .museum-tags span,
+    .metal-flip-era, .metal-flip-ordinal, .sancai-flip-kicker,
+    .sancai-flip-hero-caption > span, .sancai-flip-hero-caption p) { font-size: 13px; }
+}
+
+/* Delivery correction: equally sized desktop showcase panels. */
+@media (min-width: 992px) {
+  body[data-page="treasures"] .featured-showcase {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    height: clamp(720px, 82vh, 880px);
+    min-height: 0;
+  }
+
+  body[data-page="treasures"] .featured-stage,
+  body[data-page="treasures"] .featured-label {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  body[data-page="treasures"] .featured-object {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  body[data-page="treasures"] .featured-object img {
+    display: block;
+    min-width: 0;
+    min-height: 0;
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+/* Reference video: six independent cards with an artifact-matched hall backdrop. */
+body[data-page="treasures"] #museumCollection {
+  isolation: isolate;
+}
+body[data-page="treasures"] #museumCollection .museum-hall-inner {
+  position: relative;
+  z-index: 1;
+  width: min(1800px, calc(100% - 160px));
+  margin-left: max(32px, calc(50% - 948px));
+  margin-right: auto;
+}
+body[data-page="treasures"] .metal-reference-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+}
+body[data-page="treasures"] .metal-reference-backdrop > img {
+  position: absolute;
+  inset: -18px;
+  width: calc(100% + 36px);
+  height: calc(100% + 36px);
+  object-fit: cover;
+  object-position: center;
+  filter: blur(12px) brightness(.72) saturate(.85);
+  opacity: 0;
+  transition: opacity .65s ease;
+}
+body[data-page="treasures"] .metal-reference-backdrop > img.is-active {
+  opacity: 1;
+}
+body[data-page="treasures"] .metal-reference-backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12, 9, 7, .65), rgba(12, 9, 7, .12) 35%, rgba(12, 9, 7, .38) 78%, rgba(12, 9, 7, .8));
+}
+body[data-page="treasures"] .metal-reference-flip .metal-flip-stage {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(12px, 1.15vw, 22px);
+  height: clamp(560px, 78vh, 840px);
+  perspective: none;
+}
+body[data-page="treasures"] .metal-reference-flip .metal-flip-stage::before {
+  display: none;
+}
+body[data-page="treasures"] .metal-reference-flip .metal-reference-card.museum-collection-card {
+  position: relative;
+  inset: auto;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 26px;
+  overflow: visible;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+  perspective: 1100px;
+  perspective-origin: 50% 50%;
+  opacity: 1;
+}
+body[data-page="treasures"] .metal-reference-flip .metal-reference-card::before { display: none; }
+body[data-page="treasures"] .metal-reference-flip .metal-reference-card:focus-visible {
+  outline: 2px solid rgba(247, 204, 124, .9);
+  outline-offset: 5px;
+}
+body[data-page="treasures"] .metal-reference-flip .metal-reference-rotor {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform-style: preserve-3d;
+  transition: transform .72s cubic-bezier(.22, .8, .24, 1);
+}
+body[data-page="treasures"] .metal-reference-flip .is-flipped .metal-reference-rotor {
+  transform: rotateY(180deg);
+}
+body[data-page="treasures"] .metal-reference-flip .metal-reference-face {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  border: 1px solid rgba(226, 181, 91, .58);
+  border-radius: 26px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: linear-gradient(160deg, rgba(43, 32, 22, .4), rgba(17, 13, 9, .72));
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .28);
+}
+/* Reuse each original photograph to extend its colors above and below both faces. */
+body[data-page="treasures"] .metal-reference-flip .metal-reference-face::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background-image: var(--metal-reference-image);
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  filter: blur(22px) brightness(.8) saturate(.85);
+  opacity: .72;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, #000, rgba(0, 0, 0, .9) 18%, rgba(0, 0, 0, .3) 42%, rgba(0, 0, 0, .3) 58%, #000 88%);
+  mask-image: linear-gradient(180deg, #000, rgba(0, 0, 0, .9) 18%, rgba(0, 0, 0, .3) 42%, rgba(0, 0, 0, .3) 58%, #000 88%);
+}
+body[data-page="treasures"] .metal-reference-flip .metal-reference-front::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 11, 8, .14), transparent 36%, transparent 66%, rgba(15, 11, 8, .72));
+  pointer-events: none;
+}
+
+body[data-page="treasures"] .metal-reference-flip .metal-reference-front {
+  transform: translateZ(1px);
+}
+body[data-page="treasures"] .metal-reference-flip .metal-reference-front > img {
+  position: absolute;
+  z-index: 1;
+  top: calc(50% - 38px);
+  left: 12px;
+  display: block;
+  width: calc(100% - 24px);
+  height: auto;
+  max-height: calc(100% - 112px);
+  object-fit: contain;
+  transform: translateY(-50%);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+}
+body[data-page="treasures"] .metal-reference-flip .metal-reference-front-title {
+  position: absolute;
+  z-index: 2;
+  right: 16px;
+  bottom: 26px;
+  left: 16px;
+  color: var(--museum-gold);
+  font-size: clamp(16px, 1.15vw, 22px);
+  line-height: 1.65;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+body[data-page="treasures"] .metal-reference-flip .metal-reference-back {
+  transform: rotateY(180deg) translateZ(1px);
+  border-color: rgba(247, 204, 124, .85);
+}
+body[data-page="treasures"] .metal-reference-flip .metal-reference-texture {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+  opacity: .38;
+  transform: translateY(-50%);
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+}
+body[data-page="treasures"] .metal-reference-flip .metal-reference-back .metal-flip-copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  min-width: 0;
+  padding: clamp(16px, 1.4vw, 27px);
+  border: 0;
+  background: linear-gradient(180deg, rgba(20, 14, 9, .24), rgba(20, 14, 9, .86));
+  text-align: left;
+}
+body[data-page="treasures"] .metal-reference-flip .metal-flip-ordinal {
+  font-size: 10px;
+  line-height: 1.8;
+  letter-spacing: .08em;
+}
+body[data-page="treasures"] .metal-reference-flip .metal-flip-name {
+  margin-top: 14px;
+  font-size: clamp(18px, 1.25vw, 24px);
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+body[data-page="treasures"] .metal-reference-flip .metal-flip-era {
+  margin-top: 14px;
+  font-size: clamp(11px, .8vw, 14px);
+  line-height: 1.9;
+  letter-spacing: .03em;
+  overflow-wrap: anywhere;
+}
+body[data-page="treasures"] .metal-reference-flip .metal-flip-description {
+  margin-top: 22px;
+  font-size: clamp(12px, .9vw, 17px);
+  line-height: 1.95;
+  letter-spacing: .02em;
+  overflow-wrap: anywhere;
+}
+body[data-page="treasures"] .metal-reference-flip .metal-flip-detail {
+  align-self: flex-start;
+  margin-top: 24px;
+  padding-bottom: 7px;
+  font-size: 12px;
+  line-height: 1.7;
+  letter-spacing: .06em;
+}
+@media (prefers-reduced-motion: reduce) {
+  body[data-page="treasures"] .metal-reference-flip .metal-reference-rotor,
+  body[data-page="treasures"] .metal-reference-backdrop > img {
+    transition: none;
+  }
+}

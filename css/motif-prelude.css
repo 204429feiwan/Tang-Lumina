@@ -1,0 +1,23 @@
+.motif-prelude { --mp-top: 72px; --mp-stage: 660px; color: #d8c5a0; background: #130f0c; position: relative; margin: 0; }
+.motif-prelude.is-dynamic { height: calc(var(--mp-stage) + var(--mp-travel)); }
+.motif-prelude__stage { box-sizing: border-box; height: var(--mp-stage); min-height: 420px; padding: 20px 20px 16px; display: grid; grid-template-rows: auto minmax(0,1fr) auto; gap: 10px; background: radial-gradient(ellipse at 50% 48%, #221a12, #130f0c 73%); }
+.is-dynamic .motif-prelude__stage { position: sticky; top: var(--mp-top); }
+.motif-prelude__heading { text-align: center; }
+.motif-prelude__heading h2 { font: 500 clamp(22px,2.2vw,30px)/1.3 var(--font-display,serif); letter-spacing: .26em; margin: 0 0 7px; color: #d9bf8d; }
+.motif-prelude__heading p { font: 12px/1.6 var(--font-display,serif); letter-spacing: .16em; margin: 0; color: #a99572; }
+.motif-prelude__visual { position: relative; min-height: 0; display: grid; place-items: center; }
+.motif-prelude__visual canvas, .motif-prelude__fallback { width: var(--mp-size, min(78vw,480px)); height: var(--mp-size, min(78vw,480px)); max-width: 100%; display: block; object-fit: contain; }
+.motif-prelude__visual canvas { display: none; }
+.motif-prelude.is-ready .motif-prelude__visual canvas { display: block; }
+.motif-prelude.is-ready .motif-prelude__fallback { display: none; }
+.motif-prelude__fallback { border: 0; }
+.motif-prelude__pair { font: 12px/1.6 var(--font-display,serif); letter-spacing: .12em; color: #ad9979; padding: 8px 0; }
+.motif-prelude__controls { display: grid; justify-items: center; gap: 9px; }
+.motif-prelude__choices { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.motif-prelude button { appearance: none; border: 1px solid #645138; border-radius: 3px; background: #201811; color: #bba582; font: 12px/1.4 var(--font-display,serif); padding: 8px 13px; cursor: pointer; }
+.motif-prelude button[aria-pressed="true"] { color: #f1d8a6; border-color: #c29a59; background: #3a2b1a; }
+.motif-prelude button:focus-visible { outline: 2px solid #f1d8a6; outline-offset: 4px; }
+.motif-prelude button:disabled { cursor: default; opacity: .65; }
+.motif-prelude .motif-prelude__mode { border-color: transparent; background: transparent; padding: 2px 8px; color: #ad9979; text-decoration: underline; text-underline-offset: 4px; }
+.motif-prelude__status { position: absolute; bottom: 2px; left: 0; right: 0; min-height: 18px; text-align: center; margin: 0; font: 11px/1.6 sans-serif; color: #d8c5a0; pointer-events: none; }
+@media (max-width: 600px) { .motif-prelude__stage { padding: 16px 12px 156px; gap: 12px; } .motif-prelude__choices { max-width: 320px; gap: 7px; } .motif-prelude button { padding: 8px 12px; } }

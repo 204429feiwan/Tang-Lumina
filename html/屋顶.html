@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>琵琶行 · 檐下余响</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;300;400;500;600;700;900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  overflow-x:hidden;
+  font-family: 'Noto Serif SC', 'Rubik', serif;
+  -webkit-font-smoothing: antialiased;
+}
+.hero-section{
+  position:relative;
+  width:100%;
+  height:100vh;
+  overflow:hidden;
+  touch-action:none;
+}
+.bg-layer{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  background-image: url(https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260730_103554_db418202-7c49-4723-bd53-35a30b7e29da.png);
+  background-size:cover;
+  background-position:center;
+}
+.nav{
+  position:absolute;
+  top:0;
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: 20px 48px;
+  z-index:55;
+}
+.brand{
+  color:#B3483C;
+  font-family:Rubik;
+  font-size:1.125rem;
+  font-weight:500;
+  letter-spacing:0.02em;
+}
+.nav-center{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:24px;
+}
+.nav-center a{
+  color:#B3483C;
+  font-family:Rubik;
+  font-size:0.875rem;
+  letter-spacing:0.03em;
+  opacity:0.8;
+  text-decoration:none;
+  transition:opacity 0.3s;
+}
+.nav-center a:hover{opacity:1}
+.play-btn{
+  color:#f5f0e8;
+  font-family:Rubik;
+  font-weight:500;
+  font-size:0.875rem;
+  letter-spacing:0.04em;
+  padding:18px 44px;
+  border:none;
+  background-image:url(https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260731_141002_84f92c33-a221-4bfc-a798-d20db56f38a6.png);
+  background-size:cover;
+  background-position:center;
+  transition:opacity 0.3s;
+  cursor:pointer;
+}
+.play-btn:hover{opacity:0.85}
+.hamburger{
+  width:40px;height:40px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:7px;
+  background:transparent;border:none;
+  cursor:pointer;
+}
+.hamburger span{
+  width:24px;height:2px;
+  background:#B3483C;
+  border-radius:2px;
+  transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+.mobile-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.3);
+  backdrop-filter:blur(2px);
+  z-index:40;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.4s cubic-bezier(0.23,1,0.32,1);
+}
+.mobile-overlay.active{opacity:1;pointer-events:auto}
+.mobile-menu{
+  position:fixed;top:0;right:0;
+  width:75%;max-width:320px;height:100dvh;
+  background:#f5f0e8;
+  box-shadow:-8px 0 32px rgba(0,0,0,0.1);
+  z-index:50;
+  transform:translateX(100%);
+  transition:transform 0.5s cubic-bezier(0.23,1,0.32,1);
+  padding:6rem 2rem 2rem;
+}
+.mobile-menu.active{transform:translateX(0)}
+.mobile-menu a{
+  display:block;
+  color:#B3483C;
+  font-family:Rubik;
+  font-size:1.25rem;
+  padding:20px 0;
+  border-bottom:1px solid rgba(122,51,42,0.1);
+  text-decoration:none;
+  opacity:0;transform:translateX(20px);
+}
+.mobile-menu.active a:nth-child(1){transition:all 0.5s cubic-bezier(0.23,1,0.32,1) 0.1s;opacity:0.85;transform:translateX(0)}
+.mobile-menu.active a:nth-child(2){transition:all 0.5s cubic-bezier(0.23,1,0.32,1) 0.15s;opacity:0.85;transform:translateX(0)}
+.mobile-menu.active a:nth-child(3){transition:all 0.5s cubic-bezier(0.23,1,0.32,1) 0.2s;opacity:0.85;transform:translateX(0)}
+.mobile-divider{margin:24px 0;border-bottom:1px solid rgba(122,51,42,0.15)}
+
+.cloth-container{
+  position:absolute;inset:0;z-index:20;pointer-events:none;
+}
+.roof-img{
+  position:absolute;left:50%;transform:translateX(-50%);
+  top:12vh;
+  max-width:45%;max-height:35vh;
+  object-fit:contain;
+  filter: drop-shadow(0 10px 30px rgba(0,0,0,0.2));
+  user-select:none;
+  z-index:30;
+}
+.canvas-physics{
+  position:absolute;inset:0;
+  z-index:20;
+  pointer-events:auto;
+}
+.corner-left{
+  position:absolute;
+  top:28vh;left:48px;
+  pointer-events:none;
+  z-index:30;
+  color:#B3483C;
+}
+.subtitle{
+  font-size:0.8rem;
+  letter-spacing:0.08em;
+  margin-bottom:1rem;
+}
+.vertical-calligraphy{
+  display:flex;
+  flex-direction:row-reverse;
+  gap:0.25rem;
+}
+.vert-col{
+  display:flex;
+  flex-direction:column;
+  font-size:2.5rem;
+  font-weight:700;
+  line-height:1.15;
+}
+.corner-right{
+  position:absolute;
+  top:28vh;right:48px;
+  text-align:right;
+  pointer-events:none;
+  z-index:30;
+  color:#B3483C;
+}
+.right-text p{
+  font-size:0.85rem;
+  line-height:1.8;
+}
+.about-row{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:0.375rem;
+  margin-top:1rem;
+  font-size:0.9rem;
+  font-weight:600;
+}
+.square-box{
+  width:1rem;height:1rem;
+  border:1.5px solid #B3483C;
+  display:inline-flex;
+}
+
+@media (max-width:1024px){
+  .nav-center{display:none}
+  .play-btn{display:none}
+  .roof-img{top:10vh;max-width:55%}
+  .corner-left{top:auto;bottom:24px;left:24px}
+  .corner-right{top:auto;bottom:24px;right:24px}
+  .vert-col{font-size:1.5rem}
+}
+@media (max-width:640px){
+  .roof-img{top:8vh;max-width:75%}
+  .subtitle{font-size:0.65rem}
+  .vert-col{font-size:1.25rem}
+}
+</style>
+</head>
+<body>
+<section class="hero-section">
+  <div class="bg-layer"></div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="brand">琵琶行</div>
+    <div class="nav-center">
+      <a href="#">Main</a>
+      <a href="#">Explorations</a>
+      <a href="#">Collaborations</a>
+    </div>
+    <div style="display:flex;gap:16px;align-items:center">
+      <button class="play-btn">Play</button>
+      <button class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-overlay" id="overlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#">Main</a>
+    <a href="#">Explorations</a>
+    <a href="#">Collaborations</a>
+    <div class="mobile-divider"></div>
+    <button class="play-btn">Play</button>
+  </div>
+
+  <!-- Roof + Physics Canvas -->
+  <div class="cloth-container">
+    <img class="roof-img" id="roofImg" draggable="false" src="https://soft-zoom-63098134.figma.site/_assets/v11/f0f8b81e78d616a59ca6b1e5a57d2a0ed01d0bb7.png">
+    <canvas class="canvas-physics" id="canvas"></canvas>
+  </div>
+
+  <!-- Left Vertical Calligraphy -->
+  <div class="corner-left">
+    <div class="subtitle">琵琶行（Pípa Xíng）白居易</div>
+    <div class="vertical-calligraphy">
+      <div class="vert-col">浔<br>阳<br>江<br>头<br>夜<br>送<br>客</div>
+      <div class="vert-col">枫<br>叶<br>荻<br>花<br>秋<br>瑟<br>瑟</div>
+      <div class="vert-col">犹<br>抱<br>琵<br>琶<br>半<br>遮<br>面</div>
+    </div>
+  </div>
+
+  <!-- Right Text Block -->
+  <div class="corner-right">
+    <div class="right-text">
+      <p>大弦嘈嘈如急雨，<br>小弦切切如私语。<br>嘈嘈切切错杂弹，<br>大珠小珠落玉盘。</p>
+    </div>
+    <div class="about-row">
+      <span class="square-box"></span>
+      <span>全文</span>
+    </div>
+  </div>
+</section>
+
+<script>
+// ========== MOBILE MENU ==========
+const hamburger = document.getElementById('hamburger');
+const overlay = document.getElementById('overlay');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuLinks = mobileMenu.querySelectorAll('a');
+let menuOpen = false;
+function toggleMenu(){
+  menuOpen = !menuOpen;
+  hamburger.classList.toggle('open', menuOpen);
+  overlay.classList.toggle('active', menuOpen);
+  mobileMenu.classList.toggle('active', menuOpen);
+  document.body.style.overflow = menuOpen ? 'hidden' : '';
+}
+hamburger.onclick = toggleMenu;
+overlay.onclick = toggleMenu;
+menuLinks.forEach(link=>link.onclick = toggleMenu);
+
+// ========== PHYSICS + CANVAS ==========
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const roofImg = document.getElementById('roofImg');
+
+// ✅ 柔和版物理参数
+const GRAVITY = 0.14;
+const DAMPING = 0.994;
+const ITERATIONS = 5;
+const COMPRESS_FACTOR = 0.02;
+const STRETCH_FACTOR = 1.15;
+const MOUSE_SQ_THRESHOLD = 5000;
+const MOUSE_STRENGTH = 2.2;
+const CHAR_SET = "浔阳江头夜送客枫叶荻花秋瑟瑟主人下马客在船举酒欲饮无管弦醉不成欢惨将别别时茫茫江浸月忽闻水上琵琶声主人忘归客不发寻声暗问弹者谁琵琶声停欲语迟移船相近邀相见添酒回灯重开宴千呼万唤始出来犹抱琵琶半遮面转轴拨弦三两声未成曲调先有情弦弦掩抑声声思似诉平生不得志低眉信手续续弹说尽心中无限事轻拢慢捻抹复挑初为霓裳后六幺大弦嘈嘈如急雨小弦切切如私语嘈嘈切切错杂弹大珠小珠落玉盘间关莺语花底滑幽咽泉流冰下难冰泉冷涩弦凝绝凝绝不通声暂歇别有幽愁暗恨生此时无声胜有声银瓶乍破水浆迸铁骑突出刀枪鸣曲终收拨当心画四弦一声如裂帛东船西舫悄无言唯见江心秋月白沉吟放拨插弦中整顿衣裳起敛容自言本是京城女家在虾蟆陵下住十三学得琵琶成名属教坊第一部曲罢曾教善才服妆成每被秋娘妒五陵年少争缠头一曲红绡不知数钿头银篦击节碎血色罗裙翻酒污今年欢笑复明年秋月春风等闲度弟走从军阿姨死暮去朝来颜色故门前冷落鞍马稀老大嫁作商人妇商人重利轻别离前月浮梁买茶去去来江口守空船绕船月明江水寒夜深忽梦少年事梦啼妆泪红阑干我闻琵琶已叹息又闻此语重唧唧同是天涯沦落人相逢何必曾相识我从去年辞帝京谪居卧病浔阳城浔阳地僻无音乐终岁不闻丝竹声住近湓江地低湿黄芦苦竹绕宅生其间旦暮闻何物杜鹃啼血猿哀鸣春江花朝秋月夜往往取酒还独倾岂无山歌与村笛呕哑嘲哳难为听今夜闻君琵琶语如听仙乐耳暂明莫辞更坐弹一曲为君翻作琵琶行感我此言良久立却坐促弦弦转急凄凄不似向前声满座重闻皆掩泣座中泣下谁最多江州司马青衫湿";
+const NOTE_FREQS = [261.6, 293.7, 329.6, 349.2, 392.0, 440.0, 493.9, 523.3];
+const INK_CHAR = "#5C4640";
+
+let particles = [];
+let preRenderChars = new Map();
+let audioCtx = null;
+let lastPluckTime = 0;
+let lastPluckCol = -1;
+let mouse = {x:0,y:0,down:false};
+let gridW, gridH, cellW, cellH;
+let roofBottom = 0;
+let stringAreaWidth, stringAreaHeight;
+let animId;
+let dpr = Math.min(window.devicePixelRatio, 2);
+
+function resizeCanvas(){
+  canvas.width = window.innerWidth * dpr;
+  canvas.height = window.innerHeight * dpr;
+  canvas.style.width = window.innerWidth + "px";
+  canvas.style.height = window.innerHeight + "px";
+  ctx.scale(dpr, dpr);
+}
+resizeCanvas();
+window.addEventListener('resize', ()=>{
+  resizeCanvas();
+  initSimulation();
+});
+
+// Audio pluck 音量微调
+function playPluck(col){
+  const now = performance.now();
+  if(now - lastPluckTime <100) return;
+  if(col === lastPluckCol && now - lastPluckCol <200) return;
+  lastPluckTime = now;
+  lastPluckCol = col;
+  if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  const freq = NOTE_FREQS[col % NOTE_FREQS.length];
+  const osc1 = audioCtx.createOscillator();
+  const osc2 = audioCtx.createOscillator();
+  const filter = audioCtx.createBiquadFilter();
+  const gain = audioCtx.createGain();
+  const merger = audioCtx.createChannelMerger(2);
+  osc1.type = "triangle"; osc1.frequency.value = freq;
+  osc2.type = "sine"; osc2.frequency.value = freq*2;
+  filter.type = "lowpass"; filter.frequency.setValueAtTime(4000, audioCtx.currentTime);
+  filter.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime+0.8);
+  filter.Q.value = 2;
+  gain.gain.setValueAtTime(0.09, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+1);
+  osc1.connect(merger,0,0); osc2.connect(merger,0,1);
+  merger.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+  osc1.start(); osc2.start();
+  osc1.stop(audioCtx.currentTime+1); osc2.stop(audioCtx.currentTime+1);
+}
+
+// Pre-render character texture
+function preRenderChar(char, fontSize){
+  if(preRenderChars.has(char)) return preRenderChars.get(char);
+  const size = Math.ceil(fontSize *1.4);
+  const off = document.createElement('canvas');
+  off.width = size*dpr; off.height = size*dpr;
+  const offCtx = off.getContext('2d');
+  offCtx.scale(dpr,dpr);
+  offCtx.font = `bold ${fontSize}px "Noto Serif SC", serif`;
+  offCtx.fillStyle = INK_CHAR;
+  offCtx.textAlign = "center";
+  offCtx.textBaseline = "middle";
+  offCtx.fillText(char, size/2, size/2);
+  preRenderChars.set(char, off);
+  return off;
+}
+
+function getBreakpoint(){
+  const w = window.innerWidth;
+  if(w<640) return "mobile";
+  if(w<1024) return "tablet";
+  return "desktop";
+}
+
+function initSimulation(){
+  const bp = getBreakpoint();
+  if(bp === 'mobile'){
+    gridW =7; gridH=14; stringAreaHeight=180;
+  }else if(bp === 'tablet'){
+    gridW=14; gridH=24; stringAreaHeight=320;
+  }else{
+    gridW=18; gridH=30; stringAreaHeight=380;
+  }
+  const rect = roofImg.getBoundingClientRect();
+  roofBottom = rect.bottom;
+  stringAreaWidth = rect.width * (bp==='mobile'?0.65:0.55);
+  cellW = stringAreaWidth/(gridW-1);
+  cellH = stringAreaHeight/(gridH-1);
+  const centerX = window.innerWidth/2;
+  const originX = centerX - stringAreaWidth/2;
+  particles = [];
+  for(let j=0;j<gridH;j++){
+    for(let i=0;i<gridW;i++){
+      const x = originX + i*cellW;
+      const y = roofBottom -10 + j*cellH;
+      particles.push({x,y,oldX:x,oldY:y,pinned: j===0});
+    }
+  }
+  preRenderChars.clear();
+}
+
+roofImg.onload = ()=>{
+  initSimulation();
+  animate();
+};
+
+// Mouse
+canvas.addEventListener('pointermove', e=>{
+  const rect = canvas.getBoundingClientRect();
+  mouse.x = e.clientX - rect.left;
+  mouse.y = e.clientY - rect.top;
+});
+canvas.addEventListener('pointerdown', e=>{mouse.down=true;});
+canvas.addEventListener('pointerup', ()=>{mouse.down=false;});
+canvas.addEventListener('pointerleave', ()=>{mouse.down=false;});
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width/dpr, canvas.height/dpr);
+  // Physics update
+  for(let p of particles){
+    if(p.pinned) continue;
+    const vx = p.x - p.oldX;
+    const vy = p.y - p.oldY;
+    p.oldX = p.x;
+    p.oldY = p.y;
+    p.x += vx * DAMPING;
+    p.y += vy * DAMPING + GRAVITY;
+  }
+  // constraints
+  for(let iter=0;iter<ITERATIONS;iter++){
+    // vertical
+    for(let i=0;i<gridW;i++){
+      for(let j=0;j<gridH-1;j++){
+        const idx = j*gridW+i;
+        const nextIdx = (j+1)*gridW+i;
+        const p1 = particles[idx];
+        const p2 = particles[nextIdx];
+        const dx = p2.x-p1.x;
+        const dy = p2.y-p1.y;
+        const dist = Math.hypot(dx,dy);
+        const minL = cellH*(1-COMPRESS_FACTOR);
+        const maxL = cellH*STRETCH_FACTOR;
+        if(dist < minL || dist>maxL){
+          const diff = (dist - (dist<minL?minL:maxL)) / dist;
+          const ox = dx*diff*0.5;
+          const oy = dy*diff*0.5;
+          if(!p1.pinned){p1.x += ox; p1.y += oy;}
+          if(!p2.pinned){p2.x -= ox; p2.y -= oy;}
+        }
+      }
+    }
+    // horizontal
+    for(let j=0;j<gridH;j++){
+      for(let i=0;i<gridW-1;i++){
+        const idx = j*gridW+i;
+        const nextIdx = j*gridW+i+1;
+        const p1 = particles[idx];
+        const p2 = particles[nextIdx];
+        const dx = p2.x-p1.x;
+        const dy = p2.y-p1.y;
+        const dist = Math.hypot(dx,dy);
+        const minL = cellW*(1-0.6);
+        const maxL = cellW*4;
+        if(dist < minL || dist>maxL){
+          const diff = (dist - (dist<minL?minL:maxL)) / dist;
+          const ox = dx*diff*0.5;
+          const oy = dy*diff*0.5;
+          if(!p1.pinned){p1.x += ox; p1.y += oy;}
+          if(!p2.pinned){p2.x -= ox; p2.y -= oy;}
+        }
+      }
+    }
+  }
+  // mouse force
+  for(let i=0;i<particles.length;i++){
+    const p = particles[i];
+    const dx = mouse.x - p.x;
+    const dy = mouse.y - p.y;
+    const distSq = dx*dx + dy*dy;
+    if(distSq < MOUSE_SQ_THRESHOLD){
+      const t = distSq / MOUSE_SQ_THRESHOLD;
+      const smooth = t*t*(3-2*t);
+      const strength = smooth * MOUSE_STRENGTH /300;
+      const ang = Math.atan2(dy,dx) + Math.PI;
+      const fx = Math.cos(ang)*strength;
+      const fy = Math.sin(ang)*strength;
+      p.x += fx;
+      p.y += fy;
+      const colIdx = Math.round(p.x / cellW);
+      playPluck(colIdx);
+    }
+  }
+
+  // Render characters
+  const fontSize = Math.max(10, cellH*1.1);
+  for(let j=0;j<gridH;j++){
+    for(let i=0;i<gridW;i++){
+      const idx = j*gridW+i;
+      const p = particles[idx];
+      const charIndex = (i + j*gridW) % CHAR_SET.length;
+      const char = CHAR_SET[charIndex];
+      const charCanvas = preRenderChar(char, fontSize);
+      // get downward particle for rotation
+      if(j < gridH-1){
+        const p2 = particles[idx+gridW];
+        const dy = p2.y - p.y;
+        const dx = p2.x - p.x;
+        const angle = Math.atan2(dy,dx) - Math.PI/2;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(angle);
+        ctx.drawImage(charCanvas, -charCanvas.width/dpr/2, -charCanvas.height/dpr/2, charCanvas.width/dpr, charCanvas.height/dpr);
+        ctx.restore();
+      }else{
+        ctx.drawImage(charCanvas, p.x - charCanvas.width/dpr/2, p.y - charCanvas.height/dpr/2, charCanvas.width/dpr, charCanvas.height/dpr);
+      }
+    }
+  }
+
+  animId = requestAnimationFrame(animate);
+}
+window.addEventListener('beforeunload', ()=>cancelAnimationFrame(animId));
+</script>
+</body>
+</html>

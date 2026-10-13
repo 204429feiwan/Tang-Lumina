@@ -1,0 +1,354 @@
+@charset "UTF-8";
+/* Imperial chronicle palette. Scope stays inside the history experience. */
+.history-3d-experience,
+body.exhibition-page[data-page="history"] .event-dialog {
+  color-scheme: light;
+  --ink: #3f251c;
+  --ink-deep: #301c17;
+  --jade: #8f392b;
+  --gold: #9c642b;
+  --gold-soft: #a5733b;
+  --paper: #f7f0df;
+  --muted: #6d5849;
+  --hairline: rgba(117, 74, 39, .27);
+}
+.history-3d-experience { background: #eae0cb; color: #3f251c; }
+.history-3d-experience .chronicle-stage {
+  background: #efe4cf;
+}
+.history-3d-experience .scene-atmosphere {
+  background:
+    radial-gradient(ellipse at 65% 42%, rgba(255,249,232,.88) 0, rgba(246,232,201,.83) 39%, rgba(221,199,162,.92) 100%),
+    #eee1c8;
+}
+.history-3d-experience .scene-atmosphere::before {
+  inset: 0;
+  background-image: var(--chapter-art);
+  background-size: cover;
+  background-position: 75% 50%;
+  mix-blend-mode: multiply;
+  opacity: .19;
+}
+.history-3d-experience .scene-atmosphere::after {
+  background-image: repeating-linear-gradient(0deg,transparent 0,transparent 4px,rgba(100,58,34,.045) 5px);
+  opacity: .3;
+}
+.history-3d-experience .scene-vignette {
+  background:
+    linear-gradient(90deg,#f1e8d5 0,rgba(241,232,213,.94) 22%,rgba(241,232,213,.12) 40%,transparent 74%,rgba(205,176,132,.22) 100%),
+    linear-gradient(0deg,rgba(220,200,166,.76),transparent 18%,transparent 84%,rgba(247,238,216,.54));
+}
+.history-3d-experience .chronicle-masthead h1,
+.history-3d-experience .current-event h2,
+.history-3d-experience .city-caption h2 { color: #44271c; }
+.history-3d-experience .chronicle-masthead h1 span,
+.history-3d-experience .city-caption h2 span { color: #9c3b29; }
+.history-3d-experience .chapter-kicker,
+.history-3d-experience .event-era,
+.history-3d-experience .event-read { color: #87402d; }
+.history-3d-experience .chronicle-intro,
+.history-3d-experience .event-description,
+.history-3d-experience .city-caption > p:not(.chapter-kicker),
+.history-3d-experience .scroll-cue,
+.history-3d-experience .scene-label { color: #634d3e; }
+.history-3d-experience .event-year { color: #8f3426; }
+.history-3d-experience .event-year small { color: #775a49; }
+@media (min-width: 1100px) and (min-height: 680px) {
+  .history-3d-experience .current-event {
+    top: 42%;
+    width: min(31vw, 400px);
+    max-width: 400px;
+  }
+  .history-3d-experience .event-era { font-size: 11px; }
+  .history-3d-experience .event-year > span { font-size: clamp(78px, 6.5vw, 100px); }
+  .history-3d-experience .event-year small { font-size: 11px; }
+  .history-3d-experience .current-event h2 { font-size: 28px; }
+  .history-3d-experience .event-description { max-width: 390px; font-size: 14px; line-height: 1.85; }
+  .history-3d-experience .event-read { font-size: 12px; }
+}
+.history-3d-experience .ruler-caption,
+.history-3d-experience .ring-mode-note { color: #735746; }
+.history-3d-experience .ruler-stops button { color: #8e735c; }
+.history-3d-experience .ruler-stops button.is-active,
+.history-3d-experience .ruler-stops button[aria-current="step"],
+.history-3d-experience .ruler-stops button:hover { color: #8d3525; }
+.history-3d-experience .ruler-city,
+.history-3d-experience .chronicle-progress { color: #725947; }
+.history-3d-experience .chronicle-controls { border-top-color: rgba(110,74,43,.26); }
+.history-3d-experience .history-card-face {
+  border-color: rgba(127,80,44,.58);
+  border-radius: 24px;
+  background: #f0e3c9;
+  box-shadow: 0 25px 62px rgba(71,43,27,.25);
+}
+.history-3d-experience .history-card-face::after { display: none; }
+.history-3d-experience .history-card.is-active .history-card-face { border-color: #a77439; }
+.history-3d-experience .history-card-image { background: #d5b890; }
+.history-3d-experience .history-card-image img { object-fit: contain; filter: none; }
+.history-3d-experience .history-card.has-captioned-art .history-card-image img {
+  width: 100%;
+  max-width: 100%;
+  transform: none;
+}
+.history-3d-experience .history-card-image::before,
+.history-3d-experience .history-card-image::after,
+.history-3d-experience .history-card-index,
+.history-3d-experience .history-card-artnote,
+.history-3d-experience .history-card-body { display: none; }
+.history-3d-experience .history-card-dateline time { color: #893525; }
+.history-3d-experience .history-card-dateline > span { color: #765947; }
+.history-3d-experience .history-card-body h2 { color: #3e271d; font-size: 23px; }
+.history-3d-experience .history-card-body p { color: #5c493e; font-size: 12px; line-height: 1.75; }
+.history-3d-experience .history-card-open { color: #925c2d; }
+.history-3d-experience .city-tags span { border-color: rgba(124,77,43,.35); color: #664b37; }
+.history-3d-experience .city-caption > small,
+.history-3d-experience .scene-label small { color: #785e48; }
+.history-3d-experience .render-status { background: rgba(249,240,221,.95); color: #76563d; }
+.history-3d-experience .chronicle-canvas.city-unavailable,
+body.exhibition-page[data-page="history"].is-reduced .history-3d-experience .chronicle-canvas {
+  background: linear-gradient(90deg,#efe4cf,rgba(239,228,207,.2) 75%),url("../images/backgrounds/history-bg.png") center / cover no-repeat;
+}
+.history-3d-experience .chronicle-after,
+.history-3d-experience .chronicle-reading { background: #e9dec6; }
+.history-3d-experience .after-copy .chapter-kicker,
+.history-3d-experience .after-copy h2 span { color: #94402b; }
+.history-3d-experience .after-copy h2,
+.history-3d-experience .chronicle-reading li h3 { color: #3e281e; }
+.history-3d-experience .after-copy > p:not(.chapter-kicker),
+.history-3d-experience .chronicle-reading li p,
+.history-3d-experience .chronicle-reading noscript p { color: #5e4b3d; }
+.history-3d-experience .chronicle-reading summary { color: #4c3426; }
+.history-3d-experience .chronicle-reading li { border-color: rgba(115,77,43,.25); }
+.history-3d-experience .history-sources { color: #6e5a4b; }
+.history-3d-experience .history-sources a { color: #8d402c; }
+body.exhibition-page[data-page="history"] .event-dialog {
+  width: min(700px,calc(100vw - 40px));
+  padding: 35px 40px 36px;
+  border-color: rgba(134,85,42,.55);
+  background: #f3e7d0;
+  color: #3e281e;
+  box-shadow: 0 30px 95px rgba(35,20,13,.53),inset 0 0 0 6px #f3e7d0,inset 0 0 0 7px rgba(134,85,42,.28);
+}
+body.exhibition-page[data-page="history"] .event-dialog::backdrop { background: rgba(41,25,18,.69); }
+body.exhibition-page[data-page="history"] .event-dialog .dialog-artwork {
+  height: 200px;
+  margin: 20px 0 0;
+  border: 1px solid rgba(140,92,46,.36);
+  overflow: hidden;
+  background: #d5b890;
+}
+body.exhibition-page[data-page="history"] .event-dialog .dialog-artwork img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 75% 45%;
+}
+body.exhibition-page[data-page="history"] .event-dialog .dialog-year { margin: 17px 0 8px; color: #913b28; font-size: 56px; }
+body.exhibition-page[data-page="history"] .event-dialog h2 { color: #3e281e; }
+body.exhibition-page[data-page="history"] .event-dialog #dialogText { color: #59483c; }
+body.exhibition-page[data-page="history"] .event-dialog .dialog-foot { color: #7b604b; }
+body.exhibition-page[data-page="history"] .event-dialog .dialog-close { color: #8d3a29; }
+body.exhibition-page[data-page="history"] .event-dialog .chapter-kicker { color: #925435; }
+@media (max-width: 800px) {
+  .history-3d-experience .scene-vignette {
+    background: linear-gradient(0deg,rgba(238,226,202,.96) 0,rgba(238,226,202,.66) 23%,transparent 54%,rgba(244,234,214,.48));
+  }
+  .history-3d-experience .scene-atmosphere::before { opacity: .08; }
+  .history-3d-experience .history-card.has-captioned-art .history-card-image img {
+    width: 100%;
+    transform: none;
+  }
+  body.exhibition-page[data-page="history"] .event-dialog { padding: 26px 22px; }
+  body.exhibition-page[data-page="history"] .event-dialog .dialog-artwork { height: 150px; }
+  body.exhibition-page[data-page="history"] .event-dialog .dialog-year { font-size: 46px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .history-3d-experience .history-card.has-captioned-art .history-card-image img { transform: none !important; }
+}
+/* V2 keeps ownership of navbar behavior; the ivory history surface needs ink text. */
+body.exhibition-page[data-page="history"] .navbar.at-top {
+  background: rgba(247,239,221,.97);
+  border-bottom-color: rgba(124,78,43,.23);
+  box-shadow: 0 3px 18px rgba(88,55,32,.07);
+}
+body.exhibition-page[data-page="history"] .navbar.at-top .navbar-brand,
+body.exhibition-page[data-page="history"] .navbar.at-top .nav-link {
+  color: #4c3023 !important;
+  text-shadow: none;
+}
+body.exhibition-page[data-page="history"] .navbar.at-top .nav-link:hover,
+body.exhibition-page[data-page="history"] .navbar.at-top .nav-link.active {
+  color: #9b3e2b !important;
+}
+body.exhibition-page[data-page="history"] .navbar.at-top .nav-link::after { background: #9b3e2b; }
+body.exhibition-page[data-page="history"] .navbar.at-top .navbar-toggler {
+  border-color: rgba(115,73,44,.4);
+}
+body.exhibition-page[data-page="history"] .navbar.at-top .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(78,48,32,0.85)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+/* Restore the intended mobile hierarchy after the desktop ring cascade. */
+@media (max-width: 800px) {
+  .history-3d-experience {
+    --card-width: min(74vw, 315px) !important;
+    --card-height: min(41.625vw, 177.1875px) !important;
+  }
+  .history-3d-experience .chronicle-masthead {
+    top: 24px;
+    right: 20px;
+    left: 20px;
+    width: auto;
+  }
+  .history-3d-experience .chronicle-masthead h1 {
+    margin: 8px 0 0;
+    font-size: clamp(25px,7.2vw,32px);
+    line-height: 1.35;
+  }
+  .history-3d-experience .chronicle-masthead h1 br { display: none; }
+  .history-3d-experience .chronicle-intro { display: none; }
+  .history-3d-experience .history-ring-parallax { left: 60%; top: 45%; }
+  .history-3d-experience .chronicle-ruler {
+    top: 155px;
+    right: 18px;
+    left: 18px;
+    width: auto;
+    align-items: stretch;
+  }
+  .history-3d-experience .ruler-caption { margin-bottom: 5px; }
+  .history-3d-experience .ruler-stops {
+    display: grid;
+    grid-template-columns: repeat(6,minmax(0,1fr));
+    gap: 2px 4px;
+  }
+  .history-3d-experience .ruler-stops button {
+    justify-content: center;
+    min-height: 23px;
+    font-size: 9px;
+  }
+  .history-3d-experience .ruler-stops button::after,
+  .history-3d-experience .ruler-stops button::before,
+  .history-3d-experience .ruler-city { display: none; }
+  .history-3d-experience .history-card-body { padding: 32px 16px 13px; }
+  .history-3d-experience .history-card-dateline time { font-size: 28px; }
+  .history-3d-experience .history-card-dateline > span { font-size: 8px; }
+  .history-3d-experience .history-card-body h2 { margin: 5px 0 0; font-size: 18px; }
+  .history-3d-experience .history-card-body p,
+  .history-3d-experience .history-card-open,
+  .history-3d-experience .history-card-artnote { display: none; }
+  .history-3d-experience .current-event {
+    top: auto;
+    right: 20px;
+    bottom: 88px;
+    left: 20px;
+    display: grid;
+    grid-template-columns: 80px minmax(0,1fr);
+    column-gap: 12px;
+    width: auto;
+    max-width: none;
+    padding: 12px 14px;
+    background: rgba(245,235,212,.94);
+    border: 1px solid rgba(124,78,43,.28);
+  }
+  .history-3d-experience .event-era { grid-column: 1 / -1; margin-bottom: 4px; }
+  .history-3d-experience .event-year { grid-column: 1; grid-row: 2 / 5; }
+  .history-3d-experience .event-year > span { font-size: 43px; }
+  .history-3d-experience .current-event h2 { grid-column: 2; margin: 0 0 3px; font-size: 18px; }
+  .history-3d-experience .event-description { grid-column: 2; font-size: 10px; line-height: 1.6; }
+  .history-3d-experience .event-read { grid-column: 2; margin-top: 3px; min-height: 26px; font-size: 10px; }
+  .history-3d-experience .scene-label { display: none; }
+}
+@media (max-width: 380px) {
+  .history-3d-experience .chronicle-masthead { right: 16px; left: 16px; }
+  .history-3d-experience .current-event { right: 16px; left: 16px; }
+}
+@media (max-width: 800px) {
+  .history-3d-experience .chronicle {
+    --card-width: min(74vw,315px) !important;
+    --card-height: min(41.625vw, 177.1875px) !important;
+  }
+}
+@media (max-width: 800px) {
+  .history-3d-experience .chronicle-masthead {
+    padding: 8px 10px;
+    background: linear-gradient(90deg,rgba(245,235,214,.96),rgba(245,235,214,.85) 69%,rgba(245,235,214,0));
+  }
+  .history-3d-experience .ruler-stops button { font-size: 10px; color: #6f5140; }
+}
+
+/* F3-R1B: final reading consumers, never aliases for the historical art palette. */
+.history-3d-experience .chapter-kicker { color: var(--tang-cinnabar); }
+.history-3d-experience .chapter-kicker i { background: var(--tang-border); }
+.history-3d-experience .event-era,
+.history-3d-experience .chronicle-intro,
+.history-3d-experience .city-caption > p:not(.chapter-kicker),
+.history-3d-experience .after-copy > p:not(.chapter-kicker),
+.history-3d-experience .chronicle-reading li p { color: var(--tang-text-secondary); }
+.history-3d-experience .event-description { color: var(--tang-text-primary); }
+.history-3d-experience .event-year small,
+.history-3d-experience .ruler-caption,
+.history-3d-experience .ruler-stops button,
+.history-3d-experience .ruler-stops button.is-neighbor,
+.history-3d-experience .ring-mode-note,
+.history-3d-experience .chronicle-progress,
+.history-3d-experience .scroll-cue,
+.history-3d-experience .city-caption > small,
+.history-3d-experience .history-sources,
+.history-3d-experience .chronicle-reading summary > span { color: var(--tang-text-muted); }
+.history-3d-experience .ruler-stops button.is-active,
+.history-3d-experience .ruler-stops button[aria-current="step"],
+.history-3d-experience .ruler-stops button:hover { color: var(--tang-cinnabar-dark); }
+.history-3d-experience .chronicle-reading summary,
+.history-3d-experience .chronicle-reading li h3 { color: var(--tang-text-primary); }
+.history-3d-experience .after-copy .chapter-kicker { color: var(--tang-cinnabar-dark); }
+.history-3d-experience .history-sources,
+.history-3d-experience .chronicle-reading summary > span { color: var(--tang-text-secondary); }
+/* Old-paper secondary entries use readable text; gold belongs to interaction accents. */
+.history-3d-experience .event-read,
+.history-3d-experience .after-link,
+.history-3d-experience .city-caption a { color: var(--tang-text-secondary); border-color: var(--tang-gold); }
+.history-3d-experience .event-read:hover,
+.history-3d-experience .after-link:hover,
+.history-3d-experience .city-caption a:hover { background-color: var(--tang-gold); color: var(--tang-ink); }
+.history-3d-experience .event-read:active,
+.history-3d-experience .after-link:active,
+.history-3d-experience .city-caption a:active { background-color: var(--tang-gold-soft); color: var(--tang-ink); }
+.history-3d-experience :is(.event-read, .after-link, .city-caption a, .ruler-stops button, .chronicle-reading summary):focus-visible { outline-color: var(--tang-focus); }
+body.exhibition-page[data-page="history"] .event-dialog h2 { color: var(--tang-text-primary); }
+body.exhibition-page[data-page="history"] .event-dialog #dialogText { color: var(--tang-text-primary); line-height: 1.9; }
+body.exhibition-page[data-page="history"] .event-dialog .chapter-kicker { color: var(--tang-cinnabar-dark); letter-spacing: .1em; }
+body.exhibition-page[data-page="history"] .event-dialog .dialog-foot { color: var(--tang-text-muted); border-color: var(--tang-border); letter-spacing: .08em; }
+body.exhibition-page[data-page="history"] .event-dialog .dialog-close { color: var(--tang-text-secondary); }
+body.exhibition-page[data-page="history"] .event-dialog .dialog-close:hover { color: var(--tang-ink); background-color: var(--tang-gold); }
+body.exhibition-page[data-page="history"] .event-dialog .dialog-close:active { color: var(--tang-ink); background-color: var(--tang-gold-soft); }
+body.exhibition-page[data-page="history"] .event-dialog .dialog-close:focus-visible { outline-color: var(--tang-focus); }
+body.exhibition-page[data-page="history"] .event-dialog::backdrop { background: var(--tang-overlay); }
+@media (min-width: 1100px) and (min-height: 680px) {
+  .history-3d-experience .chapter-kicker { font-size: clamp(13px, calc(10px + .2vw), 14px); letter-spacing: .1em; }
+  .history-3d-experience .chapter-kicker span:last-child { font-size: 13px; letter-spacing: .06em; }
+  .history-3d-experience .event-era,
+  .history-3d-experience .event-year small,
+  .history-3d-experience .ruler-caption,
+  .history-3d-experience .ruler-stops button,
+  .history-3d-experience .ring-mode-note,
+  .history-3d-experience .chronicle-progress,
+  .history-3d-experience .scroll-cue,
+  .history-3d-experience .city-caption > small,
+  .history-3d-experience .history-sources,
+  .history-3d-experience .chronicle-reading summary > span { font-size: 13px; }
+  .history-3d-experience .ruler-caption { letter-spacing: .1em; }
+  .history-3d-experience .chronicle-intro,
+  .history-3d-experience .event-description,
+  .history-3d-experience .city-caption > p:not(.chapter-kicker),
+  .history-3d-experience .after-copy > p:not(.chapter-kicker),
+  .history-3d-experience .chronicle-reading li p { font-size: clamp(15.5px, calc(12px + .3vw), 17px); line-height: 1.9; }
+  .history-3d-experience .event-read,
+  .history-3d-experience .after-link,
+  .history-3d-experience .city-caption a { font-size: 14px; }
+  .history-3d-experience .chronicle-reading summary { font-size: clamp(42px, calc(22px + 1.5vw), 50px); line-height: 1.3; letter-spacing: .04em; }
+  .history-3d-experience .chronicle-reading li h3 { font-size: clamp(20px, calc(12px + .6vw), 24px); margin-bottom: 16px; }
+  body.exhibition-page[data-page="history"] .event-dialog h2 { font-size: clamp(30px, calc(20px + .8vw), 34px); margin-bottom: 18px; }
+  body.exhibition-page[data-page="history"] .event-dialog #dialogText { font-size: clamp(15.5px, calc(12px + .3vw), 17px); }
+  body.exhibition-page[data-page="history"] .event-dialog .chapter-kicker,
+  body.exhibition-page[data-page="history"] .event-dialog .dialog-foot { font-size: 13px; }
+}

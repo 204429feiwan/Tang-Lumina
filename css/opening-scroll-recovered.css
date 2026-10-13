@@ -1,0 +1,6 @@
+/* Landing pose retained from the recovered 18:11 opening implementation. */
+.hero-carousel.has-3d-homepage{isolation:isolate}
+.homepage-3d-canvas{position:absolute!important;inset:0;width:100%!important;height:100%!important;z-index:1;display:block;pointer-events:none}
+.hero-carousel.has-3d-homepage .carousel-inner{position:relative;z-index:0}
+.hero-carousel.has-3d-homepage .carousel-item.active{opacity:0!important}
+.hero-carousel.has-3d-homepage .hero-title-bar,.hero-carousel.has-3d-homepage .carousel-control-prev,.hero-carousel.has-3d-homepage .carousel-control-next,.hero-carousel.has-3d-homepage .carousel-indicators{position:relative;z-index:2}

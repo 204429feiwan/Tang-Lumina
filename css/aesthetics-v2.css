@@ -1,0 +1,468 @@
+.a2-enabled {
+  background: #100708;
+  color: #f2e5d1;
+}
+.a2-enabled .golden-birds {
+  display: none;
+}
+.a2-enabled .page-hero,
+.exhibition-page[data-page="aesthetics"] .page-hero {
+  height: 100vh !important;
+  background-image: url("../images/backgrounds/鎏金屏风下的幻境群像.png") !important;
+  background-size: cover;
+  background-position: center;
+}
+.exhibition-page[data-page="aesthetics"] .page-hero::after { display: none; }
+.a2-hero {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+.a2-hero-copy {
+  position: relative;
+  z-index: 2;
+  padding: 24px 60px 30px;
+  background: radial-gradient(ellipse at center, rgba(17, 19, 26, .70), rgba(17, 19, 26, .32) 50%, transparent 73%);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, .8);
+}
+.a2-hero-copy p { color: #f1dfba; }
+.exhibition-page[data-page="aesthetics"] .a2-hero-enter { color: #392b1e; text-shadow: 0 1px 5px rgba(255, 245, 219, .85); }
+.a2-hero-copy strong {
+  display: block;
+  font: 600 clamp(11rem, 18vw, 16rem) / 0.7 var(--font-display);
+  color: #e8c67a;
+  text-shadow: 0 0 34px rgba(231, 185, 75, 0.24);
+  letter-spacing: 0.08em;
+  transition: 0.45s;
+}
+.a2-hero.near .a2-hero-copy strong {
+  letter-spacing: 0.14em;
+  color: #f4d68d;
+  text-shadow:
+    0 0 52px rgba(55, 129, 115, 0.32),
+    0 0 42px rgba(183, 38, 35, 0.3);
+}
+.a2-hero-copy h1 {
+  font: 500 clamp(2rem, 3vw, 3.2rem) var(--font-display);
+  letter-spacing: 0.28em;
+  color: #f4e7ce;
+  margin: 2.6rem 0 0.7rem;
+}
+.a2-hero-copy p,
+.a2-hero-enter {
+  font-size: 0.88rem;
+  letter-spacing: 0.18em;
+  color: #c9b18a;
+}
+.a2-hero-enter {
+  position: absolute;
+  bottom: 4vh;
+  color: #e0c27d;
+  text-decoration: none;
+}
+.a2-hero-enter:after {
+  content: "";
+  display: block;
+  height: 45px;
+  border-left: 1px solid #c59b4a;
+  margin: 12px auto 0;
+  width: 1px;
+}
+.a2-enabled .brocade-section {
+  height: 150vh;
+  padding: 13vh 0;
+  background:
+    radial-gradient(circle at 55% 40%, #3f1b18, transparent 42%), #12090a;
+}
+.a2-enabled .brocade-section .container {
+  position: relative;
+  z-index: 2;
+}
+.a2-enabled .brocade-section .text-center > h2 {
+  color: #f0d590;
+}
+.a2-enabled .brocade-section .section-subtitle,
+.a2-enabled .brocade-section .text-center > p {
+  color: #bda88a !important;
+}
+.a2-enabled .warp-threads {
+  width: 72vw;
+  opacity: 0.8;
+}
+.a2-enabled .loom-beam {
+  max-width: 72vw;
+  margin: 2vh auto 0;
+}
+.a2-enabled .loom-beam-label {
+  background: #180a0b;
+  color: #e1bb6d;
+}
+.a2-enabled .brocade-loom {
+  display: block;
+  max-width: 70vw;
+  height: 58vh;
+  margin: 3vh auto 0;
+  position: relative;
+  border: 1px solid rgba(222, 182, 91, 0.46);
+  background: #190b0b;
+  overflow: hidden;
+  box-shadow: inset 0 0 70px #000;
+}
+.a2-enabled .brocade-card {
+  display: none !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #160909 !important;
+  opacity: 0 !important;
+  transform: none !important;
+}
+.a2-enabled .brocade-card.a2-active {
+  display: block !important;
+  opacity: 1 !important;
+}
+.a2-enabled .brocade-card .bc-img {
+  height: 100% !important;
+}
+.a2-enabled .brocade-card .bc-img img {
+  height: 100%;
+  filter: saturate(0.92);
+  transition: transform 0.7s;
+}
+.a2-enabled .brocade-card.a2-active:hover .bc-img img {
+  transform: scale(1.03);
+}
+.a2-enabled .brocade-card .bc-body {
+  position: absolute;
+  right: 2.4rem;
+  bottom: 2rem;
+  width: 280px;
+  padding: 1.25rem;
+  background: rgba(45, 10, 13, 0.88);
+  border: 1px solid rgba(223, 177, 82, 0.45);
+  color: #ead8b7;
+}
+.a2-enabled .brocade-card .bc-body h4 {
+  color: #efce86;
+}
+.a2-enabled .brocade-card .bc-verse,
+.a2-enabled .brocade-card .bc-detail {
+  display: none;
+}
+.a2-enabled .brocade-card .bc-body p {
+  color: #d5c2a0;
+}
+.a2-brocade-tabs {
+  max-width: 70vw;
+  margin: 1.2rem auto;
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  position: relative;
+  z-index: 4;
+}
+.a2-brocade-tabs button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(220, 181, 88, 0.38);
+  background: #2a1011;
+  color: #c9a65d;
+  font: inherit;
+}
+.a2-brocade-tabs button.is-active {
+  background: #8e272b;
+  color: #ffe1a2;
+}
+.a2-enabled .loom-beam-bottom {
+  background: #9c302b;
+  max-width: 70vw;
+}
+.a2-enabled .contact-section {
+  display: none;
+}
+.a2-enabled .footer {
+  display: none;
+}
+.a2-finale {
+  height: 88vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background:
+    linear-gradient(rgba(8, 3, 4, 0.72), rgba(5, 3, 4, 0.88)),
+    url("../images/backgrounds/aesthetics-bg.png") center/cover;
+}
+.a2-finale h2 {
+  font: 500 clamp(3rem, 5vw, 5rem) var(--font-display);
+  letter-spacing: 0.24em;
+  color: #f1d696;
+  margin: 0.8rem;
+}
+.a2-finale p {
+  color: #d9bf88;
+  letter-spacing: 0.28em;
+}
+.a2-finale span {
+  font-size: 0.8rem;
+  color: #c0ab89;
+}
+.a2-finale nav {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin: 2.2rem;
+}
+.a2-finale nav button {
+  border: 0;
+  background: none;
+  color: #b89d70;
+  font: 1.4rem var(--font-display);
+  transition: 0.3s;
+}
+.a2-finale nav button:hover {
+  color: #f0cf7d;
+}
+.a2-finale footer {
+  font-size: 0.75rem;
+  color: #9e8c73;
+  letter-spacing: 0.1em;
+}
+.a2-enabled .golden-birds {
+  display: none;
+}
+@media (max-width: 800px) {
+  .a2-enabled .brocade-loom,
+  .a2-brocade-tabs {
+    max-width: 88vw;
+  }
+  .a2-enabled .brocade-card .bc-body {
+    right: 1rem;
+    bottom: 1rem;
+    width: 220px;
+  }
+  .a2-finale nav {
+    gap: 1rem;
+  }
+}
+/* 美学页最终视觉精修：不改变既有交互与章节结构 */
+/* 沉浸式导航：顶部完全透明融入 hero，滚动后深色毛玻璃；滚动后自动隐藏，鼠标移到顶部区域再滑出 */
+.a2-enabled .navbar {
+  background: transparent !important;
+  border-bottom: 1px solid transparent;
+  backdrop-filter: none;
+  transition: background .45s ease, border-color .45s ease, backdrop-filter .45s ease, padding .45s ease, transform .4s ease, opacity .4s ease;
+}
+.a2-enabled .navbar .navbar-brand,
+.a2-enabled .navbar .nav-link {
+  color: rgba(255, 246, 230, .94) !important;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, .55);
+}
+.a2-enabled .navbar .nav-link.active,
+.a2-enabled .navbar .nav-link:hover {
+  color: #e6b45c !important;
+}
+.a2-enabled .navbar.scrolled {
+  background: rgba(12, 8, 6, 0.88) !important;
+  border-bottom: 1px solid rgba(215, 170, 75, 0.22);
+  backdrop-filter: blur(8px);
+  transform: translateY(-110%);
+  opacity: 0;
+  pointer-events: none;
+}
+.a2-enabled .navbar.scrolled.nav-revealed,
+.a2-enabled .navbar.scrolled:hover,
+.a2-enabled .navbar.scrolled:focus-within,
+.a2-enabled .navbar.scrolled:has(.navbar-collapse.show),
+.a2-enabled .navbar.scrolled:has(.navbar-collapse.collapsing) {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.a2-enabled .navbar.scrolled .navbar-brand,
+.a2-enabled .navbar.scrolled .nav-link {
+  color: #e7dcc8 !important;
+  text-shadow: none;
+}
+.a2-enabled .navbar.scrolled .nav-link.active {
+  color: #d9a94d !important;
+}
+.a2-enabled .brocade-section,
+.a2-enabled .dance-theatre,
+.a2-finale {
+  scroll-margin-top: 86px;
+}
+.a2-enabled .brocade-section {
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(245, 232, 202, 0.18),
+      rgba(30, 18, 12, 0.94) 70%
+    ),
+    url("../images/backgrounds/aesthetics-bg.png") center/cover !important;
+}
+.a2-enabled .warp-threads {
+  opacity: 0.12;
+}
+.a2-enabled .warp-thread {
+  opacity: 0.55 !important;
+}
+.a2-enabled .loom-beam,
+.a2-enabled .loom-beam-bottom {
+  height: 2px !important;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(208, 164, 76, 0.48),
+    transparent
+  ) !important;
+  box-shadow: none !important;
+}
+.a2-enabled .loom-beam-label {
+  background: transparent !important;
+  padding: 0 0.8rem !important;
+  font-size: 0.62rem !important;
+  letter-spacing: 0.22em;
+}
+.a2-enabled .brocade-loom {
+  border-color: rgba(210, 167, 77, 0.5) !important;
+  box-shadow:
+    inset 0 0 70px rgba(0, 0, 0, 0.5),
+    0 18px 45px rgba(0, 0, 0, 0.28) !important;
+}
+.a2-enabled .brocade-card .bc-body {
+  border: 0 !important;
+  border-left: 1px solid rgba(224, 181, 89, 0.72) !important;
+  background: rgba(15, 8, 6, 0.68) !important;
+  border-radius: 0 !important;
+}
+.a2-brocade-tabs {
+  gap: 1.5rem !important;
+}
+.a2-brocade-tabs button {
+  width: auto !important;
+  height: auto !important;
+  padding: 0.25rem 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: rgba(213, 183, 122, 0.58) !important;
+  position: relative;
+}
+.a2-brocade-tabs button.is-active {
+  color: #e4bd6e !important;
+}
+.a2-brocade-tabs button.is-active:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 22px;
+  height: 1px;
+  background: #d8ad5a;
+  transform: translateX(-50%);
+}
+.a2-finale footer a,
+.a2-finale footer a:link,
+.a2-finale footer a:visited {
+  color: rgba(220, 185, 110, 0.62) !important;
+  text-decoration: none !important;
+  position: relative;
+}
+.a2-finale footer a:hover,
+.a2-finale footer a:active {
+  color: #e3c176 !important;
+}
+.a2-finale footer a:hover:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background: rgba(220, 185, 110, 0.66);
+}
+.a2-enabled .music-close {
+  opacity: 1;
+}
+.a2-enabled .back-to-top {
+  width: 36px;
+  height: 36px;
+  background: var(--tang-cinnabar) !important;
+  border: 1px solid var(--tang-cinnabar-dark) !important;
+  color: var(--tang-text-on-accent) !important;
+  border-radius: 50% !important;
+}
+.a2-enabled .back-to-top:hover,
+.a2-enabled .back-to-top:active {
+  background: var(--tang-cinnabar-dark) !important;
+}
+
+/* F3-R1D: parent-page chapter framing; never reaches into the color-book iframe. */
+body[data-page="aesthetics"] .palette-books-section {
+  padding: clamp(64px, 5vw, 96px) 0 0;
+  background: var(--tang-paper);
+}
+body[data-page="aesthetics"] .palette-books-intro {
+  width: 92%;
+  margin: 0 auto 36px;
+}
+body[data-page="aesthetics"] .palette-books-intro__eyebrow {
+  margin: 0 0 12px;
+  color: var(--tang-cinnabar);
+  font-size: 13px;
+  letter-spacing: .18em;
+}
+body[data-page="aesthetics"] .palette-books-intro h2 {
+  margin: 0 0 12px;
+  color: var(--tang-text-primary);
+  font-size: clamp(28px, 1.8vw, 34px);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: .08em;
+}
+body[data-page="aesthetics"] .palette-books-intro__description {
+  margin: 0;
+  color: var(--tang-text-secondary);
+  font-size: 16px;
+  line-height: 1.9;
+  letter-spacing: .04em;
+}
+body[data-page="aesthetics"] .palette-books-intro::after {
+  content: "";
+  display: block;
+  width: 64px;
+  margin-top: 24px;
+  border-top: 1px solid var(--tang-border);
+}
+body[data-page="aesthetics"] .palette-books-frame {
+  border-radius: 10px;
+  outline: 1px solid var(--tang-border);
+  box-shadow: 0 6px 20px var(--tang-shadow);
+  /* No overflow clipping: the iframe keeps its original viewport and focus space. */
+}
+body[data-page="aesthetics"] .palette-books-frame iframe {
+  border-radius: 10px;
+  box-shadow: none;
+}
+body[data-page="aesthetics"] .palette-books-exit {
+  padding: 64px 4% 80px;
+  color: var(--tang-text-muted);
+  text-align: center;
+}
+body[data-page="aesthetics"] .palette-books-exit::before {
+  content: "";
+  display: block;
+  width: 64px;
+  margin: 0 auto 20px;
+  border-top: 1px solid var(--tang-border-soft);
+}
+body[data-page="aesthetics"] .palette-books-exit p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.9;
+  letter-spacing: .1em;
+}

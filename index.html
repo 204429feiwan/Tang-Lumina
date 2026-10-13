@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="盛唐雅粹 - 中国历史上最辉煌的王朝">
+  <title>盛唐雅粹 | 梦回长安</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=20260919b">
+  <style>
+    #heroCarousel .carousel-item:nth-child(1) { background-image: url('images/hero/1.jpg'); }
+    #heroCarousel .carousel-item:nth-child(2) { background-image: url('images/hero/2.jpg'); }
+    #heroCarousel .carousel-item:nth-child(3) { background-image: url('images/hero/3.jpg'); }
+    #heroCarousel .carousel-item:nth-child(4) { background-image: url('images/hero/4.jpg'); }
+    #heroCarousel .carousel-item:nth-child(5) { background-image: url('images/hero/5.jpg'); }
+    .intro-badge { display: inline-block; padding: 6px 22px; background: rgba(200,150,62,0.08); border: 1px solid rgba(200,150,62,0.25); border-radius: 30px; color: var(--color-gold-dark); font-family: var(--font-display); letter-spacing: 0.12em; font-size: 0.9rem; }
+    .intro-text { max-width: 800px; margin: 0 auto; text-align: center; font-size: 1.05rem; line-height: 2.2; color: var(--color-ink-light); }
+    .intro-text .drop-cap { float: left; font-family: var(--font-display); font-size: 3.8rem; line-height: 1; color: var(--color-cinnabar); margin-right: 10px; margin-top: 2px; font-weight: 700; cursor: default; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
+    .intro-text .drop-cap::after { content: ''; position: absolute; inset: -8px; border-radius: 50%; border: 1px solid transparent; transition: all 0.6s ease; }
+    .intro-text .drop-cap:hover { color: var(--color-gold); transform: scale(1.25) rotate(-8deg); text-shadow: 0 0 30px rgba(200,150,62,0.4), 0 4px 12px rgba(200,150,62,0.2); }
+    .intro-text .drop-cap:hover::after { border-color: rgba(200,150,62,0.3); inset: -16px; animation: dropCapPulse 1.2s ease-in-out infinite; }
+    @keyframes dropCapPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(200,150,62,0.2); } 50% { box-shadow: 0 0 0 12px rgba(200,150,62,0); } }
+    .quote-section { padding: 5rem 0; text-align: center; background: var(--color-cream); }
+    .quote-text { font-family: var(--font-display); font-size: 1.8rem; color: var(--color-cinnabar); letter-spacing: 0.08em; max-width: 660px; margin: 0 auto 1.5rem; line-height: 2; }
+    .quote-author { color: var(--color-ink-light); font-size: 0.9rem; letter-spacing: 0.06em; }
+    .poem-block { background: rgba(200,150,62,0.06); border-left: 3px solid var(--color-gold); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+  </style>
+  <link rel="stylesheet" href="css/backgrounds.css">
+  <link rel="stylesheet" href="css/exhibition.css">
+  <link rel="stylesheet" href="css/home-experience.css?v=particle-right5">
+  <link rel="stylesheet" href="css/opening-scroll-final.css">
+  <link rel="stylesheet" href="css/opening-scroll-recovered.css">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="js/exhibition.js" defer></script>
+  <script src="js/home-experience.js?v=slices17" defer></script>
+  <script src="js/vendor/three.min.js" defer></script>
+  <script src="js/opening-scroll-final.js" defer></script>
+  <script src="js/particle-story.js?v=right5" defer></script>
+</head>
+<body class="exhibition-page home-opening-active" data-page="home">
+<div class="home-scroll-opening" id="opening" role="dialog" aria-label="风启长卷开场">
+  <div class="scroll-opening-stage" id="scrollOpeningStage" aria-hidden="true"></div>
+  <div class="scroll-opening-copy"><p>风启千年 · 一眼盛唐</p><i></i></div>
+  <div class="scroll-opening-loading"><i></i><span>盛唐雅粹</span></div>
+  <button class="scroll-opening-skip" id="openingSkip" type="button">跳过</button>
+</div>
+<div class="golden-birds"><span class="golden-bird"></span><span class="golden-bird"></span><span class="golden-bird"></span><span class="golden-bird"></span><span class="golden-bird"></span><span class="golden-bird"></span></div>
+
+
+<nav class="navbar navbar-expand-lg fixed-top tang-shell-nav">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">盛唐雅粹</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="index.html">首页</a></li>
+        <li class="nav-item"><a class="nav-link" href="html/history.html">历史溯源</a></li>
+        <li class="nav-item"><a class="nav-link" href="html/treasures.html">瑰宝重器</a></li>
+        <li class="nav-item"><a class="nav-link" href="html/art.html">翰墨丹青</a></li>
+        <li class="nav-item"><a class="nav-link" href="html/aesthetics.html">唐风美学</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div id="heroCarousel" class="carousel slide carousel-fade hero-carousel" data-bs-ride="false" data-bs-interval="3000" data-bs-touch="true">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3"></button>
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="4"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active"></div>
+    <div class="carousel-item"></div>
+    <div class="carousel-item"></div>
+    <div class="carousel-item"></div>
+    <div class="carousel-item"></div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+  <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+  <div class="hero-title-bar">
+    <h1>盛唐雅粹</h1>
+    <p>公元618年 - 907年 · 九天阊阖开宫殿，万国衣冠拜冕旒</p>
+  </div>
+  <div class="hero-color-hint" aria-hidden="true"><i></i>点击画面任意处 · 唤醒色彩</div>
+</div>
+
+<section class="section section-light" data-home-legacy="intro">
+  <div class="cloud-corner cloud-corner-tl"></div>
+  <div class="floating-ornament cloud" style="top:8%; right:5%;"></div>
+  <div class="container" style="position:relative; z-index:1;">
+    <div class="text-center mb-5 fade-up"><span class="intro-badge">梦回大唐</span><h2 class="tang-title mt-3">九天阊阖开宫殿</h2><p class="section-subtitle">华夏文明之巅 · 世界帝国之范</p></div>
+    <div class="intro-text fade-up delay-1">
+      <p><span class="drop-cap">唐</span>朝（618年—907年），是中国历史上继隋朝之后的大一统中原王朝，共历二十一帝，享国二百八十九年。唐朝疆域空前辽阔，极盛时期东起日本海、南据安南、西抵咸海、北逾贝加尔湖，是中国自秦以来第一个未修据胡长城的大一统王朝。</p>
+      <p>唐朝是当时世界上最强盛的国家之一，经济繁荣，文化璀璨，艺术登峰造极。长安城是当时世界上最大的城市，人口超过百万，各国商贾、使节、留学生云集于此。唐诗、唐画、唐三彩、敦煌壁画……无数文化瑰宝流传至今，诉说着那个开放包容、气象万千的黄金时代。</p>
+    </div>
+    <div class="decorative-divider mt-5"><span class="divider-line"></span><span class="divider-icon">&#9670;</span><span class="divider-line"></span></div>
+    <div class="row g-4 mt-4">
+      <div class="col-lg-4 col-md-6 fade-up delay-1">
+        <div class="highlight-card">
+          <span class="highlight-mark"></span>
+          <h4>世界帝都</h4>
+          <p>长安城面积达84平方公里，是当时世界上最大的都城。朱雀大街宽达150米，比巴黎香榭丽舍大道还宽。城中坊市108个，人口逾百万，汇聚了来自波斯、天竺、日本、新罗的使臣与商人。</p>
+          <span class="highlight-badge">国际化大都市</span>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 fade-up delay-2">
+        <div class="highlight-card">
+          <span class="highlight-mark"></span>
+          <h4>丝绸之路</h4>
+          <p>唐朝控制西域，丝绸之路进入全盛时期。驼铃声声，商队络绎不绝——中国的丝绸、瓷器、茶叶西去，西域的香料、宝石、玻璃东来。丝路不仅是商贸之路，更是文明交融的桥梁。</p>
+          <span class="highlight-badge">文明纽带</span>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 fade-up delay-3">
+        <div class="highlight-card">
+          <span class="highlight-mark"></span>
+          <h4>科举取士</h4>
+          <p>唐朝完善了隋朝创立的科举制度，打破门阀垄断，让寒门子弟有了入仕之途。"朝为田舍郎，暮登天子堂"，太宗言"天下英雄尽入吾彀中矣"，科举制影响了此后一千三百余年的中国历史。</p>
+          <span class="highlight-badge">制度创新</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+<svg width="0" height="0" style="position:absolute;" aria-hidden="true">
+  <defs>
+    <filter id="bloomOriginal" x="-20%" y="-20%" width="140%" height="140%">
+      <feColorMatrix in="SourceGraphic" type="saturate" values="3.5" result="saturated"/>
+      <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="lumAlpha"/>
+      <feComposite in="saturated" in2="lumAlpha" operator="in"/>
+    </filter>
+  </defs>
+</svg>
+
+<section class="bloom-section" id="compassSection" aria-labelledby="bloomTitle">
+  <style>
+    .bloom-section { position: relative; height: 320vh; background: #F5EDDC; }
+    .bloom-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+    .bloom-base { position: absolute; inset: 0; background: radial-gradient(120% 90% at 50% 40%, #F2E8D5 0%, #E8DCC0 55%, #DDD0B0 100%); }
+    .bloom-frame { position: absolute; inset: 0; width: 100%; height: 100%; display: none; filter: url(#bloomOriginal); }
+    .bloom-particles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .bloom-copy { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; pointer-events: none; z-index: 2; }
+    .bloom-kicker { font-size: .8rem; letter-spacing: .45em; color: #B0607A; margin-bottom: 1rem; }
+    .bloom-copy .tang-title { font-size: clamp(2.2rem, 7vw, 4.2rem); margin-bottom: .5rem; }
+    .bloom-verse { font-size: 1.05rem; letter-spacing: .3em; color: #A85A70; margin-bottom: 2.4rem; }
+    .bloom-scroll-hint { font-size: .82rem; letter-spacing: .2em; color: #C08A96; }
+    /* Hero 文字（原版排版） */
+    .bloom-hero { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; text-align: center; padding: 0 1.5rem 6rem; z-index: 2; pointer-events: none; transition: opacity 1s ease-out, transform 1s ease-out, filter 1s ease-out; will-change: opacity, transform, filter; }
+    .bloom-hero.off { opacity: 0; transform: translateY(-32px); filter: blur(8px); }
+    .bloom-hero .sub { font-size: .875rem; color: #8B7355; margin-bottom: 1rem; letter-spacing: .05em; }
+    .bloom-hero h1 { font-size: clamp(1.3rem, 3.6vw, 2.3rem); font-weight: 600; line-height: 1.3; max-width: 42rem; color: #3C3028; }
+    .bloom-hero h1 .ul { position: relative; display: inline-block; }
+    .bloom-hero h1 .ul::after { content: ""; position: absolute; bottom: .25rem; left: 0; width: 100%; height: 10px; background: #2C5C88; border-radius: 2px; }
+    .bloom-hero .ctas { display: flex; align-items: center; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; justify-content: center; pointer-events: auto; }
+    .bloom-hero .code-box { display: flex; align-items: center; gap: .5rem; background: #1a1a1a; border: 1px solid rgba(55,65,81,.5); border-radius: .5rem; padding: .875rem 2rem; }
+    .bloom-hero .code-box .prompt { color: #2C5C88; font-family: monospace; font-size: .875rem; }
+    .bloom-hero .code-box code { font-size: .875rem; color: #e5e7eb; font-family: monospace; }
+    .bloom-hero .cta-btn { display: inline-flex; align-items: center; gap: .5rem; background: #2C5C88; color: #fff; font-weight: 500; border-radius: .5rem; padding: .875rem 2rem; font-size: .875rem; text-decoration: none; }
+    /* 三张卡片（滚动中段浮现） */
+    .bloom-cards { position: absolute; left: 0; right: 0; bottom: 0; padding: 2rem 2.5rem; z-index: 2; pointer-events: none; opacity: 0; transform: translateX(-32px); filter: blur(8px); transition: opacity 1s ease-out, transform 1s ease-out, filter 1s ease-out; will-change: opacity, transform, filter; }
+    .bloom-cards.on { opacity: 1; transform: translateX(0); filter: blur(0); }
+    .bloom-cards .grid { max-width: 80rem; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.2rem; }
+    .bloom-cards .card { pointer-events: auto; display: block; text-decoration: none; text-align: left; padding: 0; background: none; border: none; box-shadow: none; }
+    .bloom-cards .card h3 { font-size: 1.45rem; font-weight: 700; color: #3C3028; margin-bottom: .9rem; display: inline-flex; align-items: center; gap: .45rem; transition: color .35s; }
+    .bloom-cards .card h3 i { font-style: normal; color: #B04040; opacity: 0; transform: translateX(-7px); transition: opacity .35s, transform .35s; }
+    .bloom-cards .card p { color: #6B5545; font-size: .875rem; line-height: 1.65; }
+    .bloom-cards .card:hover h3 { color: #B04040; }
+    .bloom-cards .card:hover h3 i { opacity: 1; transform: translateX(0); }
+    /* 结语（滚动末尾淡入） */
+    .bloom-ending { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; text-align: center; padding: 0 2.5rem 8rem; z-index: 2; pointer-events: none; opacity: 0; transform: translateX(-32px); filter: blur(8px); transition: opacity 1s ease-out, transform 1s ease-out, filter 1s ease-out; will-change: opacity, transform, filter; }
+    .bloom-ending.on { opacity: 1; transform: translateX(0); filter: blur(0); }
+    .bloom-ending .pre { color: #8B7355; font-size: 1rem; margin-bottom: .75rem; }
+    .bloom-ending .big { font-size: clamp(1.875rem, 6vw, 4.5rem); font-weight: 700; color: #3C3028; }
+    @media (max-width: 768px) {
+      .bloom-copy .tang-title { font-size: 1.9rem; }
+      .bloom-verse { font-size: .95rem; letter-spacing: .2em; }
+      .bloom-cards .grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+      .bloom-cards { padding: 1.5rem 1rem; }
+      .bloom-hero { padding-bottom: 5rem; }
+      .bloom-hero h1 { font-size: 1.5rem; }
+      .bloom-hero .ctas { flex-direction: column; }
+    }
+    @media (max-width: 1024px) {
+      .bloom-cards .grid { grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
+    }
+    @media (max-width: 480px) {
+      .bloom-cards .grid { grid-template-columns: 1fr; gap: 1.3rem; }
+    }
+  </style>
+  <div class="bloom-stage" id="bloomStage">
+    <div class="bloom-base"></div>
+    <canvas id="bloomFrame" class="bloom-frame" aria-hidden="true"></canvas>
+    <canvas id="bloomParticles" class="bloom-particles"></canvas>
+    <div class="bloom-cards" id="bloomCards">
+      <div class="grid">
+        <a class="card" href="html/history.html"><h3>历史溯源<i>&rarr;</i></h3><p>沿时间长河而上，自立国到盛世，追溯大唐兴衰更迭的历史脉络。</p></a>
+        <a class="card" href="html/treasures.html"><h3>瑰宝重器<i>&rarr;</i></h3><p>唐三彩、金银器、琉璃诸珍，看盛唐匠人巧夺天工的器物之美。</p></a>
+        <a class="card" href="html/art.html"><h3>翰墨丹青<i>&rarr;</i></h3><p>敦煌壁画、传世名画，于笔墨丹青之间寻访盛唐的艺术光华。</p></a>
+        <a class="card" href="html/aesthetics.html"><h3>唐风美学<i>&rarr;</i></h3><p>服饰、乐舞、花开盛世，沉浸式领略盛唐的生活与审美。</p></a>
+      </div>
+    </div>
+    <div class="bloom-ending" id="bloomEnding">
+      <p class="pre">花开</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var section = document.getElementById('compassSection');
+    var stage = document.getElementById('bloomStage');
+    var frameCanvas = document.getElementById('bloomFrame');
+    var fctx = frameCanvas.getContext('2d');
+    var FRAME_COUNT = 60;
+    var frames = [];
+    var framesReady = false;
+
+    function progress(){
+      var vh = window.innerHeight;
+      var top = section.getBoundingClientRect().top + window.scrollY;
+      var range = Math.max(1, section.offsetHeight - vh);
+      return Math.max(0, Math.min(1, (window.scrollY - top) / range));
+    }
+
+    function sizeFrameCanvas(){
+      frameCanvas.width = stage.clientWidth;
+      frameCanvas.height = stage.clientHeight;
+    }
+    function drawCover(img){
+      var cw = frameCanvas.width, ch = frameCanvas.height;
+      var iw = img.width, ih = img.height;
+      if (!iw || !ih) return;
+      var scale = Math.max(cw / iw, ch / ih) * 1.35;
+      var dw = iw * scale, dh = ih * scale;
+      fctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+    }
+
+    function loadFrames(){
+      var loaded = 0;
+      for (var i = 1; i <= FRAME_COUNT; i++){
+        (function(idx){
+          var img = new Image();
+          img.onload = function(){
+            frames[idx - 1] = img;
+            loaded++;
+            if (loaded === FRAME_COUNT){
+              framesReady = true;
+              sizeFrameCanvas();
+              frameCanvas.style.display = 'block';
+              tick();
+            }
+          };
+          img.src = 'assets/bloom/frame_' + String(idx).padStart(3, '0') + '.jpg';
+        })(i);
+      }
+    }
+
+    var cardsOn = false, endOn = false;
+    function tick(){
+      if (!framesReady) return;
+      var p = progress();
+      var idx = Math.round(p * (FRAME_COUNT - 1));
+      var img = frames[idx];
+      if (img) drawCover(img);
+      // 进入区间一次性淡入（CSS transition 1s），离开淡出
+      var showCards = (p >= 0.40 && p <= 0.82);
+      var showEnd = (p >= 0.85);
+      if (showCards !== cardsOn) { cardsOn = showCards; document.getElementById('bloomCards').classList.toggle('on', showCards); }
+      if (showEnd !== endOn) { endOn = showEnd; document.getElementById('bloomEnding').classList.toggle('on', showEnd); }
+      requestAnimationFrame(tick);
+    }
+    loadFrames();
+
+    var c = document.getElementById('bloomParticles');
+    var ctx = c.getContext('2d');
+    var ps = [], running = false, raf = null, t0 = 0;
+    function resize(){ c.width = stage.clientWidth; c.height = stage.clientHeight; make(); sizeFrameCanvas(); }
+    function make(){
+      ps = [];
+      var n = Math.floor((c.width * c.height) / 16000);
+      for (var i = 0; i < n; i++) ps.push({x: Math.random()*c.width, y: Math.random()*c.height, vx:(Math.random()-.5)*.28, vy:(Math.random()-.5)*.28, s:Math.random()*1.8+.6, o:Math.random()*.45+.12, tw:Math.random()*6.2832});
+    }
+    function anim(now){
+      if (!running) return;
+      if (!t0) t0 = now; var dt = (now - t0)/1000; t0 = now;
+      ctx.clearRect(0, 0, c.width, c.height);
+      for (var i = 0; i < ps.length; i++){
+        var p = ps[i]; p.x += p.vx; p.y += p.vy; p.tw += dt*1.2;
+        if (p.x < 0) p.x = c.width; if (p.x > c.width) p.x = 0;
+        if (p.y < 0) p.y = c.height; if (p.y > c.height) p.y = 0;
+        var a = p.o * (0.7 + 0.3*Math.sin(p.tw));
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, 6.2832);
+        ctx.fillStyle = 'rgba(185,205,230,' + a.toFixed(3) + ')';
+        ctx.fill();
+      }
+      raf = requestAnimationFrame(anim);
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function(es){
+        if (es[0].isIntersecting) { running = true; if (!raf) raf = requestAnimationFrame(anim); }
+        else { running = false; if (raf) { cancelAnimationFrame(raf); raf = null; } }
+      }, { threshold: .01 }).observe(stage);
+    } else { running = true; requestAnimationFrame(anim); }
+    resize();
+    window.addEventListener('resize', resize);
+  })();
+  </script>
+</section>
+
+
+
+<section class="section section-light" data-home-legacy="panorama">
+  <div class="floating-ornament lotus" style="top:5%; left:3%;"></div>
+  <div class="container" style="position:relative; z-index:1;">
+    <div class="text-center mb-5 fade-up"><h2 class="tang-title">盛唐万象</h2><p class="section-subtitle">开放包容 · 气象万千 · 万国来朝</p></div>
+    <div class="highlight-grid">
+      <div class="highlight-card fade-up delay-1">
+        <span class="highlight-mark"></span>
+        <h4>女性风华</h4>
+        <p>唐代女性社会地位之高在中国古代史上空前绝后。女子可以骑马出游、穿胡服男装、参与政治——武则天更是成为中国历史上唯一的女皇帝。上官婉儿执掌文坛，平阳公主统兵打仗，大唐女子活出了独特的风采。</p>
+        <span class="highlight-badge">空前绝后</span>
+      </div>
+      <div class="highlight-card fade-up delay-2">
+        <span class="highlight-mark"></span>
+        <h4>乐舞升平</h4>
+        <p>唐代音乐舞蹈集历代之大成——霓裳羽衣舞翩若惊鸿，秦王破阵乐气势恢宏，胡旋舞旋转如风。唐玄宗创办梨园，亲自教授乐工，被后世尊为戏曲梨园行的祖师。龟兹乐、高昌乐、天竺乐……万邦之音汇于长安。</p>
+        <span class="highlight-badge">艺术巅峰</span>
+      </div>
+      <div class="highlight-card fade-up delay-3">
+        <span class="highlight-mark"></span>
+        <h4>宗教兼容</h4>
+        <p>唐朝以开放胸襟容纳天下宗教——佛教兴盛、道教被奉为国教、景教（基督教）、祆教（拜火教）、摩尼教、伊斯兰教均在长安设有寺院。大秦景教流行中国碑至今矗立，见证着那个信仰自由的伟大时代。</p>
+        <span class="highlight-badge">信仰自由</span>
+      </div>
+      <div class="highlight-card fade-up delay-4">
+        <span class="highlight-mark"></span>
+        <h4>工艺绝伦</h4>
+        <p>唐三彩流光溢彩，越窑秘色瓷如冰似玉，金银器錾刻精美绝伦，丝绸织锦寸缕寸金——唐代工匠以超凡技艺将日常生活升华为艺术。丝绸之路上的每一件唐代器物，都是令世界惊叹的东方瑰宝。</p>
+        <span class="highlight-badge">匠心独运</span>
+      </div>
+      <div class="highlight-card fade-up delay-1">
+        <span class="highlight-mark"></span>
+        <h4>丝路商旅</h4>
+        <p>丝绸之路是连接东西方的黄金纽带。驼队载着丝绸、瓷器、茶叶西行，带回香料、宝石、琉璃。长安西市胡商云集，波斯邸、胡姬酒肆鳞次栉比。这条横跨万里的商贸之路，让大唐成为当时全球贸易的中心枢纽。</p>
+        <span class="highlight-badge">万商云集</span>
+      </div>
+      <div class="highlight-card fade-up delay-2">
+        <span class="highlight-mark"></span>
+        <h4>诗歌璀璨</h4>
+        <p>唐代是中国诗歌的黄金时代。《全唐诗》收录近五万首，诗人逾两千家。李白豪放飘逸，杜甫沉郁顿挫，王维诗画合一，白居易平易近人……唐诗以其无与伦比的艺术成就，成为中华文化最璀璨的瑰宝，光照千秋。</p>
+        <span class="highlight-badge">千古绝唱</span>
+      </div>
+    </div>
+    <div class="text-center mt-5 fade-up delay-5">
+      <p style="font-size:1.1rem; color:var(--color-ink-light); font-family:var(--font-display); letter-spacing:0.06em; line-height:2; max-width:700px; margin:0 auto;">
+        王国维言："唐代之文化，实为中国文化之顶峰。"陈寅恪评："华夏民族之文化，历数千载之演进，造极于赵宋之世……而唐实为其渊源所自。"大唐以其无与伦比的开放胸怀与创造力，为中华文明留下了最为璀璨的华章。
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="quote-section" data-home-legacy="quote">
+  <div class="container"><div class="fade-up"><p class="quote-text">"忆昔开元全盛日，小邑犹藏万家室。"</p><p class="quote-author">—— 杜甫《忆昔》</p></div></div>
+</section>
+
+<section class="stats-section" data-home-legacy="stats">
+  <div class="container"><div class="row g-4">
+    <div class="col-md-3 col-6 stat-item fade-up delay-1"><div class="stat-number counter-value" data-target="289">0</div><div class="stat-label">享国年数</div></div>
+    <div class="col-md-3 col-6 stat-item fade-up delay-2"><div class="stat-number counter-value" data-target="21">0</div><div class="stat-label">帝王传承</div></div>
+    <div class="col-md-3 col-6 stat-item fade-up delay-3"><div class="stat-number counter-value" data-target="1250">0</div><div class="stat-label">万平方公里极盛疆域</div></div>
+    <div class="col-md-3 col-6 stat-item fade-up delay-4"><div class="stat-number counter-value" data-target="100">0</div><div class="stat-label">万长安人口（约）</div></div>
+  </div></div>
+</section>
+
+<footer class="footer tang-ui-dark">
+  <div class="container"><div class="row g-4">
+    <div class="col-lg-4 col-md-6"><h5>盛唐雅粹</h5><p style="font-size:0.88rem; line-height:1.8;">梦回长安，感受中国历史上最辉煌的时代。<br>九天阊阖开宫殿，万国衣冠拜冕旒。</p></div>
+    <div class="col-lg-4 col-md-6"><h5>探索专题</h5><ul class="list-unstyled" style="font-size:0.88rem; line-height:2.2;"><li><a href="html/history.html">历史溯源 · 帝王年表</a></li><li><a href="html/treasures.html">瑰宝重器 · 千年遗珍</a></li><li><a href="html/art.html">翰墨丹青 · 传世名作</a></li><li><a href="html/aesthetics.html">唐风美学 · 织锦歌舞</a></li></ul></div>
+    <div class="col-lg-4 col-md-12"><h5>参考资料</h5><p style="font-size:0.82rem; line-height:1.8;">《旧唐书》《新唐书》《全唐诗》<br>陕西历史博物馆 · 敦煌研究院 · 故宫博物院</p></div>
+  </div><hr class="footer-divider"><div class="footer-bottom"><p>&copy; 2026 盛唐雅粹文化专题 | 仅供学习交流使用 | 梦回长安 · 盛世重现</p></div></div>
+</footer>
+
+<button class="back-to-top" id="backToTop" title="回到顶部">&#8593;</button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js?v=20260919b"></script>
+<!-- 背景音乐 -->
+<audio id="bgMusic" loop preload="auto"></audio>
+<div class="music-widget tang-ui-dark" id="musicWidget">
+  <button class="music-toggle paused" id="musicToggle" title="播放">&#9835;</button>
+  <button class="music-close" id="musicClose" title="关闭">&times;</button>
+</div>
+<style>
+  .music-widget { position: fixed; bottom: 36px; left: 36px; display: flex; align-items: center; gap: 8px; z-index: 1001; }
+  .music-widget.hidden { display: none; }
+  .music-toggle { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--tang-gold); background: var(--tang-bg-surface); color: var(--tang-gold-soft); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; box-shadow: 0 4px 14px var(--tang-shadow); }
+  .music-toggle.playing { border-color: var(--tang-gold); animation: musicPulse 2s ease-in-out infinite; }
+  .music-toggle.paused { opacity: 1; border-color: color-mix(in srgb, var(--tang-gold) 65%, transparent); }
+  @keyframes musicPulse { 0%,100%{ box-shadow:0 4px 14px var(--tang-shadow); } 50%{ box-shadow:0 4px 24px color-mix(in srgb, var(--tang-gold) 40%, transparent),0 0 40px color-mix(in srgb, var(--tang-gold) 15%, transparent); } }
+  .music-toggle:hover, .music-toggle:active { background: var(--tang-gold); color:var(--tang-ink); border-color:var(--tang-gold); }
+  .music-close { width:28px; height:28px; border-radius:50%; border:1px solid var(--tang-gold); background:var(--tang-bg-surface); color:var(--tang-gold-soft); font-size:0.9rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.3s ease; padding:0; line-height:1; }
+  .music-close:hover, .music-close:active { background:var(--tang-gold); border-color:var(--tang-gold); color:var(--tang-ink); }
+  .music-toggle:focus-visible, .music-close:focus-visible { outline-color: var(--tang-focus); }
+  @media(max-width:768px){ .music-widget{bottom:24px;left:24px;} .music-toggle{width:38px;height:38px;font-size:1rem;} .music-close{width:24px;height:24px;font-size:0.8rem;} }
+</style>
+<script src="js/music.js"></script>
+</body>
+</html>
